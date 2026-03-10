@@ -1,0 +1,1695 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Regulatory Intelligence (Expert)</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Merriweather", "Inter", serif;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT / DARK VARIABLES ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.75);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.6);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --btn-expert-text: #b45f4b;
+        --btn-expert-hover-bg: #b45f4b;
+        --btn-expert-hover-text: #fff7ec;
+        --shadow: 0 20px 40px -12px rgba(90, 60, 40, 0.25);
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --badge-bg: #b45f4b20;
+        --badge-text: #b45f4b;
+        --panel-bg: rgba(255, 250, 240, 0.5);
+        --trend-up: #4f7a6b;
+        --trend-down: #b65f5f;
+        --chart-primary: #b45f4b;
+        --chart-secondary: #a8745f;
+        --chart-tertiary: #c4927b;
+        --chart-quaternary: #e3b7a0;
+        --chart-soft: #d6a58b;
+        --legend-syn: #4f7a6b;
+        --legend-ant: #b65f5f;
+        --legend-risk: #b45f4b;
+        --legend-neutral: #a8745f;
+      }
+
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.8);
+        --footer-bg: rgba(24, 22, 20, 0.85);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.6);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --btn-expert-text: #e2cfc2;
+        --btn-expert-hover-bg: #a8745f;
+        --btn-expert-hover-text: #1e1b1a;
+        --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --badge-bg: #a8745f30;
+        --badge-text: #e2cfc2;
+        --panel-bg: rgba(35, 30, 26, 0.6);
+        --trend-up: #8fbf9f;
+        --trend-down: #d68f8f;
+        --chart-primary: #a8745f;
+        --chart-secondary: #b5876f;
+        --chart-tertiary: #c49f8f;
+        --chart-quaternary: #9f7f6f;
+        --chart-soft: #b58f7f;
+        --legend-syn: #8fbf9f;
+        --legend-ant: #d68f8f;
+        --legend-risk: #c49f8f;
+        --legend-neutral: #b5876f;
+      }
+
+      /* moving background */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- HEADER ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        font-size: 2.4rem;
+        color: var(--btn-primary-bg);
+        filter: drop-shadow(0 2px 4px var(--accent-glow));
+      }
+      .project-name {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.4rem;
+        margin-left: 6px;
+      }
+      .expert-badge-header {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 12px;
+        border: 1px solid var(--btn-expert-border);
+      }
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 60px;
+        padding: 10px 22px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .expert-main {
+        width: 100%;
+        max-width: 1600px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .header-title h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .header-title p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-top: 0.3rem;
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      .stat-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        padding: 1.5rem;
+      }
+      .stat-value {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+        line-height: 1;
+      }
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: 0.3rem;
+      }
+
+      /* Search Section */
+      .search-section {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 1.8rem 2rem;
+        margin-bottom: 2rem;
+      }
+      .search-bar {
+        display: flex;
+        gap: 1rem;
+      }
+      .search-input {
+        flex: 1;
+        padding: 1rem 1.5rem;
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 60px;
+        color: var(--text-primary);
+        font-size: 1rem;
+      }
+      .search-input:focus {
+        outline: none;
+        border-color: var(--btn-primary-bg);
+      }
+      .search-btn {
+        background: var(--btn-gradient);
+        color: white;
+        border: none;
+        padding: 0 2.5rem;
+        border-radius: 60px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .search-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      /* Tabs */
+      .tab-nav {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--card-border);
+        padding-bottom: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        padding: 0.6rem 1.8rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 40px;
+        transition: 0.2s;
+      }
+      .tab-btn.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      /* Cards */
+      .content-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+
+      /* Tables */
+      .regulation-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .regulation-table th {
+        text-align: left;
+        padding: 1rem 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .regulation-table td {
+        padding: 1rem 0.8rem;
+        color: var(--text-primary);
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      /* Badges */
+      .status-badge {
+        display: inline-block;
+        padding: 0.2rem 1.2rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .status-approved {
+        background: #8fb59f;
+        color: #1a2a24;
+      }
+      .status-restricted {
+        background: #bfb57f;
+        color: #2a241a;
+      }
+      .status-banned {
+        background: #d68f8f;
+        color: #2a1a1a;
+      }
+      .status-pending {
+        background: #e3b7a0;
+        color: #2a2a2a;
+      }
+
+      /* Timeline */
+      .timeline {
+        position: relative;
+        padding: 1rem 0;
+      }
+      .timeline-item {
+        display: flex;
+        margin-bottom: 1.5rem;
+      }
+      .timeline-year {
+        min-width: 80px;
+        font-weight: 600;
+        color: var(--btn-primary-bg);
+      }
+      .timeline-content {
+        flex: 1;
+        padding-left: 1.5rem;
+        border-left: 2px solid var(--card-border);
+        position: relative;
+      }
+      .timeline-content::before {
+        content: "";
+        position: absolute;
+        left: -6px;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--btn-primary-bg);
+      }
+      .timeline-title {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+      .timeline-doc {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      /* Event cards */
+      .event-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+      .event-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        border-left: 6px solid;
+      }
+      .event-card.severe {
+        border-left-color: #d68f8f;
+      }
+      .event-card.moderate {
+        border-left-color: #bfb57f;
+      }
+      .event-card.mild {
+        border-left-color: #8fb59f;
+      }
+      .event-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+      }
+      .event-date {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+      .event-type {
+        background: var(--card-bg);
+        padding: 0.2rem 0.8rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+      .event-description {
+        color: var(--text-primary);
+        margin: 0.5rem 0;
+        line-height: 1.5;
+      }
+      .event-meta {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      /* Filter bar */
+      .filter-bar {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
+      .filter-select {
+        padding: 0.8rem 1.2rem;
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        color: var(--text-primary);
+        min-width: 160px;
+      }
+
+      /* Conclusion Section */
+      .conclusion-section {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin: 2.5rem 0 1.5rem;
+      }
+      .conclusion-section h2 {
+        font-size: 2rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .conclusion-section h2 i {
+        color: var(--btn-primary-bg);
+      }
+      .obs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      .obs-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+      }
+      .obs-card .stat {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+      }
+      .obs-card .label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .insight-text {
+        background: var(--stat-bg);
+        padding: 1.5rem 2rem;
+        border-radius: 40px;
+        color: var(--text-primary);
+        line-height: 1.7;
+        font-size: 1.05rem;
+        border-left: 6px solid var(--btn-primary-bg);
+      }
+      .insight-text strong {
+        color: var(--btn-primary-bg);
+      }
+
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid var(--card-border);
+        border-top-color: var(--btn-primary-bg);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* footer */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 2.5rem 2rem 1.5rem;
+        margin-top: auto;
+      }
+      .footer-content {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .footer-links-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      .footer-col h4 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+      .footer-col a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        margin: 0.5rem 0;
+      }
+      .footer-col a:hover {
+        color: var(--btn-primary-bg);
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
+      }
+      .footer-bottom-links {
+        display: flex;
+        gap: 2rem;
+      }
+      .footer-bottom-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      .footer-bottom-links a:hover {
+        color: var(--btn-primary-bg);
+      }
+
+      @media (max-width: 800px) {
+        .search-bar {
+          flex-direction: column;
+        }
+        .obs-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="app-wrapper">
+      <!-- HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+          <span class="expert-badge-header"
+            ><i class="fas fa-microscope"></i> EXPERT</span
+          >
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <main class="expert-main">
+        <!-- Header -->
+        <div class="page-header">
+          <div class="header-title">
+            <h1>
+              <i
+                class="fas fa-balance-scale"
+                style="color: var(--btn-primary-bg)"
+              ></i>
+              Regulatory Intelligence
+            </h1>
+            <p>
+              Track regulations, adverse events, and recall incidents across
+              jurisdictions
+            </p>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid" id="statsCards"></div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+          <div class="search-bar">
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="Search ingredient (e.g., Retinol, Niacinamide, Salicylic Acid, Parabens)"
+              value="retinol"
+            />
+            <button class="search-btn" onclick="searchIngredient()">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+          <div
+            style="
+              margin-top: 0.8rem;
+              color: var(--text-secondary);
+              font-size: 0.9rem;
+              text-align: center;
+            "
+          >
+            Try: retinol, niacinamide, salicylic acid, parabens, vitamin c,
+            hyaluronic acid
+          </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+          <button
+            class="tab-btn active"
+            onclick="switchTab('regulations', this)"
+          >
+            Regulations
+          </button>
+          <button class="tab-btn" onclick="switchTab('events', this)">
+            Adverse Events
+          </button>
+          <button class="tab-btn" onclick="switchTab('timeline', this)">
+            Historical Timeline
+          </button>
+          <button class="tab-btn" onclick="switchTab('recalls', this)">
+            Recall Incidents
+          </button>
+        </div>
+
+        <!-- Dynamic Content -->
+        <div id="tabContent"></div>
+
+        <!-- CONCLUSION SECTION -->
+        <div class="conclusion-section" id="conclusionSection">
+          <h2>
+            <i class="fas fa-clipboard-check"></i> Conclusion & Observations
+          </h2>
+          <div id="conclusionContent"></div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <a href="/citizen/home">Citizen Home</a
+              ><a href="/expert/ExpertHome">Expert Home</a
+              ><a href="/expert/IngredientExplorer">Explorer</a
+              ><a href="/expert/InteractionGraphs">Graphs</a>
+            </div>
+            <div class="footer-col">
+              <h4>Analytics</h4>
+              <a href="/expert/AnalyticsDashboard">Dashboard</a
+              ><a href="/expert/MLInsights">ML Insights</a
+              ><a href="/expert/DatasetExplorer">Datasets</a
+              ><a href="/expert/Reports">Reports</a>
+            </div>
+            <div class="footer-col">
+              <h4>Regulatory</h4>
+              <a href="/expert/RegulatoryIntelligence">Regulatory</a
+              ><a href="/expert/ExperimentationSandbox">Sandbox</a>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <a href="/profile">Profile</a><a href="/settings">Settings</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div>© 2026 Jneyaḥ — truth before belief · Research Use Only</div>
+            <div class="footer-bottom-links">
+              <a href="/about">About</a><a href="/privacy">Privacy</a
+              ><a href="/contact">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        const body = document.body,
+          toggleBtn = document.getElementById("themeToggleBtn");
+        function toggleTheme() {
+          if (body.classList.contains("light")) {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("jneyah-theme", "dark");
+          } else {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("jneyah-theme", "light");
+          }
+        }
+        toggleBtn.addEventListener("click", toggleTheme);
+        const saved = localStorage.getItem("jneyah-theme") || "light";
+        body.classList.remove("light", "dark");
+        body.classList.add(saved);
+
+        // bg canvas
+        const canvas = document.getElementById("bgCanvas"),
+          ctx = canvas.getContext("2d");
+        let width,
+          height,
+          particles = [];
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 20; i++)
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: 20 + Math.random() * 50,
+              speedX: (Math.random() - 0.5) * 0.1,
+              speedY: (Math.random() - 0.5) * 0.1,
+              color: `rgba(180,95,75,${0.1 + Math.random() * 0.1})`,
+            });
+        }
+        function resizeCanvas() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initParticles();
+        }
+        function drawParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(drawParticles);
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        drawParticles();
+      })();
+
+      // ========== COMPLETE REGULATORY INTELLIGENCE DATABASE ==========
+      const ingredientsList = [
+        "retinol",
+        "niacinamide",
+        "salicylic_acid",
+        "parabens",
+        "vitamin_c",
+        "hyaluronic_acid",
+        "benzoyl_peroxide",
+        "tretinoin",
+        "hydroquinone",
+        "titanium_dioxide",
+      ];
+
+      // Stats
+      const mockStats = {
+        total_ingredients_tracked: 1247,
+        total_adverse_events: 3562,
+        total_recall_incidents: 89,
+        regulatory_bodies_tracked: 24,
+      };
+
+      // ===== REGULATIONS DATABASE =====
+      const regulationsDB = {
+        retinol: {
+          name: "Retinol",
+          cas: "68-26-8",
+          regulations: {
+            "USA (FDA)": {
+              status: "Approved (OTC)",
+              max_concentration: "1% (cosmetics)",
+              notes: "GRAS for oral use",
+              last_updated: "2024-01-15",
+            },
+            "EU (SCCS)": {
+              status: "Restricted",
+              max_concentration: "0.3% (face), 0.05% (body)",
+              notes: "Warning label required",
+              last_updated: "2023-11-20",
+            },
+            "Canada (Health Canada)": {
+              status: "Approved",
+              max_concentration: "1%",
+              notes: "Cosmetic ingredient",
+              last_updated: "2024-02-10",
+            },
+            "Japan (MHLW)": {
+              status: "Restricted",
+              max_concentration: "0.5%",
+              notes: "Quasi-drug classification",
+              last_updated: "2023-09-05",
+            },
+            "Australia (TGA)": {
+              status: "Approved",
+              max_concentration: "1%",
+              notes: "Listed in Poisons Standard",
+              last_updated: "2023-12-01",
+            },
+          },
+          restrictions: [
+            {
+              country: "EU",
+              restriction:
+                'Warning: "Contains retinol. Use sunscreen" required >0.3%',
+              effective_date: "2023-01-01",
+              authority: "EC",
+            },
+            {
+              country: "USA",
+              restriction: "Not for use in pregnancy",
+              effective_date: "2022-06-15",
+              authority: "FDA",
+            },
+          ],
+        },
+        niacinamide: {
+          name: "Niacinamide",
+          cas: "98-92-0",
+          regulations: {
+            "USA (FDA)": {
+              status: "GRAS",
+              max_concentration: "No limit",
+              notes: "Food additive",
+              last_updated: "2024-01-10",
+            },
+            "EU (SCCS)": {
+              status: "Approved",
+              max_concentration: "Up to 10%",
+              notes: "Safe as cosmetic",
+              last_updated: "2023-10-12",
+            },
+            "Canada (Health Canada)": {
+              status: "Approved",
+              max_concentration: "No restriction",
+              notes: "",
+              last_updated: "2024-02-01",
+            },
+            "Japan (MHLW)": {
+              status: "Approved",
+              max_concentration: "No limit",
+              notes: "Listed as quasi-drug",
+              last_updated: "2023-08-15",
+            },
+          },
+          restrictions: [],
+        },
+        salicylic_acid: {
+          name: "Salicylic Acid",
+          cas: "69-72-7",
+          regulations: {
+            "USA (FDA)": {
+              status: "Approved (OTC)",
+              max_concentration: "2% (leave-on), 3% (rinse-off)",
+              notes: "Acne monograph",
+              last_updated: "2024-01-20",
+            },
+            "EU (SCCS)": {
+              status: "Restricted",
+              max_concentration: "2% (leave-on), 3% (rinse-off)",
+              notes: "Not for children under 3",
+              last_updated: "2023-12-01",
+            },
+            "Canada (Health Canada)": {
+              status: "Approved",
+              max_concentration: "2%",
+              notes: "OTC acne treatment",
+              last_updated: "2024-02-05",
+            },
+            "Japan (MHLW)": {
+              status: "Approved",
+              max_concentration: "2%",
+              notes: "Quasi-drug",
+              last_updated: "2023-07-20",
+            },
+          },
+          restrictions: [
+            {
+              country: "EU",
+              restriction: 'Warning: "Not for children under 3 years"',
+              effective_date: "2022-06-01",
+              authority: "SCCS",
+            },
+            {
+              country: "USA",
+              restriction: "ASPIRIN ALLERGY: Avoid if allergic to aspirin",
+              effective_date: "2021-03-10",
+              authority: "FDA",
+            },
+          ],
+        },
+        parabens: {
+          name: "Parabens (Mixed)",
+          cas: "Multiple",
+          regulations: {
+            "USA (FDA)": {
+              status: "Approved",
+              max_concentration: "0.4% (single), 0.8% (total)",
+              notes: "GRAS for food",
+              last_updated: "2023-06-15",
+            },
+            "EU (SCCS)": {
+              status: "Restricted",
+              max_concentration: "0.4% (single), 0.8% (total)",
+              notes: "Banned in leave-on for children",
+              last_updated: "2023-09-10",
+            },
+            "Canada (Health Canada)": {
+              status: "Approved",
+              max_concentration: "0.4% (single), 0.8% (total)",
+              notes: "Safe at current levels",
+              last_updated: "2023-11-20",
+            },
+            Denmark: {
+              status: "Banned",
+              max_concentration: "0%",
+              notes: "Banned in children products",
+              last_updated: "2022-01-01",
+            },
+            "Japan (MHLW)": {
+              status: "Approved",
+              max_concentration: "1.0%",
+              notes: "Widely used",
+              last_updated: "2023-05-30",
+            },
+          },
+          restrictions: [
+            {
+              country: "EU",
+              restriction:
+                "Propylparaben and butylparaben banned in leave-on for children under 3",
+              effective_date: "2023-01-01",
+              authority: "EC",
+            },
+            {
+              country: "Denmark",
+              restriction: "Banned in all children products",
+              effective_date: "2022-01-01",
+              authority: "Danish EPA",
+            },
+          ],
+        },
+        vitamin_c: {
+          name: "Vitamin C (Ascorbic Acid)",
+          cas: "50-81-7",
+          regulations: {
+            "USA (FDA)": {
+              status: "GRAS",
+              max_concentration: "No limit",
+              notes: "Food additive",
+              last_updated: "2024-01-15",
+            },
+            "EU (SCCS)": {
+              status: "Approved",
+              max_concentration: "No restriction",
+              notes: "Safe as cosmetic",
+              last_updated: "2023-10-10",
+            },
+            "Canada (Health Canada)": {
+              status: "Approved",
+              max_concentration: "No limit",
+              notes: "Cosmetic ingredient",
+              last_updated: "2024-02-12",
+            },
+          },
+          restrictions: [],
+        },
+        hyaluronic_acid: {
+          name: "Hyaluronic Acid",
+          cas: "9004-61-9",
+          regulations: {
+            "USA (FDA)": {
+              status: "GRAS",
+              max_concentration: "No limit",
+              notes: "Food additive",
+              last_updated: "2024-01-20",
+            },
+            "EU (SCCS)": {
+              status: "Approved",
+              max_concentration: "No restriction",
+              notes: "Safe as cosmetic",
+              last_updated: "2023-11-05",
+            },
+          },
+          restrictions: [],
+        },
+        benzoyl_peroxide: {
+          name: "Benzoyl Peroxide",
+          cas: "94-36-0",
+          regulations: {
+            "USA (FDA)": {
+              status: "Approved (OTC)",
+              max_concentration: "2.5-10%",
+              notes: "Acne monograph",
+              last_updated: "2024-01-25",
+            },
+            "EU (SCCS)": {
+              status: "Approved",
+              max_concentration: "5%",
+              notes: "Not for oral use",
+              last_updated: "2023-12-15",
+            },
+            "Canada (Health Canada)": {
+              status: "Approved",
+              max_concentration: "5%",
+              notes: "OTC acne treatment",
+              last_updated: "2024-02-18",
+            },
+          },
+          restrictions: [
+            {
+              country: "EU",
+              restriction: 'Warning: "Avoid contact with eyes and mouth"',
+              effective_date: "2022-05-01",
+              authority: "EC",
+            },
+          ],
+        },
+        tretinoin: {
+          name: "Tretinoin",
+          cas: "302-79-4",
+          regulations: {
+            "USA (FDA)": {
+              status: "Prescription Only",
+              max_concentration: "0.01-0.1%",
+              notes: "Rx only",
+              last_updated: "2024-01-10",
+            },
+            "EU (SCCS)": {
+              status: "Prescription Only",
+              max_concentration: "0.05%",
+              notes: "Rx only",
+              last_updated: "2023-11-20",
+            },
+            "Canada (Health Canada)": {
+              status: "Prescription Only",
+              max_concentration: "0.01-0.1%",
+              notes: "Rx only",
+              last_updated: "2024-02-05",
+            },
+          },
+          restrictions: [
+            {
+              country: "Global",
+              restriction: "Not for use during pregnancy",
+              effective_date: "2020-01-01",
+              authority: "Multiple",
+            },
+          ],
+        },
+        hydroquinone: {
+          name: "Hydroquinone",
+          cas: "123-31-9",
+          regulations: {
+            "USA (FDA)": {
+              status: "Restricted",
+              max_concentration: "2% (OTC), 4% (Rx)",
+              notes: "Proposed ban in OTC",
+              last_updated: "2024-01-30",
+            },
+            "EU (SCCS)": {
+              status: "Banned",
+              max_concentration: "0%",
+              notes: "Banned in cosmetics",
+              last_updated: "2023-10-01",
+            },
+            "Canada (Health Canada)": {
+              status: "Restricted",
+              max_concentration: "2%",
+              notes: "Limited availability",
+              last_updated: "2024-02-20",
+            },
+            "Japan (MHLW)": {
+              status: "Banned",
+              max_concentration: "0%",
+              notes: "Not permitted",
+              last_updated: "2023-08-15",
+            },
+          },
+          restrictions: [
+            {
+              country: "EU",
+              restriction: "Completely banned in cosmetics",
+              effective_date: "2001-01-01",
+              authority: "EC",
+            },
+            {
+              country: "USA",
+              restriction: "Proposed ban in OTC products",
+              effective_date: "Pending",
+              authority: "FDA",
+            },
+          ],
+        },
+        titanium_dioxide: {
+          name: "Titanium Dioxide",
+          cas: "13463-67-7",
+          regulations: {
+            "USA (FDA)": {
+              status: "Approved",
+              max_concentration: "25%",
+              notes: "Physical sunscreen",
+              last_updated: "2024-01-15",
+            },
+            "EU (SCCS)": {
+              status: "Approved (nano restricted)",
+              max_concentration: "25%",
+              notes: "Nano form requires labeling",
+              last_updated: "2023-12-10",
+            },
+            "Canada (Health Canada)": {
+              status: "Approved",
+              max_concentration: "25%",
+              notes: "Sunscreen monograph",
+              last_updated: "2024-02-08",
+            },
+          },
+          restrictions: [
+            {
+              country: "EU",
+              restriction: 'Nano form must be labeled as "nano"',
+              effective_date: "2021-07-01",
+              authority: "EC",
+            },
+          ],
+        },
+      };
+
+      // ===== ADVERSE EVENTS DATABASE =====
+      const eventsDB = {
+        retinol: {
+          ingredient: "Retinol",
+          statistics: {
+            total_complaints: 432,
+            by_severity: { mild: 210, moderate: 152, severe: 70 },
+          },
+          events: [
+            {
+              date: "2025-02-15",
+              type: "consumer_complaint",
+              severity: "mild",
+              description:
+                "Mild peeling and redness after 2 weeks use. Resolved with moisturizer.",
+              product: "Night Renewal Cream 0.5%",
+              brand: "DermLux",
+              country: "USA",
+              report_id: "FDA-2025-0215",
+              outcome: "Resolved",
+            },
+            {
+              date: "2024-11-03",
+              type: "medical_report",
+              severity: "moderate",
+              description:
+                "Severe irritation, burning sensation, and flaking. Patient discontinued use.",
+              product: "Retinol Serum 1%",
+              brand: "PureActive",
+              country: "Germany",
+              report_id: "BfArM-1103",
+              outcome: "Product discontinued",
+            },
+            {
+              date: "2024-08-22",
+              type: "consumer_complaint",
+              severity: "severe",
+              description:
+                "Chemical burn and blistering after 3 days of use. Required medical attention.",
+              product: "Intensive Retinol 2%",
+              brand: "BeautyElite",
+              country: "Canada",
+              report_id: "HC-0822-45",
+              outcome: "Recall issued",
+            },
+          ],
+        },
+        niacinamide: {
+          ingredient: "Niacinamide",
+          statistics: {
+            total_complaints: 87,
+            by_severity: { mild: 62, moderate: 20, severe: 5 },
+          },
+          events: [
+            {
+              date: "2025-01-10",
+              type: "consumer_complaint",
+              severity: "mild",
+              description:
+                "Temporary flushing after application lasting 15 minutes",
+              product: "Niacinamide 10%",
+              brand: "SkinEssentials",
+              country: "UK",
+              report_id: "MHRA-0110",
+              outcome: "Resolved",
+            },
+          ],
+        },
+        salicylic_acid: {
+          ingredient: "Salicylic Acid",
+          statistics: {
+            total_complaints: 267,
+            by_severity: { mild: 145, moderate: 89, severe: 33 },
+          },
+          events: [
+            {
+              date: "2025-02-01",
+              type: "consumer_complaint",
+              severity: "mild",
+              description: "Dryness and peeling with 2% cleanser",
+              product: "SA Cleanser",
+              brand: "CeraVe",
+              country: "USA",
+              report_id: "FDA-0201",
+              outcome: "Resolved",
+            },
+          ],
+        },
+      };
+
+      // ===== TIMELINE DATABASE =====
+      const timelineDB = {
+        retinol: {
+          ingredient: "Retinol",
+          timeline: [
+            {
+              year: "1931",
+              body: "Chemistry",
+              action: "Retinol isolated by Karrer et al.",
+              document: "Nobel Prize in Chemistry",
+            },
+            {
+              year: "1971",
+              body: "FDA",
+              action: "Tretinoin approved for acne (Retin-A)",
+              document: "FDA NDA 017-284",
+            },
+            {
+              year: "1990",
+              body: "EU",
+              action: "Retinol restricted to 0.3% in cosmetics",
+              document: "SCCS/1576/16",
+            },
+            {
+              year: "2020",
+              body: "ECHA",
+              action: "Retinol classified as reprotoxic category 2",
+              document: "ECHA/CLH/R/000001",
+            },
+          ],
+        },
+        niacinamide: {
+          ingredient: "Niacinamide",
+          timeline: [
+            {
+              year: "1937",
+              body: "Science",
+              action: "Discovery as pellagra-preventing vitamin",
+              document: "Goldberger et al.",
+            },
+            {
+              year: "1950",
+              body: "FDA",
+              action: "GRAS status granted",
+              document: "FDA-1950-GRAS",
+            },
+          ],
+        },
+        salicylic_acid: {
+          ingredient: "Salicylic Acid",
+          timeline: [
+            {
+              year: "1828",
+              body: "Science",
+              action: "Isolated from willow bark",
+              document: "Buchner",
+            },
+            {
+              year: "1982",
+              body: "FDA",
+              action: "OTC acne monograph established",
+              document: "FDA-1982-0394",
+            },
+          ],
+        },
+        parabens: {
+          ingredient: "Parabens",
+          timeline: [
+            {
+              year: "1920",
+              body: "Chemistry",
+              action: "First use as preservative",
+              document: "Chemical industry",
+            },
+            {
+              year: "2004",
+              body: "UK",
+              action: "Darbre study links parabens to breast cancer",
+              document: "Journal of Applied Toxicology",
+            },
+            {
+              year: "2014",
+              body: "EU",
+              action:
+                "Propyl- and butylparaben banned in leave-on products for children",
+              document: "EU 358/2014",
+            },
+          ],
+        },
+      };
+
+      // ===== RECALLS DATABASE =====
+      const recallsDB = {
+        total_recalls: 89,
+        recalls: [
+          {
+            date: "2025-01-28",
+            product: "Retinol Night Cream",
+            brand: "DermaPure",
+            country: "USA",
+            ingredient: "Retinol",
+            report_id: "FDA-REC-0128",
+            outcome: "Class II recall",
+            description: "Concentration exceeded 1% label claim (actual 1.8%)",
+          },
+          {
+            date: "2024-12-10",
+            product: "Anti-aging Serum",
+            brand: "YouthfulGlow",
+            country: "Canada",
+            ingredient: "Retinol",
+            report_id: "HC-REC-1210",
+            outcome: "Recall completed",
+            description: "Microbial contamination (Pseudomonas detected)",
+          },
+          {
+            date: "2024-09-05",
+            product: "Acne Treatment Gel",
+            brand: "ClearSkin",
+            country: "Germany",
+            ingredient: "Salicylic Acid",
+            report_id: "BfArM-0905",
+            outcome: "Class III recall",
+            description: "pH outside specification (pH 2.1 instead of 3.5)",
+          },
+        ],
+      };
+
+      // Default fallback
+      const defaultReg = {
+        name: "Ingredient Not Found",
+        cas: "N/A",
+        regulations: {
+          "USA (FDA)": {
+            status: "Data not available",
+            max_concentration: "Unknown",
+            notes: "Search for another ingredient",
+            last_updated: "N/A",
+          },
+        },
+        restrictions: [],
+      };
+
+      // State
+      let currentTab = "regulations";
+      let currentIngredient = "retinol";
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        loadStats();
+        loadTabContent("regulations");
+      });
+
+      function loadStats() {
+        document.getElementById("statsCards").innerHTML = `
+        <div class="stat-card"><div class="stat-value">${mockStats.total_ingredients_tracked}</div><div class="stat-label">Ingredients Tracked</div></div>
+        <div class="stat-card"><div class="stat-value">${mockStats.total_adverse_events}</div><div class="stat-label">Adverse Events</div></div>
+        <div class="stat-card"><div class="stat-value">${mockStats.total_recall_incidents}</div><div class="stat-label">Recall Incidents</div></div>
+        <div class="stat-card"><div class="stat-value">${mockStats.regulatory_bodies_tracked}</div><div class="stat-label">Regulatory Bodies</div></div>
+      `;
+      }
+
+      window.searchIngredient = function () {
+        const input = document
+          .getElementById("searchInput")
+          .value.toLowerCase()
+          .trim()
+          .replace(/\s+/g, "_");
+        const mapping = {
+          retinol: "retinol",
+          "vitamin a": "retinol",
+          niacinamide: "niacinamide",
+          "vitamin b3": "niacinamide",
+          "salicylic acid": "salicylic_acid",
+          bha: "salicylic_acid",
+          parabens: "parabens",
+          "vitamin c": "vitamin_c",
+          "ascorbic acid": "vitamin_c",
+          "hyaluronic acid": "hyaluronic_acid",
+          ha: "hyaluronic_acid",
+          "benzoyl peroxide": "benzoyl_peroxide",
+          bpo: "benzoyl_peroxide",
+          tretinoin: "tretinoin",
+          hydroquinone: "hydroquinone",
+          "titanium dioxide": "titanium_dioxide",
+        };
+        currentIngredient = mapping[input] || input;
+        loadTabContent(currentTab);
+      };
+
+      window.switchTab = function (tab, el) {
+        currentTab = tab;
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        el.classList.add("active");
+        loadTabContent(tab);
+      };
+
+      function loadTabContent(tab) {
+        const contentDiv = document.getElementById("tabContent");
+        if (tab === "regulations") renderRegulations(contentDiv);
+        else if (tab === "events") renderAdverseEvents(contentDiv);
+        else if (tab === "timeline") renderTimeline(contentDiv);
+        else if (tab === "recalls") renderRecalls(contentDiv);
+        updateConclusion(tab);
+      }
+
+      function renderRegulations(contentDiv) {
+        const data = regulationsDB[currentIngredient] || defaultReg;
+        let rows = "";
+        for (let [country, reg] of Object.entries(data.regulations)) {
+          let statusClass =
+            reg.status.includes("Approved") || reg.status.includes("GRAS")
+              ? "status-approved"
+              : reg.status.includes("Restrict") ||
+                  reg.status.includes("Prescription")
+                ? "status-restricted"
+                : reg.status.includes("Banned")
+                  ? "status-banned"
+                  : "status-pending";
+          rows += `<tr><td><strong>${country}</strong></td><td><span class="status-badge ${statusClass}">${reg.status}</span></td><td>${reg.max_concentration}</td><td>${reg.notes}</td><td>${reg.last_updated}</td></tr>`;
+        }
+        let extra =
+          data.restrictions && data.restrictions.length
+            ? `
+        <h3 style="color:var(--text-primary); margin:2rem 0 1rem;">Additional Restrictions</h3>
+        <table class="regulation-table"><thead><tr><th>Country</th><th>Restriction</th><th>Effective Date</th><th>Authority</th></tr></thead>
+        <tbody>${data.restrictions.map((r) => `<tr><td>${r.country}</td><td>${r.restriction}</td><td>${r.effective_date}</td><td>${r.authority}</td></tr>`).join("")}</tbody></table>
+      `
+            : "";
+        contentDiv.innerHTML = `<div class="content-card"><div class="card-header"><div class="card-title">${data.name} (CAS: ${data.cas})</div></div><table class="regulation-table"><thead><tr><th>Country/Region</th><th>Status</th><th>Max Concentration</th><th>Notes</th><th>Last Updated</th></tr></thead><tbody>${rows}</tbody></table>${extra}</div>`;
+      }
+
+      function renderAdverseEvents(contentDiv) {
+        const data = eventsDB[currentIngredient];
+        if (!data) {
+          contentDiv.innerHTML = `<div class="content-card"><p>No adverse events data for this ingredient.</p></div>`;
+          return;
+        }
+        let stats = data.statistics;
+        let eventsHtml = data.events
+          .map(
+            (e) => `
+        <div class="event-card ${e.severity}">
+          <div class="event-header"><span class="event-date">${e.date}</span><span class="event-type">${e.type.replace("_", " ")}</span></div>
+          <div class="event-description">${e.description}</div>
+          <div style="margin:0.5rem 0; color:var(--text-secondary);">${e.product} (${e.brand}) · ${e.country}</div>
+          <div class="event-meta"><span>📋 ${e.report_id}</span><span>📊 ${e.outcome}</span></div>
+        </div>
+      `,
+          )
+          .join("");
+
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Adverse Events: ${data.ingredient}</div></div>
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem;">
+            <div style="background:var(--stat-bg); padding:1rem; border-radius:24px;"><div style="color:var(--text-secondary);">Total</div><div style="font-size:2rem; color:var(--btn-primary-bg);">${stats.total_complaints}</div></div>
+            <div style="background:var(--stat-bg); padding:1rem; border-radius:24px;"><div style="color:var(--text-secondary);">Mild</div><div style="font-size:2rem; color:#8fb59f;">${stats.by_severity.mild}</div></div>
+            <div style="background:var(--stat-bg); padding:1rem; border-radius:24px;"><div style="color:var(--text-secondary);">Moderate</div><div style="font-size:2rem; color:#bfb57f;">${stats.by_severity.moderate}</div></div>
+            <div style="background:var(--stat-bg); padding:1rem; border-radius:24px;"><div style="color:var(--text-secondary);">Severe</div><div style="font-size:2rem; color:#d68f8f;">${stats.by_severity.severe}</div></div>
+          </div>
+          <div class="event-grid">${eventsHtml}</div>
+        </div>
+      `;
+      }
+
+      function renderTimeline(contentDiv) {
+        const data = timelineDB[currentIngredient];
+        if (!data) {
+          contentDiv.innerHTML = `<div class="content-card"><p>No timeline data for this ingredient.</p></div>`;
+          return;
+        }
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Regulatory Timeline: ${data.ingredient}</div></div>
+          <div class="timeline">
+            ${data.timeline
+              .map(
+                (t) => `
+              <div class="timeline-item">
+                <div class="timeline-year">${t.year}</div>
+                <div class="timeline-content">
+                  <div class="timeline-title">${t.body}: ${t.action}</div>
+                  <div class="timeline-doc">${t.document}</div>
+                </div>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+      }
+
+      function renderRecalls(contentDiv) {
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Recall Incidents (Total: ${recallsDB.total_recalls})</div></div>
+          <div class="event-grid">
+            ${recallsDB.recalls
+              .map(
+                (r) => `
+              <div class="event-card severe">
+                <div class="event-header"><span class="event-date">${r.date}</span><span class="event-type">RECALL</span></div>
+                <div class="event-description">${r.description}</div>
+                <div style="margin:0.5rem 0; color:var(--text-secondary);">
+                  <strong>${r.product}</strong> (${r.brand}) · ${r.country}<br>
+                  Ingredient: ${r.ingredient}
+                </div>
+                <div class="event-meta"><span>📋 ${r.report_id}</span><span>📊 ${r.outcome}</span></div>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+      }
+
+      function updateConclusion(tab) {
+        let html = "";
+        if (tab === "regulations") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">5</span><div class="label">regulatory bodies</div></div>
+            <div class="obs-card"><span class="stat">${currentIngredient === "retinol" ? "0.3%" : "varies"}</span><div class="label">EU max</div></div>
+            <div class="obs-card"><span class="stat">${currentIngredient === "parabens" ? "Banned" : "Approved"}</span><div class="label">trend</div></div>
+          </div>
+          <div class="insight-text">
+            <strong>🔍 Observation:</strong> ${
+              currentIngredient === "retinol"
+                ? "Retinol faces stricter limits in EU (0.3%) vs US (1%)."
+                : currentIngredient === "parabens"
+                  ? "Parabens face increasing restrictions globally."
+                  : "Regulatory status varies by region."
+            }
+          </div>
+        `;
+        } else if (tab === "events") {
+          const data = eventsDB[currentIngredient];
+          const total = data?.statistics.total_complaints || 0;
+          const severe = data?.statistics.by_severity.severe || 0;
+          const severePct = total ? Math.round((severe / total) * 100) : 0;
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">${total}</span><div class="label">total events</div></div>
+            <div class="obs-card"><span class="stat">${severePct}%</span><div class="label">severe</div></div>
+            <div class="obs-card"><span class="stat">${currentIngredient === "retinol" ? "peeling" : "irritation"}</span><div class="label">top complaint</div></div>
+          </div>
+          <div class="insight-text"><strong>🔍 Observation:</strong> Most adverse events are mild. Severe cases are rare.</div>
+        `;
+        } else if (tab === "timeline") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">${timelineDB[currentIngredient]?.timeline[0]?.year || "1931"}</span><div class="label">first record</div></div>
+            <div class="obs-card"><span class="stat">${timelineDB[currentIngredient]?.timeline.length || 4}</span><div class="label">milestones</div></div>
+            <div class="obs-card"><span class="stat">2023</span><div class="label">latest action</div></div>
+          </div>
+          <div class="insight-text"><strong>🔍 Observation:</strong> Regulatory scrutiny has increased over time.</div>
+        `;
+        } else if (tab === "recalls") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">${recallsDB.total_recalls}</span><div class="label">total recalls</div></div>
+            <div class="obs-card"><span class="stat">2025</span><div class="label">most recent</div></div>
+            <div class="obs-card"><span class="stat">45%</span><div class="label">due to concentration</div></div>
+          </div>
+          <div class="insight-text"><strong>🔍 Observation:</strong> Concentration exceedance and contamination are top recall causes.</div>
+        `;
+        }
+        document.getElementById("conclusionContent").innerHTML = html;
+      }
+
+      // Enter key in search
+      document
+        .getElementById("searchInput")
+        .addEventListener("keypress", (e) => {
+          if (e.key === "Enter") searchIngredient();
+        });
+    </script>
+  </body>
+</html>

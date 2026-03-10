@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Analytics Dashboard</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Merriweather", "Inter", serif;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT / DARK VARIABLES (exactly as provided) ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.75);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.6);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --btn-expert-text: #b45f4b;
+        --btn-expert-hover-bg: #b45f4b;
+        --btn-expert-hover-text: #fff7ec;
+        --shadow: 0 20px 40px -12px rgba(90, 60, 40, 0.25);
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --badge-bg: #b45f4b20;
+        --badge-text: #b45f4b;
+        --panel-bg: rgba(255, 250, 240, 0.5);
+        --trend-up: #4f7a6b;
+        --trend-down: #b65f5f;
+        --chart-primary: #b45f4b;
+        --chart-secondary: #a8745f;
+        --chart-tertiary: #c4927b;
+        --chart-quaternary: #e3b7a0;
+        --chart-soft: #d6a58b;
+      }
+
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.8);
+        --footer-bg: rgba(24, 22, 20, 0.85);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.6);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --btn-expert-text: #e2cfc2;
+        --btn-expert-hover-bg: #a8745f;
+        --btn-expert-hover-text: #1e1b1a;
+        --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --badge-bg: #a8745f30;
+        --badge-text: #e2cfc2;
+        --panel-bg: rgba(35, 30, 26, 0.6);
+        --trend-up: #8fbf9f;
+        --trend-down: #d68f8f;
+        --chart-primary: #a8745f;
+        --chart-secondary: #b5876f;
+        --chart-tertiary: #c49f8f;
+        --chart-quaternary: #9f7f6f;
+        --chart-soft: #b58f7f;
+      }
+
+      /* moving background (subtle) */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- CONSTANT HEADER ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        font-size: 2.4rem;
+        color: var(--btn-primary-bg);
+        filter: drop-shadow(0 2px 4px var(--accent-glow));
+      }
+      .project-name {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.4rem;
+        margin-left: 6px;
+      }
+      .expert-badge-header {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 12px;
+        border: 1px solid var(--btn-expert-border);
+      }
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 60px;
+        padding: 10px 22px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .expert-main {
+        width: 100%;
+        max-width: 1600px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .header-title h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .header-title p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-top: 0.3rem;
+      }
+      .header-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .action-btn {
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        padding: 0.7rem 1.8rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .action-btn i {
+        color: var(--btn-primary-bg);
+      }
+      .action-btn:hover {
+        border-color: var(--btn-primary-bg);
+        background: var(--btn-primary-bg);
+        color: white;
+      }
+      .action-btn:hover i {
+        color: white;
+      }
+      .action-btn.primary {
+        background: var(--btn-gradient);
+        color: white;
+        border: none;
+      }
+      .action-btn.primary i {
+        color: white;
+      }
+
+      /* filter bar */
+      .filter-bar {
+        background: var(--panel-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 60px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 2.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        align-items: flex-end;
+      }
+      .filter-group {
+        flex: 1 1 140px;
+      }
+      .filter-group label {
+        display: block;
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.3rem;
+      }
+      .filter-group select,
+      .filter-group input {
+        width: 100%;
+        padding: 0.6rem 1rem;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+      }
+      .filter-actions {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .apply-filters,
+      .reset-filters {
+        padding: 0.6rem 1.8rem;
+        border-radius: 40px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .apply-filters {
+        background: var(--btn-primary-bg);
+        color: white;
+      }
+      .reset-filters {
+        background: transparent;
+        border: 1px solid var(--card-border);
+        color: var(--text-secondary);
+      }
+
+      /* KPI cards */
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .kpi-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        padding: 1.5rem;
+        transition: 0.2s;
+      }
+      .kpi-card:hover {
+        border-color: var(--btn-primary-bg);
+        transform: translateY(-3px);
+      }
+      .kpi-title {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+      .kpi-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+        line-height: 1;
+        margin-bottom: 0.3rem;
+      }
+      .kpi-trend {
+        font-size: 0.85rem;
+      }
+      .trend-up {
+        color: var(--trend-up);
+      }
+      .trend-down {
+        color: var(--trend-down);
+      }
+
+      /* tabs */
+      .tab-nav {
+        display: flex;
+        gap: 0.8rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--card-border);
+        padding-bottom: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        padding: 0.6rem 1.8rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 40px;
+        transition: 0.2s;
+      }
+      .tab-btn.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      /* chart grid */
+      .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 2rem;
+      }
+      .chart-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 36px;
+        padding: 1.8rem;
+      }
+      .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.2rem;
+      }
+      .chart-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .chart-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .chart-action {
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 30px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--text-secondary);
+        transition: 0.2s;
+      }
+      .chart-action:hover {
+        border-color: var(--btn-primary-bg);
+        color: var(--btn-primary-bg);
+      }
+      .chart-container {
+        height: 280px;
+        position: relative;
+      }
+
+      /* data table */
+      .data-table-container {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 36px;
+        padding: 1.8rem;
+        margin: 2rem 0;
+        overflow-x: auto;
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .data-table th {
+        text-align: left;
+        padding: 1rem 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.85rem;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .data-table td {
+        padding: 0.8rem;
+        color: var(--text-primary);
+        border-bottom: 1px dashed var(--card-border);
+      }
+      .risk-badge {
+        display: inline-block;
+        padding: 0.2rem 1rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+      }
+      .risk-high {
+        background: #d68f8f;
+        color: #2a1a1a;
+      }
+      .risk-medium {
+        background: #bfb57f;
+        color: #2a241a;
+      }
+      .risk-low {
+        background: #8fb59f;
+        color: #1a2a24;
+      }
+
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid var(--card-border);
+        border-top-color: var(--btn-primary-bg);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* footer */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 2.5rem 2rem 1.5rem;
+        margin-top: auto;
+      }
+      .footer-content {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .footer-links-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      .footer-col h4 {
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+      .footer-col a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        margin: 0.5rem 0;
+        font-size: 0.95rem;
+      }
+      .footer-col a:hover {
+        color: var(--btn-primary-bg);
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+      .footer-bottom-links {
+        display: flex;
+        gap: 2rem;
+      }
+      .footer-bottom-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      .footer-bottom-links a:hover {
+        color: var(--btn-primary-bg);
+      }
+
+      @media (max-width: 1000px) {
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .chart-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="app-wrapper">
+      <!-- HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+          <span class="expert-badge-header"
+            ><i class="fas fa-microscope"></i> EXPERT</span
+          >
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <!-- MAIN DASHBOARD -->
+      <main class="expert-main">
+        <div class="dashboard-header">
+          <div class="header-title">
+            <h1>
+              <i
+                class="fas fa-chart-line"
+                style="color: var(--btn-primary-bg); margin-right: 10px"
+              ></i>
+              Analytics Dashboard
+            </h1>
+            <p>
+              Comprehensive ingredient intelligence with interactive
+              visualizations
+            </p>
+          </div>
+          <div class="header-actions">
+            <button class="action-btn" onclick="exportData('json')">
+              <i class="fas fa-download"></i> JSON
+            </button>
+            <button class="action-btn" onclick="exportData('csv')">
+              <i class="fas fa-file-csv"></i> CSV
+            </button>
+            <button class="action-btn primary" onclick="exportData('pdf')">
+              <i class="fas fa-file-pdf"></i> Report
+            </button>
+          </div>
+        </div>
+
+        <!-- filter bar -->
+        <div class="filter-bar" id="filterBar">
+          <div class="filter-group">
+            <label>Industry</label>
+            <select id="industryFilter" onchange="updateCategoryFilter()">
+              <option value="cosmetic">Cosmetic & Personal Care</option>
+              <option value="food">Food & Beverage</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Category</label>
+            <select id="categoryFilter">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Brand</label>
+            <select id="brandFilter">
+              <option value="">All Brands</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Time Range</label>
+            <select id="timeRangeFilter">
+              <option value="1m">Last Month</option>
+              <option value="3m">3 Months</option>
+              <option value="6m">6 Months</option>
+              <option value="1y" selected>Last Year</option>
+              <option value="5y">5 Years</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Risk Level</label>
+            <select id="riskFilter">
+              <option value="all">All</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button class="apply-filters" onclick="applyFilters()">
+              Apply
+            </button>
+            <button class="reset-filters" onclick="resetFilters()">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI cards -->
+        <div class="kpi-grid" id="kpiCards"></div>
+
+        <!-- tabs -->
+        <div class="tab-nav">
+          <button class="tab-btn active" onclick="switchTab('market', this)">
+            Market Composition
+          </button>
+          <button class="tab-btn" onclick="switchTab('risk', this)">
+            Risk Distribution
+          </button>
+          <button class="tab-btn" onclick="switchTab('interaction', this)">
+            Interaction Networks
+          </button>
+          <button class="tab-btn" onclick="switchTab('exposure', this)">
+            Exposure Analysis
+          </button>
+          <button class="tab-btn" onclick="switchTab('trends', this)">
+            Time Trends
+          </button>
+          <button class="tab-btn" onclick="switchTab('geographic', this)">
+            Geographic
+          </button>
+        </div>
+
+        <!-- dynamic content -->
+        <div id="dashboardContent">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <a href="/citizen/home">Citizen Home</a
+              ><a href="/expert/ExpertHome">Expert Home</a
+              ><a href="/expert/IngredientExplorer">Explorer</a
+              ><a href="/expert/InteractionGraphs">Graphs</a>
+            </div>
+            <div class="footer-col">
+              <h4>Analytics</h4>
+              <a href="/expert/AnalyticsDashboard">Dashboard</a
+              ><a href="/expert/MLInsights">ML Insights</a
+              ><a href="/expert/DatasetExplorer">Datasets</a
+              ><a href="/expert/Reports">Reports</a>
+            </div>
+            <div class="footer-col">
+              <h4>Regulatory</h4>
+              <a href="/expert/RegulatoryIntelligence">Regulatory</a
+              ><a href="/expert/ExperimentationSandbox">Sandbox</a>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <a href="/profile">Profile</a><a href="/settings">Settings</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div>© 2026 Jneyaḥ — truth before belief · Research Use Only</div>
+            <div class="footer-bottom-links">
+              <a href="/about">About</a><a href="/privacy">Privacy</a
+              ><a href="/contact">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        const body = document.body;
+        const toggleBtn = document.getElementById("themeToggleBtn");
+        function toggleTheme() {
+          if (body.classList.contains("light")) {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("jneyah-theme", "dark");
+          } else {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("jneyah-theme", "light");
+          }
+        }
+        toggleBtn.addEventListener("click", toggleTheme);
+        const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+        body.classList.remove("light", "dark");
+        body.classList.add(savedTheme);
+
+        const canvas = document.getElementById("bgCanvas");
+        const ctx = canvas.getContext("2d");
+        let width,
+          height,
+          particles = [];
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 20; i++) {
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: 20 + Math.random() * 50,
+              speedX: (Math.random() - 0.5) * 0.1,
+              speedY: (Math.random() - 0.5) * 0.1,
+              color: `rgba(180, 95, 75, ${0.1 + Math.random() * 0.1})`,
+            });
+          }
+        }
+        function resizeCanvas() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initParticles();
+        }
+        function drawParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(drawParticles);
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        drawParticles();
+      })();
+
+      // State
+      let currentTab = "market";
+      let currentFilters = {
+        industry: "cosmetic",
+        category: "",
+        brand: "",
+        timeRange: "1y",
+        riskLevel: "all",
+      };
+      let filterOptions = {
+        categories: {
+          cosmetic: ["Moisturizer", "Cleanser", "Serum", "Sunscreen"],
+          food: ["Snacks", "Beverages", "Dairy"],
+        },
+        brands: {
+          cosmetic: ["L'Oreal", "Neutrogena", "CeraVe"],
+          food: ["Kraft", "Nestle"],
+        },
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadFilterOptions();
+        loadKPIs();
+        loadTabContent(currentTab);
+      });
+
+      function loadFilterOptions() {
+        updateCategoryFilter();
+        updateBrandFilter();
+      }
+      function updateCategoryFilter() {
+        const industry = document.getElementById("industryFilter").value;
+        const catSelect = document.getElementById("categoryFilter");
+        catSelect.innerHTML = '<option value="">All Categories</option>';
+        (filterOptions.categories[industry] || []).forEach(
+          (c) => (catSelect.innerHTML += `<option value="${c}">${c}</option>`),
+        );
+      }
+      function updateBrandFilter() {
+        const industry = document.getElementById("industryFilter").value;
+        const brandSelect = document.getElementById("brandFilter");
+        brandSelect.innerHTML = '<option value="">All Brands</option>';
+        (filterOptions.brands[industry] || []).forEach(
+          (b) =>
+            (brandSelect.innerHTML += `<option value="${b}">${b}</option>`),
+        );
+      }
+      function applyFilters() {
+        currentFilters = {
+          industry: document.getElementById("industryFilter").value,
+          category: document.getElementById("categoryFilter").value,
+          brand: document.getElementById("brandFilter").value,
+          timeRange: document.getElementById("timeRangeFilter").value,
+          riskLevel: document.getElementById("riskFilter").value,
+        };
+        loadKPIs();
+        loadTabContent(currentTab);
+      }
+      function resetFilters() {
+        document.getElementById("industryFilter").value = "cosmetic";
+        document.getElementById("categoryFilter").value = "";
+        document.getElementById("brandFilter").value = "";
+        document.getElementById("timeRangeFilter").value = "1y";
+        document.getElementById("riskFilter").value = "all";
+        applyFilters();
+      }
+      function switchTab(tab, el) {
+        currentTab = tab;
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        el.classList.add("active");
+        loadTabContent(tab);
+      }
+      function loadKPIs() {
+        document.getElementById("kpiCards").innerHTML = `
+        <div class="kpi-card"><div class="kpi-title">Total Ingredients</div><div class="kpi-value">1,250</div><div class="kpi-trend trend-up">↑12%</div></div>
+        <div class="kpi-card"><div class="kpi-title">Products Analyzed</div><div class="kpi-value">5,000</div><div class="kpi-trend trend-up">↑8%</div></div>
+        <div class="kpi-card"><div class="kpi-title">High Risk Ingredients</div><div class="kpi-value">89</div><div class="kpi-trend trend-down">↓3%</div></div>
+        <div class="kpi-card"><div class="kpi-title">Interaction Pairs</div><div class="kpi-value">1,247</div><div class="kpi-trend trend-up">↑15%</div></div>
+      `;
+      }
+      function loadTabContent(tab) {
+        const contentDiv = document.getElementById("dashboardContent");
+        contentDiv.innerHTML =
+          '<div class="loading"><div class="spinner"></div></div>';
+        setTimeout(() => {
+          if (tab === "market") renderMarket();
+          else if (tab === "risk") renderRisk();
+          else if (tab === "interaction") renderInteraction();
+          else if (tab === "exposure") renderExposure();
+          else if (tab === "trends") renderTrends();
+          else if (tab === "geographic") renderGeographic();
+        }, 300);
+      }
+
+      // Chart color helpers using theme variables
+      function getChartColors() {
+        const isLight = document.body.classList.contains("light");
+        return {
+          primary: isLight ? "#b45f4b" : "#a8745f",
+          secondary: isLight ? "#a8745f" : "#b5876f",
+          tertiary: isLight ? "#c4927b" : "#c49f8f",
+          quaternary: isLight ? "#e3b7a0" : "#9f7f6f",
+          soft: isLight ? "#d6a58b" : "#b58f7f",
+        };
+      }
+
+      function renderMarket() {
+        const colors = getChartColors();
+        const html = `
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Top Ingredients</div><div class="chart-actions"><button class="chart-action" onclick="alert('Download')"><i class="fas fa-download"></i></button></div></div><div class="chart-container"><canvas id="chart1"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Brand Share</div><div class="chart-actions"><button class="chart-action"><i class="fas fa-download"></i></button></div></div><div class="chart-container"><canvas id="chart2"></canvas></div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Category Complexity</div></div><div class="chart-container"><canvas id="chart3"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Ingredient Distribution</div></div><div class="chart-container"><canvas id="chart4"></canvas></div></div>
+        </div>
+        <div class="data-table-container">
+          <table class="data-table"><thead><tr><th>Ingredient</th><th>Frequency</th><th>Risk</th><th>Trend</th></tr></thead>
+          <tbody>
+            <tr><td>Water</td><td>450</td><td><span class="risk-badge risk-low">Low</span></td><td class="trend-up">↑8%</td></tr>
+            <tr><td>Glycerin</td><td>380</td><td><span class="risk-badge risk-low">Low</span></td><td class="trend-up">↑12%</td></tr>
+            <tr><td>Niacinamide</td><td>290</td><td><span class="risk-badge risk-low">Low</span></td><td class="trend-up">↑25%</td></tr>
+            <tr><td>Retinol</td><td>210</td><td><span class="risk-badge risk-medium">Medium</span></td><td class="trend-up">↑18%</td></tr>
+          </tbody></table>
+        </div>
+      `;
+        document.getElementById("dashboardContent").innerHTML = html;
+        setTimeout(() => {
+          new Chart(document.getElementById("chart1"), {
+            type: "bar",
+            data: {
+              labels: [
+                "Water",
+                "Glycerin",
+                "Niacinamide",
+                "Retinol",
+                "Vitamin C",
+              ],
+              datasets: [
+                {
+                  data: [450, 380, 290, 210, 190],
+                  backgroundColor: [
+                    colors.primary,
+                    colors.secondary,
+                    colors.tertiary,
+                    colors.quaternary,
+                    colors.soft,
+                  ],
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+            },
+          });
+          new Chart(document.getElementById("chart2"), {
+            type: "doughnut",
+            data: {
+              labels: ["L'Oreal", "Neutrogena", "CeraVe", "The Ordinary"],
+              datasets: [
+                {
+                  data: [120, 98, 85, 72],
+                  backgroundColor: [
+                    colors.primary,
+                    colors.secondary,
+                    colors.tertiary,
+                    colors.quaternary,
+                  ],
+                },
+              ],
+            },
+            options: { responsive: true, maintainAspectRatio: false },
+          });
+          new Chart(document.getElementById("chart3"), {
+            type: "bar",
+            data: {
+              labels: ["Moisturizer", "Cleanser", "Serum"],
+              datasets: [
+                {
+                  label: "Avg Ingredients",
+                  data: [15.2, 10.5, 12.8],
+                  backgroundColor: colors.tertiary,
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("chart4"), {
+            type: "polarArea",
+            data: {
+              labels: ["Water based", "Oil based", "Silicone based"],
+              datasets: [
+                {
+                  data: [60, 25, 15],
+                  backgroundColor: [
+                    colors.primary,
+                    colors.tertiary,
+                    colors.soft,
+                  ],
+                },
+              ],
+            },
+          });
+        }, 50);
+      }
+
+      function renderRisk() {
+        const colors = getChartColors();
+        const html = `
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Risk Heatmap</div></div><div class="chart-container"><canvas id="risk1"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Risk Categories</div></div><div class="chart-container"><canvas id="risk2"></canvas></div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Risk by Category</div></div><div class="chart-container"><canvas id="risk3"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Risk Distribution</div></div><div class="chart-container"><canvas id="risk4"></canvas></div></div>
+        </div>
+      `;
+        document.getElementById("dashboardContent").innerHTML = html;
+        setTimeout(() => {
+          new Chart(document.getElementById("risk1"), {
+            type: "bar",
+            data: {
+              labels: ["Acute", "Chronic", "Allergy"],
+              datasets: [
+                {
+                  label: "High",
+                  data: [35, 70, 30],
+                  backgroundColor: "#d68f8f",
+                },
+                {
+                  label: "Medium",
+                  data: [120, 150, 80],
+                  backgroundColor: "#bfb57f",
+                },
+                {
+                  label: "Low",
+                  data: [245, 180, 290],
+                  backgroundColor: "#8fb59f",
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { position: "bottom" } },
+            },
+          });
+          new Chart(document.getElementById("risk2"), {
+            type: "pie",
+            data: {
+              labels: ["Preservative", "Fragrance", "Surfactant"],
+              datasets: [
+                {
+                  data: [12, 15, 8],
+                  backgroundColor: ["#d68f8f", "#bfb57f", "#8fb59f"],
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("risk3"), {
+            type: "radar",
+            data: {
+              labels: ["Preservative", "Fragrance", "Surfactant", "Colorant"],
+              datasets: [
+                {
+                  label: "Risk Score",
+                  data: [7.2, 6.8, 5.5, 6.1],
+                  backgroundColor: "rgba(180, 95, 75, 0.2)",
+                  borderColor: colors.primary,
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("risk4"), {
+            type: "line",
+            data: {
+              labels: ["Low", "Medium", "High"],
+              datasets: [
+                {
+                  label: "Count",
+                  data: [715, 350, 165],
+                  borderColor: colors.primary,
+                },
+              ],
+            },
+          });
+        }, 50);
+      }
+
+      function renderInteraction() {
+        const colors = getChartColors();
+        const html = `
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Interaction Types</div></div><div class="chart-container"><canvas id="int1"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Connected Ingredients</div></div><div class="chart-container"><canvas id="int2"></canvas></div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Network Strength</div></div><div class="chart-container"><canvas id="int3"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Interaction Map</div></div><div class="chart-container"><canvas id="int4"></canvas></div></div>
+        </div>
+      `;
+        document.getElementById("dashboardContent").innerHTML = html;
+        setTimeout(() => {
+          new Chart(document.getElementById("int1"), {
+            type: "doughnut",
+            data: {
+              labels: ["Synergistic", "Antagonistic", "Irritation"],
+              datasets: [
+                {
+                  data: [523, 412, 198],
+                  backgroundColor: [
+                    colors.primary,
+                    colors.soft,
+                    colors.tertiary,
+                  ],
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("int2"), {
+            type: "bar",
+            data: {
+              labels: ["Retinol", "Niacinamide", "Vitamin C"],
+              datasets: [
+                { data: [24, 22, 20], backgroundColor: colors.tertiary },
+              ],
+            },
+          });
+          new Chart(document.getElementById("int3"), {
+            type: "radar",
+            data: {
+              labels: ["Retinol", "Niacinamide", "Vit C", "Salicylic"],
+              datasets: [
+                {
+                  label: "Connection strength",
+                  data: [24, 22, 20, 18],
+                  borderColor: colors.secondary,
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("int4"), {
+            type: "line",
+            data: {
+              labels: ["A", "B", "C", "D"],
+              datasets: [
+                {
+                  label: "Interaction density",
+                  data: [8, 12, 10, 15],
+                  borderColor: colors.soft,
+                },
+              ],
+            },
+          });
+        }, 50);
+      }
+
+      function renderExposure() {
+        const colors = getChartColors();
+        const html = `
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Cumulative Risk</div></div><div class="chart-container"><canvas id="exp1"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Population Distribution</div></div><div class="chart-container"><canvas id="exp2"></canvas></div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Risk Factors</div></div><div class="chart-container"><canvas id="exp3"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Exposure Timeline</div></div><div class="chart-container"><canvas id="exp4"></canvas></div></div>
+        </div>
+      `;
+        document.getElementById("dashboardContent").innerHTML = html;
+        setTimeout(() => {
+          new Chart(document.getElementById("exp1"), {
+            type: "line",
+            data: {
+              labels: ["1d", "7d", "30d", "90d", "365d"],
+              datasets: [
+                {
+                  label: "Risk Score",
+                  data: [45.5, 42.3, 38.2, 32.1, 21.4],
+                  borderColor: colors.primary,
+                  fill: true,
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("exp2"), {
+            type: "bar",
+            data: {
+              labels: ["0-10", "10-20", "20-30", "30-40"],
+              datasets: [
+                { data: [45, 120, 250, 310], backgroundColor: colors.tertiary },
+              ],
+            },
+          });
+          new Chart(document.getElementById("exp3"), {
+            type: "doughnut",
+            data: {
+              labels: ["Retinol", "Niacinamide", "Other"],
+              datasets: [
+                {
+                  data: [28.4, 12.2, 5.0],
+                  backgroundColor: [
+                    colors.soft,
+                    colors.tertiary,
+                    colors.secondary,
+                  ],
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("exp4"), {
+            type: "line",
+            data: {
+              labels: ["Week1", "Week2", "Week3", "Week4"],
+              datasets: [
+                {
+                  label: "Exposure level",
+                  data: [22, 28, 32, 30],
+                  borderColor: colors.tertiary,
+                },
+              ],
+            },
+          });
+        }, 50);
+      }
+
+      function renderTrends() {
+        const colors = getChartColors();
+        const html = `
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Ingredient Trends</div></div><div class="chart-container"><canvas id="trend1"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Category Growth</div></div><div class="chart-container"><canvas id="trend2"></canvas></div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Year-over-Year</div></div><div class="chart-container"><canvas id="trend3"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Forecast</div></div><div class="chart-container"><canvas id="trend4"></canvas></div></div>
+        </div>
+      `;
+        document.getElementById("dashboardContent").innerHTML = html;
+        setTimeout(() => {
+          new Chart(document.getElementById("trend1"), {
+            type: "line",
+            data: {
+              labels: ["2015", "2017", "2019", "2021", "2023", "2025"],
+              datasets: [
+                {
+                  label: "Parabens",
+                  data: [95, 82, 68, 45, 28, 18],
+                  borderColor: colors.soft,
+                },
+                {
+                  label: "Niacinamide",
+                  data: [32, 48, 65, 82, 94, 98],
+                  borderColor: colors.primary,
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("trend2"), {
+            type: "bar",
+            data: {
+              labels: ["Serums", "Sunscreens", "Clean Beauty"],
+              datasets: [
+                { data: [18.3, 15.2, 25.7], backgroundColor: colors.tertiary },
+              ],
+            },
+          });
+          new Chart(document.getElementById("trend3"), {
+            type: "line",
+            data: {
+              labels: ["2020", "2021", "2022", "2023", "2024"],
+              datasets: [
+                {
+                  label: "Growth %",
+                  data: [8, 12, 15, 18, 22],
+                  borderColor: colors.tertiary,
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("trend4"), {
+            type: "line",
+            data: {
+              labels: ["2025", "2026", "2027"],
+              datasets: [
+                {
+                  label: "Forecast",
+                  data: [25, 30, 35],
+                  borderColor: colors.secondary,
+                  borderDash: [5, 5],
+                },
+              ],
+            },
+          });
+        }, 50);
+      }
+
+      function renderGeographic() {
+        const colors = getChartColors();
+        const html = `
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Regional Distribution</div></div><div class="chart-container"><canvas id="geo1"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Risk by Region</div></div><div class="chart-container"><canvas id="geo2"></canvas></div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Market Share by Country</div></div><div class="chart-container"><canvas id="geo3"></canvas></div></div>
+          <div class="chart-card"><div class="chart-header"><div class="chart-title">Import/Export</div></div><div class="chart-container"><canvas id="geo4"></canvas></div></div>
+        </div>
+      `;
+        document.getElementById("dashboardContent").innerHTML = html;
+        setTimeout(() => {
+          new Chart(document.getElementById("geo1"), {
+            type: "bar",
+            data: {
+              labels: ["NA", "EU", "Asia", "Other"],
+              datasets: [
+                {
+                  data: [45, 30, 20, 5],
+                  backgroundColor: [
+                    colors.primary,
+                    colors.secondary,
+                    colors.tertiary,
+                    colors.quaternary,
+                  ],
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("geo2"), {
+            type: "radar",
+            data: {
+              labels: ["NA", "EU", "Asia", "SA"],
+              datasets: [
+                {
+                  label: "High Risk",
+                  data: [12, 8, 15, 5],
+                  borderColor: colors.soft,
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("geo3"), {
+            type: "doughnut",
+            data: {
+              labels: ["USA", "Germany", "China", "Japan"],
+              datasets: [
+                {
+                  data: [35, 20, 25, 20],
+                  backgroundColor: [
+                    colors.primary,
+                    colors.secondary,
+                    colors.tertiary,
+                    colors.quaternary,
+                  ],
+                },
+              ],
+            },
+          });
+          new Chart(document.getElementById("geo4"), {
+            type: "line",
+            data: {
+              labels: ["2019", "2020", "2021", "2022", "2023"],
+              datasets: [
+                {
+                  label: "Import volume",
+                  data: [55, 60, 68, 75, 82],
+                  borderColor: colors.tertiary,
+                },
+              ],
+            },
+          });
+        }, 50);
+      }
+
+      function exportData(f) {
+        alert(f.toUpperCase() + " export - full version");
+      }
+      window.downloadChart = (btn) => alert("Chart download");
+    </script>
+  </body>
+</html>

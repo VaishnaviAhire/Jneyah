@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Citizen Dashboard</title>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-primary);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Light mode variables */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.7);
+        --card-border: #f0d9c8;
+        --btn-primary: #b45f4b;
+        --btn-hover: #9e4d3a;
+        --badge-bg: #b45f4b15;
+        --badge-text: #b45f4b;
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --accent-glow: #e3b7a0;
+        --header-bg: rgba(255, 255, 240, 0.8);
+        --particle-color: rgba(180, 95, 75, 0.15);
+      }
+
+      /* Dark mode variables */
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.7);
+        --card-border: #534b45;
+        --btn-primary: #a8745f;
+        --btn-hover: #c4927b;
+        --badge-bg: #a8745f25;
+        --badge-text: #e2cfc2;
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --accent-glow: #7f6a5c;
+        --header-bg: rgba(30, 28, 26, 0.9);
+        --particle-color: rgba(168, 116, 95, 0.15);
+      }
+
+      /* Floating Background Circles */
+      .bg-circles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--particle-color);
+        animation: float 20s infinite ease-in-out;
+      }
+
+      .circle-1 {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        right: -100px;
+        animation-delay: 0s;
+      }
+
+      .circle-2 {
+        width: 400px;
+        height: 400px;
+        bottom: -200px;
+        left: -150px;
+        animation-delay: -5s;
+      }
+
+      .circle-3 {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        left: 10%;
+        animation-delay: -10s;
+      }
+
+      .circle-4 {
+        width: 250px;
+        height: 250px;
+        bottom: 20%;
+        right: 5%;
+        animation-delay: -15s;
+      }
+
+      .circle-5 {
+        width: 150px;
+        height: 150px;
+        top: 60%;
+        left: 20%;
+        animation-delay: -7s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(30px, -30px) scale(1.05);
+        }
+        50% {
+          transform: translate(50px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(-20px, 40px) scale(1.02);
+        }
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.4rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      .project-name {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        margin-left: 6px;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .user-avatar {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      .logout-btn {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 2px solid var(--card-border);
+        padding: 8px 20px;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logout-btn:hover {
+        background: var(--btn-primary);
+        color: white;
+        border-color: var(--btn-primary);
+        transform: translateY(-2px);
+      }
+
+      /* Main Container */
+      .expert-main {
+        width: 100%;
+        max-width: 1300px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      /* Hero Section */
+      .hero-section {
+        background: linear-gradient(
+          145deg,
+          rgba(180, 95, 75, 0.1),
+          rgba(168, 116, 95, 0.1)
+        );
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          var(--accent-glow) 1px,
+          transparent 1px
+        );
+        background-size: 30px 30px;
+        opacity: 0.2;
+        animation: shimmer 30s linear infinite;
+      }
+
+      @keyframes shimmer {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-section h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 1rem;
+      }
+
+      .hero-section .highlight {
+        color: var(--btn-primary);
+        font-style: italic;
+      }
+
+      .hero-section p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .streak-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--card-border);
+        padding: 0.8rem 1.8rem;
+        border-radius: 60px;
+        font-size: 1rem;
+        color: var(--text-primary);
+      }
+
+      .streak-badge i {
+        color: #ff9a9e;
+        font-size: 1.2rem;
+      }
+
+      .streak-badge strong {
+        color: var(--btn-primary);
+        font-weight: 700;
+      }
+
+      /* Section Title */
+      .section-title {
+        font-size: 2rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .section-title i {
+        color: var(--btn-primary);
+        font-size: 1.8rem;
+      }
+
+      .section-desc {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-size: 1rem;
+      }
+
+      /* Features Grid */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .feature-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        padding: 2rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(145deg, transparent, var(--accent-glow));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        border-color: var(--btn-primary);
+        box-shadow: 0 20px 40px -15px rgba(180, 95, 75, 0.3);
+      }
+
+      .feature-card:hover::before {
+        opacity: 0.1;
+      }
+
+      .feature-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: white;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-card:nth-child(1) .feature-icon {
+        background: linear-gradient(145deg, #b8735e, #a45540);
+      }
+      .feature-card:nth-child(2) .feature-icon {
+        background: linear-gradient(145deg, #9b7b6a, #7a5f51);
+      }
+      .feature-card:nth-child(3) .feature-icon {
+        background: linear-gradient(145deg, #c4927b, #a8745f);
+      }
+      .feature-card:nth-child(4) .feature-icon {
+        background: linear-gradient(145deg, #b45f4b, #9e4d3a);
+      }
+      .feature-card:nth-child(5) .feature-icon {
+        background: linear-gradient(145deg, #a8745f, #8b5e4c);
+      }
+      .feature-card:nth-child(6) .feature-icon {
+        background: linear-gradient(145deg, #c49f8f, #9f7f6f);
+      }
+
+      .feature-card h3 {
+        font-size: 1.4rem;
+        color: var(--text-primary);
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-card p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-tag {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 0.3rem 1rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 500;
+      }
+
+      .feature-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--btn-primary);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        padding: 0.5rem 0;
+        position: relative;
+        z-index: 1;
+        transition: gap 0.3s ease;
+      }
+
+      .feature-link:hover {
+        gap: 12px;
+      }
+
+      /* Profile Cards Section */
+      .profile-section {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .profile-header h2 {
+        font-size: 1.8rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .profile-header h2 i {
+        color: var(--btn-primary);
+      }
+
+      .edit-profile-btn {
+        background: transparent;
+        color: var(--btn-primary);
+        border: 2px solid var(--btn-primary);
+        padding: 10px 24px;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .edit-profile-btn:hover {
+        background: var(--btn-primary);
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+
+      .profile-card {
+        background: var(--stat-bg);
+        border-radius: 28px;
+        padding: 1.5rem;
+        transition: transform 0.3s ease;
+      }
+
+      .profile-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .profile-label {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+      }
+
+      .profile-value {
+        color: var(--text-primary);
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .profile-badge {
+        display: inline-block;
+        padding: 0.2rem 1rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+
+      .badge-success {
+        background: rgba(79, 122, 107, 0.2);
+        color: #4f7a6b;
+      }
+
+      .badge-warning {
+        background: rgba(182, 95, 95, 0.2);
+        color: #b65f5f;
+      }
+
+      /* Activity Section */
+      .activity-section {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2.5rem;
+      }
+
+      .activity-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .activity-header h2 {
+        font-size: 1.8rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .activity-header h2 i {
+        color: var(--btn-primary);
+      }
+
+      .view-all-btn {
+        color: var(--btn-primary);
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .activity-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .activity-item {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        padding: 1rem;
+        border-radius: 24px;
+        background: var(--stat-bg);
+        transition: all 0.3s ease;
+      }
+
+      .activity-item:hover {
+        transform: translateX(10px);
+        background: linear-gradient(90deg, var(--stat-bg), var(--badge-bg));
+      }
+
+      .activity-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: white;
+      }
+
+      .activity-content {
+        flex: 1;
+      }
+
+      .activity-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+      }
+
+      .activity-meta {
+        display: flex;
+        gap: 1rem;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      .activity-badge {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 0.2rem 1rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+
+      /* Quick Actions */
+      .quick-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .quick-action {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 60px;
+        padding: 0.8rem 2rem;
+        color: var(--text-primary);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .quick-action:hover {
+        background: var(--btn-primary);
+        color: white;
+        border-color: var(--btn-primary);
+        transform: translateY(-2px);
+      }
+
+      /* Footer */
+      .global-footer {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--card-border);
+        padding: 2rem;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        max-width: 1300px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--btn-primary);
+      }
+
+      /* Loading Animation */
+      .loading {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        border: 3px solid var(--badge-bg);
+        border-radius: 50%;
+        border-top-color: var(--btn-primary);
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-secondary);
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
+
+      /* Responsive */
+      @media (max-width: 1100px) {
+        .features-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .profile-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .global-header {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .hero-section {
+          padding: 2rem;
+        }
+
+        .hero-section h1 {
+          font-size: 2rem;
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .profile-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .profile-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <!-- Floating Background Circles -->
+    <div class="bg-circles">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="circle circle-4"></div>
+      <div class="circle circle-5"></div>
+    </div>
+
+    <div class="app-wrapper">
+      <!-- Header -->
+      <header class="global-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+        </div>
+
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">VA</div>
+          <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="expert-main">
+        <!-- Hero Section -->
+        <section class="hero-section">
+          <div class="hero-content">
+            <h1>
+              Welcome back,
+              <span class="highlight" id="userName">Vaishnavi</span>
+            </h1>
+            <p>
+              Your personal ingredient safety companion for making informed
+              choices about skincare and food products.
+            </p>
+            <div class="streak-badge">
+              <i class="fas fa-fire"></i>
+              <span
+                ><strong id="streakCount">7</strong> day streak ·
+                <strong>85%</strong> safety score</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- Features Grid -->
+        <div class="section-title">
+          <i class="fas fa-compass"></i>
+          <span>Explore Features</span>
+        </div>
+
+        <section class="features-grid">
+          <!-- Upload & Know -->
+          <div class="feature-card" onclick="navigateTo('UploadAndKnow')">
+            <div class="feature-icon">
+              <i class="fas fa-camera"></i>
+            </div>
+            <h3>Upload & Know</h3>
+            <p>
+              Scan product labels instantly with AI-powered OCR technology for
+              immediate safety insights.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">AI scanning</span>
+              <span class="feature-tag">instant results</span>
+            </div>
+            <div class="feature-link">
+              Start Scanning <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- Enter Ingredients -->
+          <div class="feature-card" onclick="navigateTo('EnterIngredients')">
+            <div class="feature-icon">
+              <i class="fas fa-keyboard"></i>
+            </div>
+            <h3>Enter Ingredients</h3>
+            <p>
+              Manually input ingredient lists for detailed safety analysis and
+              interaction detection.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">manual entry</span>
+              <span class="feature-tag">detailed analysis</span>
+            </div>
+            <div class="feature-link">
+              Enter Manually <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- Ingredient of the Day -->
+          <div class="feature-card" onclick="navigateTo('IngredientOfTheDay')">
+            <div class="feature-icon">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3>Ingredient of the Day</h3>
+            <p>
+              Learn about one ingredient daily. Today's feature:
+              <strong>Retinol</strong> — benefits & precautions
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">daily learning</span>
+              <span class="feature-tag">retinol</span>
+            </div>
+            <div class="feature-link">
+              Learn Today <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- Safety Chatbot -->
+          <div class="feature-card" onclick="navigateTo('Chatbot')">
+            <div class="feature-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3>Safety Chatbot</h3>
+            <p>
+              Ask questions about ingredient safety, interactions, and get
+              instant AI-powered answers.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">24/7 support</span>
+              <span class="feature-tag">AI assistant</span>
+            </div>
+            <div class="feature-link">
+              Ask Questions <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- Community -->
+          <div class="feature-card" onclick="navigateTo('Community')">
+            <div class="feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3>Community</h3>
+            <p>
+              Join discussions, share experiences, and learn from others about
+              product safety.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">discussions</span>
+              <span class="feature-tag">shared experiences</span>
+            </div>
+            <div class="feature-link">
+              Join Community <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- Streaks & Rewards -->
+          <div class="feature-card" onclick="navigateTo('Streaks')">
+            <div class="feature-icon">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <h3>Streaks & Rewards</h3>
+            <p>
+              Track your learning journey, earn badges, and unlock achievements.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">achievements</span>
+              <span class="feature-tag">rewards</span>
+            </div>
+            <div class="feature-link">
+              View Progress <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+          <div class="profile-header">
+            <h2><i class="fas fa-user-shield"></i> Your Safety Profile</h2>
+            <button class="edit-profile-btn" onclick="navigateTo('Profile')">
+              <i class="fas fa-edit"></i> Edit Profile
+            </button>
+          </div>
+
+          <div class="profile-grid" id="profileInfo">
+            <div class="empty-state">
+              <div class="loading"></div>
+              <p>Loading your profile...</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Activity Section -->
+        <section class="activity-section">
+          <div class="activity-header">
+            <h2><i class="fas fa-history"></i> Recent Activity</h2>
+            <a href="#" class="view-all-btn" onclick="navigateTo('Activity')"
+              >View All <i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
+
+          <div class="activity-timeline" id="activityList">
+            <div class="activity-item">
+              <div
+                class="activity-icon"
+                style="background: linear-gradient(145deg, #b8735e, #a45540)"
+              >
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Profile Completed</div>
+                <div class="activity-meta">
+                  <span>Just now</span>
+                  <span class="activity-badge">achievement</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <a href="#" class="quick-action" onclick="navigateTo('UploadAndKnow')"
+            ><i class="fas fa-camera"></i> Scan</a
+          >
+          <a href="#" class="quick-action" onclick="navigateTo('Chatbot')"
+            ><i class="fas fa-robot"></i> Chat</a
+          >
+          <a href="#" class="quick-action" onclick="navigateTo('Community')"
+            ><i class="fas fa-users"></i> Community</a
+          >
+          <a href="#" class="quick-action" onclick="navigateTo('Streaks')"
+            ><i class="fas fa-trophy"></i> Rewards</a
+          >
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div>© 2026 Jneyaḥ — truth before belief</div>
+          <div class="footer-links">
+            <a href="/about">About</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Theme Toggle Button (Floating) -->
+    <div style="position: fixed; bottom: 30px; right: 30px; z-index: 1000">
+      <button
+        onclick="toggleTheme()"
+        style="
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: var(--btn-primary);
+          color: white;
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 4px 15px rgba(180, 95, 75, 0.4);
+          font-size: 1.4rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.3s ease;
+        "
+      >
+        <i class="fas fa-palette"></i>
+      </button>
+    </div>
+
+    <script>
+      // Theme Toggle
+      function toggleTheme() {
+        document.body.classList.toggle("dark");
+        localStorage.setItem(
+          "jneyah-theme",
+          document.body.classList.contains("dark") ? "dark" : "light",
+        );
+      }
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+      document.body.classList.add(savedTheme);
+
+      // API Configuration
+      const API_BASE = "http://localhost:8000/api";
+
+      function getToken() {
+        return localStorage.getItem("access_token");
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      function navigateTo(page) {
+        window.location.href = `/citizen/${page}.html`;
+      }
+
+      function logout() {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        window.location.href = "/";
+      }
+
+      async function loadUserProfile() {
+        const token = getToken();
+        if (!token) {
+          window.location.href = "/";
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (response.ok) {
+            const user = await response.json();
+
+            document.getElementById("userName").textContent =
+              user.full_name || "User";
+
+            if (user.full_name) {
+              const initials = user.full_name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .toUpperCase();
+              document.getElementById("userAvatar").textContent = initials;
+            }
+
+            document.getElementById("streakCount").textContent =
+              user.streak_count || "7";
+
+            const profileInfo = document.getElementById("profileInfo");
+
+            if (user.health_profile) {
+              const profile = user.health_profile;
+
+              profileInfo.innerHTML = `
+              <div class="profile-card">
+                <div class="profile-label">Profile Status</div>
+                <div class="profile-value">${user.profile_complete ? "Complete" : "Incomplete"}</div>
+                <div class="profile-badge ${user.profile_complete ? "badge-success" : "badge-warning"}">
+                  ${user.profile_complete ? "✓ Ready for Analysis" : "⚠ Needs Completion"}
+                </div>
+              </div>
+              
+              <div class="profile-card">
+                <div class="profile-label">Skin Type</div>
+                <div class="profile-value">${profile.skin_type || "Not specified"}</div>
+                ${profile.skin_type ? '<div class="profile-badge badge-success">✓ Personalized</div>' : ""}
+              </div>
+              
+              <div class="profile-card">
+                <div class="profile-label">Allergies</div>
+                <div class="profile-value">${profile.allergies?.length || 0} recorded</div>
+                ${profile.allergies?.length > 0 ? `<small style="color: var(--text-secondary);">${profile.allergies.slice(0, 2).join(", ")}</small>` : ""}
+              </div>
+              
+              <div class="profile-card">
+                <div class="profile-label">Member Since</div>
+                <div class="profile-value">${formatDate(user.created_at)}</div>
+                <small style="color: var(--text-secondary);">${user.email}</small>
+              </div>
+            `;
+            }
+
+            // Update activity list
+            const activityList = document.getElementById("activityList");
+            activityList.innerHTML = `
+            <div class="activity-item">
+              <div class="activity-icon" style="background: linear-gradient(145deg, #b8735e, #a45540);">
+                <i class="fas fa-user-check"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Profile ${user.profile_complete ? "Completed" : "Updated"}</div>
+                <div class="activity-meta">
+                  <span>Just now</span>
+                  <span class="activity-badge">profile</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon" style="background: linear-gradient(145deg, #9b7b6a, #7a5f51);">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Account Created</div>
+                <div class="activity-meta">
+                  <span>${formatDate(user.created_at)}</span>
+                  <span class="activity-badge">milestone</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon" style="background: linear-gradient(145deg, #c4927b, #a8745f);">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Safety Tutorial</div>
+                <div class="activity-meta">
+                  <span>Ready to start</span>
+                  <span class="activity-badge">learning</span>
+                </div>
+              </div>
+            </div>
+          `;
+          } else {
+            await refreshToken();
+          }
+        } catch (error) {
+          console.error("Error loading profile:", error);
+          document.getElementById("profileInfo").innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Failed to load profile</p>
+            <button onclick="location.reload()" style="margin-top: 1rem; padding: 10px 20px; background: var(--btn-primary); color: white; border: none; border-radius: 40px; cursor: pointer;">
+              Retry
+            </button>
+          </div>
+        `;
+        }
+      }
+
+      async function refreshToken() {
+        const refreshToken = localStorage.getItem("refresh_token");
+        if (!refreshToken) {
+          logout();
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/refresh`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token: refreshToken }),
+          });
+
+          if (response.ok) {
+            const tokens = await response.json();
+            localStorage.setItem("access_token", tokens.access_token);
+            localStorage.setItem("refresh_token", tokens.refresh_token);
+            await loadUserProfile();
+          } else {
+            logout();
+          }
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+          logout();
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const token = getToken();
+        if (!token) {
+          window.location.href = "/";
+        } else {
+          loadUserProfile();
+        }
+      });
+    </script>
+  </body>
+</html>

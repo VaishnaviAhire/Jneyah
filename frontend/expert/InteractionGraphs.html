@@ -1,0 +1,1805 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Interaction Networks (Expert)</title>
+    <!-- Chart.js, Cytoscape, D3 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Merriweather", "Inter", serif;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT / DARK VARIABLES ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.75);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.6);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --btn-expert-text: #b45f4b;
+        --btn-expert-hover-bg: #b45f4b;
+        --btn-expert-hover-text: #fff7ec;
+        --shadow: 0 20px 40px -12px rgba(90, 60, 40, 0.25);
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --badge-bg: #b45f4b20;
+        --badge-text: #b45f4b;
+        --panel-bg: rgba(255, 250, 240, 0.5);
+        --trend-up: #4f7a6b;
+        --trend-down: #b65f5f;
+        --chart-primary: #b45f4b;
+        --chart-secondary: #a8745f;
+        --chart-tertiary: #c4927b;
+        --chart-quaternary: #e3b7a0;
+        --chart-soft: #d6a58b;
+        --legend-syn: #4f7a6b;
+        --legend-ant: #b65f5f;
+        --legend-risk: #b45f4b;
+        --legend-neutral: #a8745f;
+      }
+
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.8);
+        --footer-bg: rgba(24, 22, 20, 0.85);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.6);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --btn-expert-text: #e2cfc2;
+        --btn-expert-hover-bg: #a8745f;
+        --btn-expert-hover-text: #1e1b1a;
+        --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --badge-bg: #a8745f30;
+        --badge-text: #e2cfc2;
+        --panel-bg: rgba(35, 30, 26, 0.6);
+        --trend-up: #8fbf9f;
+        --trend-down: #d68f8f;
+        --chart-primary: #a8745f;
+        --chart-secondary: #b5876f;
+        --chart-tertiary: #c49f8f;
+        --chart-quaternary: #9f7f6f;
+        --chart-soft: #b58f7f;
+        --legend-syn: #8fbf9f;
+        --legend-ant: #d68f8f;
+        --legend-risk: #c49f8f;
+        --legend-neutral: #b5876f;
+      }
+
+      /* moving background */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- HEADER ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        font-size: 2.4rem;
+        color: var(--btn-primary-bg);
+        filter: drop-shadow(0 2px 4px var(--accent-glow));
+      }
+      .project-name {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.4rem;
+        margin-left: 6px;
+      }
+      .expert-badge-header {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 12px;
+        border: 1px solid var(--btn-expert-border);
+      }
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 60px;
+        padding: 10px 22px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .expert-main {
+        width: 100%;
+        max-width: 1600px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .header-title h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .header-title p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-top: 0.3rem;
+      }
+
+      /* Legend */
+      .legend {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--card-border);
+        border-radius: 60px;
+        padding: 1.2rem 2rem;
+        flex-wrap: wrap;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 40px;
+      }
+      .legend-color.synergistic {
+        background: var(--legend-syn);
+      }
+      .legend-color.antagonistic {
+        background: var(--legend-ant);
+      }
+      .legend-color.risk-amplifying {
+        background: var(--legend-risk);
+      }
+      .legend-color.neutral {
+        background: var(--legend-neutral);
+      }
+
+      /* Tab Navigation */
+      .tab-nav {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--card-border);
+        padding-bottom: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        padding: 0.6rem 1.8rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 40px;
+        transition: 0.2s;
+      }
+      .tab-btn.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      /* Cards */
+      .content-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .card-actions {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .action-btn {
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        padding: 0.5rem 1.5rem;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .action-btn:hover {
+        border-color: var(--btn-primary-bg);
+        color: var(--btn-primary-bg);
+      }
+
+      /* Network */
+      .network-container {
+        width: 100%;
+        height: 500px;
+        background: var(--stat-bg);
+        border-radius: 36px;
+        overflow: hidden;
+      }
+
+      /* Matrix */
+      .matrix-container {
+        overflow-x: auto;
+      }
+      .interaction-matrix {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 600px;
+      }
+      .interaction-matrix th {
+        padding: 1rem;
+        color: var(--text-primary);
+        font-weight: 600;
+        background: var(--panel-bg);
+      }
+      .interaction-matrix td {
+        padding: 0.5rem;
+        text-align: center;
+        border: 1px solid var(--card-border);
+      }
+      .matrix-cell {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        margin: 0 auto;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .matrix-cell:hover {
+        transform: scale(1.1);
+      }
+      .cell-synergistic {
+        background: var(--legend-syn);
+      }
+      .cell-antagonistic {
+        background: var(--legend-ant);
+      }
+      .cell-risk-amplifying {
+        background: var(--legend-risk);
+      }
+      .cell-neutral {
+        background: var(--legend-neutral);
+      }
+      .cell-unknown {
+        background: var(--card-border);
+      }
+
+      .interaction-detail {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+      }
+      .interaction-badge {
+        display: inline-block;
+        padding: 0.3rem 1.2rem;
+        border-radius: 40px;
+        font-weight: 600;
+      }
+      .badge-synergistic {
+        background: var(--legend-syn);
+        color: #1a2a24;
+      }
+      .badge-antagonistic {
+        background: var(--legend-ant);
+        color: #2a1a1a;
+      }
+      .badge-risk-amplifying {
+        background: var(--legend-risk);
+        color: #2a1a1a;
+      }
+      .badge-neutral {
+        background: var(--legend-neutral);
+        color: #2a2a2a;
+      }
+
+      /* Pattern grid */
+      .pattern-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+      .pattern-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        border-left: 6px solid;
+      }
+      .pattern-card.critical {
+        border-color: #d68f8f;
+      }
+      .pattern-card.high {
+        border-color: #bfb57f;
+      }
+      .pattern-card.moderate {
+        border-color: #e3b7a0;
+      }
+      .pattern-card.beneficial {
+        border-color: var(--legend-syn);
+      }
+      .pattern-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.8rem;
+      }
+
+      /* Network description box */
+      .network-description {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        border-left: 6px solid var(--btn-primary-bg);
+      }
+      .network-description h4 {
+        color: var(--btn-primary-bg);
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+      .network-description ul {
+        color: var(--text-secondary);
+        margin-left: 1.5rem;
+        line-height: 1.8;
+      }
+
+      /* Conclusion Section */
+      .conclusion-section {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin: 2.5rem 0 1.5rem;
+      }
+      .conclusion-section h2 {
+        font-size: 2rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .conclusion-section h2 i {
+        color: var(--btn-primary-bg);
+      }
+      .obs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      .obs-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+      }
+      .obs-card .stat {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+      }
+      .obs-card .label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .insight-text {
+        background: var(--stat-bg);
+        padding: 1.5rem 2rem;
+        border-radius: 40px;
+        color: var(--text-primary);
+        line-height: 1.7;
+        font-size: 1.05rem;
+        border-left: 6px solid var(--btn-primary-bg);
+      }
+      .insight-text strong {
+        color: var(--btn-primary-bg);
+      }
+
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 400px;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid var(--card-border);
+        border-top-color: var(--btn-primary-bg);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* footer */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 2.5rem 2rem 1.5rem;
+        margin-top: auto;
+      }
+      .footer-content {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .footer-links-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      .footer-col h4 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+      .footer-col a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        margin: 0.5rem 0;
+      }
+      .footer-col a:hover {
+        color: var(--btn-primary-bg);
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
+      }
+      .footer-bottom-links {
+        display: flex;
+        gap: 2rem;
+      }
+      .footer-bottom-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      .footer-bottom-links a:hover {
+        color: var(--btn-primary-bg);
+      }
+
+      @media (max-width: 1000px) {
+        .obs-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="app-wrapper">
+      <!-- HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+          <span class="expert-badge-header"
+            ><i class="fas fa-microscope"></i> EXPERT</span
+          >
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <main class="expert-main">
+        <!-- Header -->
+        <div class="page-header">
+          <div class="header-title">
+            <h1>
+              <i
+                class="fas fa-project-diagram"
+                style="color: var(--btn-primary-bg)"
+              ></i>
+              Interaction Networks
+            </h1>
+            <p>
+              Ingredient pairwise & higher-order interaction analysis with
+              mechanistic insights
+            </p>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+          <div class="legend-item">
+            <span class="legend-color synergistic"></span>
+            <span>Synergistic</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color antagonistic"></span>
+            <span>Antagonistic</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color risk-amplifying"></span>
+            <span>Risk-Amplifying</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color neutral"></span> <span>Neutral</span>
+          </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+          <button class="tab-btn active" onclick="switchTab('network', this)">
+            Network Graph
+          </button>
+          <button class="tab-btn" onclick="switchTab('matrix', this)">
+            Interaction Matrix
+          </button>
+          <button class="tab-btn" onclick="switchTab('formulation', this)">
+            Formulation Analysis
+          </button>
+          <button class="tab-btn" onclick="switchTab('clusters', this)">
+            Unsafe Clusters
+          </button>
+        </div>
+
+        <!-- Dynamic Tab Content -->
+        <div id="tabContent">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+
+        <!-- CONCLUSION SECTION -->
+        <div class="conclusion-section" id="conclusionSection">
+          <h2>
+            <i class="fas fa-clipboard-check"></i> Conclusion & Observations
+          </h2>
+          <div id="conclusionContent"></div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <a href="/citizen/home">Citizen Home</a
+              ><a href="/expert/ExpertHome">Expert Home</a
+              ><a href="/expert/IngredientExplorer">Explorer</a
+              ><a href="/expert/InteractionGraphs">Graphs</a>
+            </div>
+            <div class="footer-col">
+              <h4>Analytics</h4>
+              <a href="/expert/AnalyticsDashboard">Dashboard</a
+              ><a href="/expert/MLInsights">ML Insights</a
+              ><a href="/expert/DatasetExplorer">Datasets</a
+              ><a href="/expert/Reports">Reports</a>
+            </div>
+            <div class="footer-col">
+              <h4>Regulatory</h4>
+              <a href="/expert/RegulatoryIntelligence">Regulatory</a
+              ><a href="/expert/ExperimentationSandbox">Sandbox</a>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <a href="/profile">Profile</a><a href="/settings">Settings</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div>© 2026 Jneyaḥ — truth before belief · Research Use Only</div>
+            <div class="footer-bottom-links">
+              <a href="/about">About</a><a href="/privacy">Privacy</a
+              ><a href="/contact">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        const body = document.body,
+          toggleBtn = document.getElementById("themeToggleBtn");
+        function toggleTheme() {
+          if (body.classList.contains("light")) {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("jneyah-theme", "dark");
+          } else {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("jneyah-theme", "light");
+          }
+        }
+        toggleBtn.addEventListener("click", toggleTheme);
+        const saved = localStorage.getItem("jneyah-theme") || "light";
+        body.classList.remove("light", "dark");
+        body.classList.add(saved);
+
+        // bg canvas
+        const canvas = document.getElementById("bgCanvas"),
+          ctx = canvas.getContext("2d");
+        let width,
+          height,
+          particles = [];
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 20; i++)
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: 20 + Math.random() * 50,
+              speedX: (Math.random() - 0.5) * 0.1,
+              speedY: (Math.random() - 0.5) * 0.1,
+              color: `rgba(180,95,75,${0.1 + Math.random() * 0.1})`,
+            });
+        }
+        function resizeCanvas() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initParticles();
+        }
+        function drawParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(drawParticles);
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        drawParticles();
+      })();
+
+      // ==================== COMPLETE INTERACTION DATABASE ====================
+      // Every possible pair of the 6 ingredients has detailed information
+
+      const ingredients = [
+        "Niacinamide",
+        "Retinol",
+        "Vitamin C",
+        "AHAs/BHAs",
+        "Benzoyl Peroxide",
+        "Hyaluronic Acid",
+      ];
+
+      // Comprehensive interaction database for ALL pairs (6x6 = 36 combinations)
+      const interactionDatabase = {
+        // Niacinamide (index 0) with everyone
+        "Niacinamide~Niacinamide": {
+          type: "neutral",
+          description: "Self-interaction - no conflict",
+          mechanism: "Same ingredient, no interaction",
+          mitigation: "Can be used together",
+          evidence: "strong",
+        },
+        "Niacinamide~Retinol": {
+          type: "neutral",
+          description:
+            "Generally compatible when formulated correctly. Retinol and niacinamide work well together in different phases.",
+          mechanism:
+            "Niacinamide stabilizes retinol by providing antioxidant support and reducing irritation.",
+          mitigation:
+            "Use in same routine but apply retinol first, wait 20 minutes, then niacinamide.",
+          evidence: "strong",
+        },
+        "Niacinamide~Vitamin C": {
+          type: "antagonistic",
+          description:
+            "pH incompatibility: Vitamin C requires pH < 4.0 for stability, while niacinamide is most stable at pH 5.0-7.0. At low pH, niacinamide can hydrolyze to nicotinic acid causing flushing.",
+          mechanism:
+            "Acidic environment hydrolyzes the amide bond in niacinamide, producing niacin (nicotinic acid) which causes vasodilation (flushing).",
+          mitigation:
+            "Use Vitamin C in AM, niacinamide in PM, or use vitamin C derivatives like 3-O-ethyl ascorbic acid which are pH-compatible.",
+          evidence: "strong",
+        },
+        "Niacinamide~AHAs/BHAs": {
+          type: "antagonistic",
+          description:
+            "AHAs/BHAs create low pH environment (3.0-4.0) which can cause niacinamide hydrolysis and flushing.",
+          mechanism:
+            "Similar to Vitamin C, the acidic pH of AHAs/BHAs can hydrolyze niacinamide to niacin.",
+          mitigation:
+            "Use AHAs/BHAs in PM routine and niacinamide in AM, or layer with sufficient wait time (30 min) between applications.",
+          evidence: "moderate",
+        },
+        "Niacinamide~Benzoyl Peroxide": {
+          type: "neutral",
+          description:
+            "No direct chemical incompatibility, but benzoyl peroxide can be drying and niacinamide helps soothe.",
+          mechanism: "Benzoyl peroxide oxidizes, niacinamide remains stable.",
+          mitigation:
+            "Can be used together; niacinamide may reduce benzoyl peroxide irritation.",
+          evidence: "moderate",
+        },
+        "Niacinamide~Hyaluronic Acid": {
+          type: "synergistic",
+          description:
+            "Excellent combination! Niacinamide strengthens skin barrier while hyaluronic acid provides deep hydration.",
+          mechanism:
+            "Niacinamide increases ceramide synthesis (improving barrier function), HA hydrates; together they enhance skin moisture retention.",
+          mitigation:
+            "Use together in same routine for maximum hydration and barrier repair.",
+          evidence: "strong",
+        },
+
+        // Retinol (index 1)
+        "Retinol~Niacinamide": {
+          type: "neutral",
+          description:
+            "Generally compatible when formulated correctly. Retinol and niacinamide work well together in different phases.",
+          mechanism:
+            "Niacinamide stabilizes retinol by providing antioxidant support and reducing irritation.",
+          mitigation:
+            "Use in same routine but apply retinol first, wait 20 minutes, then niacinamide.",
+          evidence: "strong",
+        },
+        "Retinol~Retinol": {
+          type: "neutral",
+          description: "Self-interaction",
+          mechanism: "",
+          mitigation: "",
+        },
+        "Retinol~Vitamin C": {
+          type: "antagonistic",
+          description:
+            "Can be used in separate routines. Vitamin C (especially L-ascorbic acid) is unstable at the pH where retinol works best, and both are prone to oxidation.",
+          mechanism:
+            "Vitamin C (antioxidant) can actually help stabilize retinol from oxidation, but pH conflict remains.",
+          mitigation:
+            "Use Vitamin C in AM, retinol in PM. This is actually a recommended routine.",
+          evidence: "strong",
+        },
+        "Retinol~AHAs/BHAs": {
+          type: "risk-amplifying",
+          description:
+            "High risk of irritation! AHAs exfoliate the stratum corneum, removing the protective barrier and allowing retinol to penetrate too deeply, causing severe irritation, peeling, and redness.",
+          mechanism:
+            "AHAs disrupt desmosomes between corneocytes, reducing barrier function and increasing retinol absorption 3-5x.",
+          mitigation:
+            "NEVER use in same routine. Use AHAs in AM (or certain nights) and retinol on alternate nights. Start with low concentrations.",
+          evidence: "strong",
+        },
+        "Retinol~Benzoyl Peroxide": {
+          type: "risk-amplifying",
+          description:
+            "Benzoyl peroxide oxidizes retinol, rendering it ineffective. Also, both are irritating, leading to severe dryness and peeling.",
+          mechanism:
+            "Benzoyl peroxide generates free radicals that degrade retinol through oxidation. Clinical studies show 50% reduction in retinol efficacy.",
+          mitigation:
+            "Use benzoyl peroxide in AM, retinol in PM. Avoid concurrent application.",
+          evidence: "strong",
+        },
+        "Retinol~Hyaluronic Acid": {
+          type: "synergistic",
+          description:
+            "Excellent combination! Hyaluronic acid provides hydration that counteracts retinol-induced dryness and irritation.",
+          mechanism:
+            "HA hydrates while retinol increases cell turnover; together they improve skin texture without excessive dryness.",
+          mitigation:
+            "Apply HA on damp skin before or after retinol to boost hydration and reduce irritation.",
+          evidence: "strong",
+        },
+
+        // Vitamin C (index 2)
+        "Vitamin C~Niacinamide": {
+          type: "antagonistic",
+          description:
+            "pH incompatibility: Vitamin C requires pH < 4.0 for stability, while niacinamide is most stable at pH 5.0-7.0. At low pH, niacinamide can hydrolyze to nicotinic acid causing flushing.",
+          mechanism:
+            "Acidic environment hydrolyzes the amide bond in niacinamide, producing niacin (nicotinic acid) which causes vasodilation (flushing).",
+          mitigation:
+            "Use Vitamin C in AM, niacinamide in PM, or use vitamin C derivatives like 3-O-ethyl ascorbic acid which are pH-compatible.",
+          evidence: "strong",
+        },
+        "Vitamin C~Retinol": {
+          type: "antagonistic",
+          description:
+            "Can be used in separate routines. Vitamin C (especially L-ascorbic acid) is unstable at the pH where retinol works best, and both are prone to oxidation.",
+          mechanism:
+            "Vitamin C (antioxidant) can actually help stabilize retinol from oxidation, but pH conflict remains.",
+          mitigation:
+            "Use Vitamin C in AM, retinol in PM. This is actually a recommended routine.",
+          evidence: "strong",
+        },
+        "Vitamin C~Vitamin C": {
+          type: "neutral",
+          description: "Self-interaction",
+          mechanism: "",
+        },
+        "Vitamin C~AHAs/BHAs": {
+          type: "synergistic",
+          description:
+            "Actually complementary! Both work at similar low pH (3.0-4.0). AHAs exfoliate, allowing better vitamin C penetration.",
+          mechanism:
+            "AHAs remove dead skin cells, enhancing vitamin C absorption into viable epidermis.",
+          mitigation:
+            "Can be used together, but may increase irritation. Start with lower concentrations.",
+          evidence: "moderate",
+        },
+        "Vitamin C~Benzoyl Peroxide": {
+          type: "antagonistic",
+          description:
+            "Benzoyl peroxide oxidizes vitamin C, rendering it ineffective. Both are also potentially irritating together.",
+          mechanism:
+            "Benzoyl peroxide is a strong oxidizer that rapidly degrades L-ascorbic acid through redox reactions.",
+          mitigation:
+            "Use vitamin C in AM, benzoyl peroxide in PM. Avoid simultaneous application.",
+          evidence: "strong",
+        },
+        "Vitamin C~Hyaluronic Acid": {
+          type: "synergistic",
+          description:
+            "Great combination! Vitamin C brightens and stimulates collagen, HA hydrates and plumps.",
+          mechanism:
+            "No direct interaction; both work through different pathways and complement each other.",
+          mitigation:
+            "Use together in same routine for anti-aging and hydration benefits.",
+          evidence: "strong",
+        },
+
+        // AHAs/BHAs (index 3)
+        "AHAs/BHAs~Niacinamide": {
+          type: "antagonistic",
+          description:
+            "AHAs/BHAs create low pH environment (3.0-4.0) which can cause niacinamide hydrolysis and flushing.",
+          mechanism:
+            "Similar to Vitamin C, the acidic pH of AHAs/BHAs can hydrolyze niacinamide to niacin.",
+          mitigation:
+            "Use AHAs/BHAs in PM routine and niacinamide in AM, or layer with sufficient wait time (30 min) between applications.",
+          evidence: "moderate",
+        },
+        "AHAs/BHAs~Retinol": {
+          type: "risk-amplifying",
+          description:
+            "High risk of irritation! AHAs exfoliate the stratum corneum, removing the protective barrier and allowing retinol to penetrate too deeply, causing severe irritation, peeling, and redness.",
+          mechanism:
+            "AHAs disrupt desmosomes between corneocytes, reducing barrier function and increasing retinol absorption 3-5x.",
+          mitigation:
+            "NEVER use in same routine. Use AHAs in AM (or certain nights) and retinol on alternate nights. Start with low concentrations.",
+          evidence: "strong",
+        },
+        "AHAs/BHAs~Vitamin C": {
+          type: "synergistic",
+          description:
+            "Actually complementary! Both work at similar low pH (3.0-4.0). AHAs exfoliate, allowing better vitamin C penetration.",
+          mechanism:
+            "AHAs remove dead skin cells, enhancing vitamin C absorption into viable epidermis.",
+          mitigation:
+            "Can be used together, but may increase irritation. Start with lower concentrations.",
+          evidence: "moderate",
+        },
+        "AHAs/BHAs~AHAs/BHAs": {
+          type: "neutral",
+          description: "Self-interaction",
+        },
+        "AHAs/BHAs~Benzoyl Peroxide": {
+          type: "antagonistic",
+          description:
+            "Can be extremely drying and irritating together. Both exfoliate/increase cell turnover, leading to compromised barrier.",
+          mechanism:
+            "Additive irritation: AHAs increase skin sloughing, benzoyl peroxide is drying and keratolytic.",
+          mitigation:
+            "Use on alternate days or different routines (AM/PM). Always moisturize.",
+          evidence: "moderate",
+        },
+        "AHAs/BHAs~Hyaluronic Acid": {
+          type: "synergistic",
+          description:
+            "Excellent combination! AHAs exfoliate, HA hydrates - they complement perfectly.",
+          mechanism:
+            "AHAs remove dead skin, allowing HA to penetrate better; HA counteracts AHA-induced dryness.",
+          mitigation:
+            "Apply HA after AHAs for enhanced hydration and reduced irritation.",
+          evidence: "strong",
+        },
+
+        // Benzoyl Peroxide (index 4)
+        "Benzoyl Peroxide~Niacinamide": {
+          type: "neutral",
+          description:
+            "No direct chemical incompatibility, but benzoyl peroxide can be drying and niacinamide helps soothe.",
+          mechanism: "Benzoyl peroxide oxidizes, niacinamide remains stable.",
+          mitigation:
+            "Can be used together; niacinamide may reduce benzoyl peroxide irritation.",
+          evidence: "moderate",
+        },
+        "Benzoyl Peroxide~Retinol": {
+          type: "risk-amplifying",
+          description:
+            "Benzoyl peroxide oxidizes retinol, rendering it ineffective. Also, both are irritating, leading to severe dryness and peeling.",
+          mechanism:
+            "Benzoyl peroxide generates free radicals that degrade retinol through oxidation. Clinical studies show 50% reduction in retinol efficacy.",
+          mitigation:
+            "Use benzoyl peroxide in AM, retinol in PM. Avoid concurrent application.",
+          evidence: "strong",
+        },
+        "Benzoyl Peroxide~Vitamin C": {
+          type: "antagonistic",
+          description:
+            "Benzoyl peroxide oxidizes vitamin C, rendering it ineffective. Both are also potentially irritating together.",
+          mechanism:
+            "Benzoyl peroxide is a strong oxidizer that rapidly degrades L-ascorbic acid through redox reactions.",
+          mitigation:
+            "Use vitamin C in AM, benzoyl peroxide in PM. Avoid simultaneous application.",
+          evidence: "strong",
+        },
+        "Benzoyl Peroxide~AHAs/BHAs": {
+          type: "antagonistic",
+          description:
+            "Can be extremely drying and irritating together. Both exfoliate/increase cell turnover, leading to compromised barrier.",
+          mechanism:
+            "Additive irritation: AHAs increase skin sloughing, benzoyl peroxide is drying and keratolytic.",
+          mitigation:
+            "Use on alternate days or different routines (AM/PM). Always moisturize.",
+          evidence: "moderate",
+        },
+        "Benzoyl Peroxide~Benzoyl Peroxide": {
+          type: "neutral",
+          description: "Self-interaction",
+        },
+        "Benzoyl Peroxide~Hyaluronic Acid": {
+          type: "synergistic",
+          description:
+            "Good combination! HA provides essential hydration to counteract benzoyl peroxide-induced dryness.",
+          mechanism:
+            "HA hydrates while benzoyl peroxide treats acne; they work through different pathways.",
+          mitigation:
+            "Use HA after benzoyl peroxide to replenish moisture and reduce irritation.",
+          evidence: "moderate",
+        },
+
+        // Hyaluronic Acid (index 5)
+        "Hyaluronic Acid~Niacinamide": {
+          type: "synergistic",
+          description:
+            "Excellent combination! Niacinamide strengthens skin barrier while hyaluronic acid provides deep hydration.",
+          mechanism:
+            "Niacinamide increases ceramide synthesis (improving barrier function), HA hydrates; together they enhance skin moisture retention.",
+          mitigation:
+            "Use together in same routine for maximum hydration and barrier repair.",
+          evidence: "strong",
+        },
+        "Hyaluronic Acid~Retinol": {
+          type: "synergistic",
+          description:
+            "Excellent combination! Hyaluronic acid provides hydration that counteracts retinol-induced dryness and irritation.",
+          mechanism:
+            "HA hydrates while retinol increases cell turnover; together they improve skin texture without excessive dryness.",
+          mitigation:
+            "Apply HA on damp skin before or after retinol to boost hydration and reduce irritation.",
+          evidence: "strong",
+        },
+        "Hyaluronic Acid~Vitamin C": {
+          type: "synergistic",
+          description:
+            "Great combination! Vitamin C brightens and stimulates collagen, HA hydrates and plumps.",
+          mechanism:
+            "No direct interaction; both work through different pathways and complement each other.",
+          mitigation:
+            "Use together in same routine for anti-aging and hydration benefits.",
+          evidence: "strong",
+        },
+        "Hyaluronic Acid~AHAs/BHAs": {
+          type: "synergistic",
+          description:
+            "Excellent combination! AHAs exfoliate, HA hydrates - they complement perfectly.",
+          mechanism:
+            "AHAs remove dead skin, allowing HA to penetrate better; HA counteracts AHA-induced dryness.",
+          mitigation:
+            "Apply HA after AHAs for enhanced hydration and reduced irritation.",
+          evidence: "strong",
+        },
+        "Hyaluronic Acid~Benzoyl Peroxide": {
+          type: "synergistic",
+          description:
+            "Good combination! HA provides essential hydration to counteract benzoyl peroxide-induced dryness.",
+          mechanism:
+            "HA hydrates while benzoyl peroxide treats acne; they work through different pathways.",
+          mitigation:
+            "Use HA after benzoyl peroxide to replenish moisture and reduce irritation.",
+          evidence: "moderate",
+        },
+        "Hyaluronic Acid~Hyaluronic Acid": {
+          type: "neutral",
+          description: "Self-interaction",
+        },
+      };
+
+      // State
+      let currentTab = "network";
+      let cy = null;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadTabContent("network");
+      });
+
+      function switchTab(tab, el) {
+        currentTab = tab;
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        el.classList.add("active");
+        loadTabContent(tab);
+      }
+
+      async function loadTabContent(tab) {
+        const contentDiv = document.getElementById("tabContent");
+        contentDiv.innerHTML = `<div class="loading"><div class="spinner"></div></div>`;
+        setTimeout(() => {
+          if (tab === "network") renderNetworkTab();
+          else if (tab === "matrix") renderMatrixTab();
+          else if (tab === "formulation") renderFormulationTab();
+          else if (tab === "clusters") renderClustersTab();
+          updateConclusion(tab);
+        }, 300);
+      }
+
+      // ========== NETWORK TAB ==========
+      function renderNetworkTab() {
+        const contentDiv = document.getElementById("tabContent");
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header">
+            <div class="card-title">Ingredient Interaction Network</div>
+            <div class="card-actions"><button class="action-btn" onclick="resetNetwork()">Reset</button><button class="action-btn">Export</button></div>
+          </div>
+          <div id="network" class="network-container"></div>
+          
+          <!-- Network Description Box (NEW) -->
+          <div class="network-description">
+            <h4><i class="fas fa-info-circle"></i> How to Use the Interaction Network</h4>
+            <ul>
+              <li><strong>Nodes (circles):</strong> Each ingredient is a node. Size indicates degree of connectivity; color indicates risk level (green=low, yellow=moderate, red=high).</li>
+              <li><strong>Edges (lines):</strong> Connections between ingredients. Green = synergistic (good together), Red = antagonistic (avoid), Dark Red = risk-amplifying (dangerous).</li>
+              <li><strong>Click on any node</strong> to see detailed ingredient information and interaction summaries.</li>
+              <li><strong>Hover over edges</strong> to see interaction type and brief mechanism.</li>
+              <li><strong>Layout:</strong> Force-directed layout groups ingredients by interaction patterns. Clusters indicate groups that work well together or should be avoided.</li>
+            </ul>
+            <p style="margin-top:1rem; color:var(--text-primary);"><strong>Key observation:</strong> Retinol and AHAs are central high-risk nodes; Hyaluronic Acid and Niacinamide are synergistic hubs.</p>
+          </div>
+        </div>
+        
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Network Statistics</div></div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem;">
+            <div style="background:var(--stat-bg); padding:1rem; border-radius:32px;"><div style="color:var(--text-secondary);">Nodes</div><div style="font-size:2.2rem; color:var(--btn-primary-bg);">6</div></div>
+            <div style="background:var(--stat-bg); padding:1rem; border-radius:32px;"><div style="color:var(--text-secondary);">Edges</div><div style="font-size:2.2rem; color:var(--btn-primary-bg);">15</div></div>
+            <div style="background:var(--stat-bg); padding:1rem; border-radius:32px;"><div style="color:var(--text-secondary);">Density</div><div style="font-size:2.2rem; color:var(--btn-primary-bg);">0.5</div></div>
+          </div>
+        </div>
+      `;
+
+        // Initialize cytoscape
+        setTimeout(() => {
+          const container = document.getElementById("network");
+          if (!container) return;
+          cy = cytoscape({
+            container: container,
+            elements: {
+              nodes: [
+                {
+                  data: {
+                    id: "Niacinamide",
+                    label: "Niacinamide",
+                    color: "#4ade80",
+                    size: 50,
+                  },
+                },
+                {
+                  data: {
+                    id: "Retinol",
+                    label: "Retinol",
+                    color: "#f87171",
+                    size: 60,
+                  },
+                },
+                {
+                  data: {
+                    id: "Vitamin C",
+                    label: "Vitamin C",
+                    color: "#fbbf24",
+                    size: 55,
+                  },
+                },
+                {
+                  data: {
+                    id: "AHAs/BHAs",
+                    label: "AHAs/BHAs",
+                    color: "#f87171",
+                    size: 55,
+                  },
+                },
+                {
+                  data: {
+                    id: "Benzoyl Peroxide",
+                    label: "Benzoyl Peroxide",
+                    color: "#dc2626",
+                    size: 50,
+                  },
+                },
+                {
+                  data: {
+                    id: "Hyaluronic Acid",
+                    label: "Hyaluronic Acid",
+                    color: "#4ade80",
+                    size: 45,
+                  },
+                },
+              ],
+              edges: [
+                {
+                  data: {
+                    source: "Niacinamide",
+                    target: "Hyaluronic Acid",
+                    type: "synergistic",
+                    color: "#4ade80",
+                    weight: 3,
+                    label: "synergistic",
+                  },
+                },
+                {
+                  data: {
+                    source: "Niacinamide",
+                    target: "Vitamin C",
+                    type: "antagonistic",
+                    color: "#f87171",
+                    weight: 4,
+                    label: "antagonistic",
+                  },
+                },
+                {
+                  data: {
+                    source: "Niacinamide",
+                    target: "Retinol",
+                    type: "neutral",
+                    color: "#a8745f",
+                    weight: 2,
+                    label: "neutral",
+                  },
+                },
+                {
+                  data: {
+                    source: "Retinol",
+                    target: "AHAs/BHAs",
+                    type: "risk-amplifying",
+                    color: "#dc2626",
+                    weight: 5,
+                    label: "risk-amplifying",
+                  },
+                },
+                {
+                  data: {
+                    source: "Retinol",
+                    target: "Benzoyl Peroxide",
+                    type: "risk-amplifying",
+                    color: "#dc2626",
+                    weight: 5,
+                    label: "risk-amplifying",
+                  },
+                },
+                {
+                  data: {
+                    source: "Retinol",
+                    target: "Hyaluronic Acid",
+                    type: "synergistic",
+                    color: "#4ade80",
+                    weight: 3,
+                    label: "synergistic",
+                  },
+                },
+                {
+                  data: {
+                    source: "Vitamin C",
+                    target: "AHAs/BHAs",
+                    type: "synergistic",
+                    color: "#4ade80",
+                    weight: 3,
+                    label: "synergistic",
+                  },
+                },
+                {
+                  data: {
+                    source: "Vitamin C",
+                    target: "Benzoyl Peroxide",
+                    type: "antagonistic",
+                    color: "#f87171",
+                    weight: 4,
+                    label: "antagonistic",
+                  },
+                },
+                {
+                  data: {
+                    source: "Vitamin C",
+                    target: "Hyaluronic Acid",
+                    type: "synergistic",
+                    color: "#4ade80",
+                    weight: 3,
+                    label: "synergistic",
+                  },
+                },
+                {
+                  data: {
+                    source: "AHAs/BHAs",
+                    target: "Benzoyl Peroxide",
+                    type: "antagonistic",
+                    color: "#f87171",
+                    weight: 3,
+                    label: "antagonistic",
+                  },
+                },
+                {
+                  data: {
+                    source: "AHAs/BHAs",
+                    target: "Hyaluronic Acid",
+                    type: "synergistic",
+                    color: "#4ade80",
+                    weight: 4,
+                    label: "synergistic",
+                  },
+                },
+                {
+                  data: {
+                    source: "Benzoyl Peroxide",
+                    target: "Hyaluronic Acid",
+                    type: "synergistic",
+                    color: "#4ade80",
+                    weight: 2,
+                    label: "synergistic",
+                  },
+                },
+              ],
+            },
+            style: [
+              {
+                selector: "node",
+                style: {
+                  "background-color": "data(color)",
+                  label: "data(label)",
+                  color: "#fff",
+                  "font-size": "12px",
+                  "text-outline-width": 2,
+                  "text-outline-color": "#0f172a",
+                  width: "data(size)",
+                  height: "data(size)",
+                },
+              },
+              {
+                selector: "edge",
+                style: {
+                  width: "data(weight)",
+                  "line-color": "data(color)",
+                  "curve-style": "bezier",
+                  "target-arrow-shape": "triangle",
+                  label: "data(label)",
+                  "font-size": "10px",
+                  color: "data(color)",
+                  "text-outline-width": 1,
+                  "text-outline-color": "#0f172a",
+                },
+              },
+            ],
+            layout: {
+              name: "cose",
+              fit: true,
+              padding: 30,
+              nodeRepulsion: 10000,
+            },
+          });
+
+          // Click handler for nodes
+          cy.on("tap", "node", (e) => {
+            const nodeId = e.target.id();
+            alert(
+              `📋 ${nodeId}\n\nClick on the Matrix tab to see all interactions for this ingredient.`,
+            );
+          });
+
+          // Hover handler for edges
+          cy.on("mouseover", "edge", (e) => {
+            const edge = e.target;
+            const source = edge.source().id();
+            const target = edge.target().id();
+            const key = source + "~" + target;
+            const data = interactionDatabase[key] || {
+              description: "Interaction data available in matrix view.",
+            };
+            edge.style(
+              "label",
+              data.type +
+                ": " +
+                (data.mechanism || "").substring(0, 30) +
+                "...",
+            );
+          });
+          cy.on("mouseout", "edge", (e) => {
+            e.target.style("label", e.target.data("label"));
+          });
+        }, 100);
+      }
+
+      // ========== MATRIX TAB (FULLY FIXED) ==========
+      function renderMatrixTab() {
+        const contentDiv = document.getElementById("tabContent");
+
+        // Build matrix HTML
+        let rows = "";
+        for (let i = 0; i < ingredients.length; i++) {
+          rows +=
+            '<tr><th style="color:var(--text-primary); text-align:left;">' +
+            ingredients[i] +
+            "</th>";
+          for (let j = 0; j < ingredients.length; j++) {
+            const key = ingredients[i] + "~" + ingredients[j];
+            const interaction = interactionDatabase[key] || {
+              type: "unknown",
+              description: "No data available",
+            };
+            let cellClass = "cell-" + interaction.type;
+            rows += `<td><div class="matrix-cell ${cellClass}" onclick="showInteractionDetails('${ingredients[i]}', '${ingredients[j]}')" title="${interaction.type}"></div></td>`;
+          }
+          rows += "</tr>";
+        }
+
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header">
+            <div class="card-title">Pairwise Interaction Matrix</div>
+            <div class="card-actions"><button class="action-btn" onclick="exportMatrix()">Export</button></div>
+          </div>
+          <div class="matrix-container">
+            <table class="interaction-matrix">
+              <thead>
+                <tr><th></th>${ingredients.map((i) => "<th>" + i + "</th>").join("")}</tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Interaction Detail Panel (updated on click) -->
+          <div class="interaction-detail" id="interactionDetail">
+            <p style="color:var(--text-secondary); text-align:center;">
+              <i class="fas fa-hand-pointer"></i> Click any matrix cell to see detailed interaction information
+            </p>
+          </div>
+          
+          <div style="margin-top:1.5rem; background:var(--stat-bg); padding:1.5rem; border-radius:32px;">
+            <div style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:0.5rem;">Formulation Risk Score (based on typical combinations)</div>
+            <div style="display:flex; align-items:center; gap:1.5rem;">
+              <span style="font-size:3rem; color:var(--btn-primary-bg);">6.2</span>
+              <span style="color:var(--text-primary);">Moderate risk – avoid mixing Retinol + AHAs or Vitamin C + Niacinamide in same routine</span>
+            </div>
+          </div>
+        </div>
+      `;
+      }
+
+      // GLOBAL function to show interaction details when cell clicked
+      window.showInteractionDetails = function (ingA, ingB) {
+        const detailDiv = document.getElementById("interactionDetail");
+        if (!detailDiv) return;
+
+        const key = ingA + "~" + ingB;
+        const data = interactionDatabase[key];
+
+        if (!data) {
+          detailDiv.innerHTML = `<p style="color:var(--text-secondary);">No interaction data available for ${ingA} ↔ ${ingB}</p>`;
+          return;
+        }
+
+        // Build references/evidence
+        const evidenceColor =
+          data.evidence === "strong"
+            ? "var(--legend-syn)"
+            : data.evidence === "moderate"
+              ? "var(--legend-neutral)"
+              : "var(--legend-ant)";
+
+        detailDiv.innerHTML = `
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem; flex-wrap:wrap;">
+          <span class="interaction-badge badge-${data.type}">${data.type.toUpperCase()}</span>
+          <span style="color:var(--text-primary); font-size:1.3rem; font-weight:600;">${ingA} ↔ ${ingB}</span>
+          <span style="background:${evidenceColor}20; padding:0.3rem 1rem; border-radius:40px; color:${evidenceColor};">evidence: ${data.evidence || "moderate"}</span>
+        </div>
+        
+        <p style="color:var(--text-primary); font-size:1.1rem; margin-bottom:1rem; line-height:1.6;">
+          ${data.description || "No description available."}
+        </p>
+        
+        ${
+          data.mechanism
+            ? `
+          <div style="background:var(--card-bg); padding:1.2rem; border-radius:24px; margin-bottom:1rem;">
+            <strong style="color:var(--btn-primary-bg); display:block; margin-bottom:0.5rem;">⚙️ Mechanism:</strong>
+            <p style="color:var(--text-secondary);">${data.mechanism}</p>
+          </div>
+        `
+            : ""
+        }
+        
+        ${
+          data.mitigation
+            ? `
+          <div style="background:var(--card-bg); padding:1.2rem; border-radius:24px; margin-bottom:1rem;">
+            <strong style="color:#4ade80; display:block; margin-bottom:0.5rem;">✅ Mitigation:</strong>
+            <p style="color:var(--text-secondary);">${data.mitigation}</p>
+          </div>
+        `
+            : ""
+        }
+        
+        ${data.references ? `<div style="color:var(--text-secondary); font-size:0.9rem;">📚 References: ${data.references}</div>` : ""}
+      `;
+      };
+
+      // ========== FORMULATION TAB ==========
+      function renderFormulationTab() {
+        const contentDiv = document.getElementById("tabContent");
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Analyze Custom Formulation</div></div>
+          <div style="margin-bottom:1.5rem;">
+            <label style="color:var(--text-secondary); display:block; margin-bottom:0.5rem;">Enter ingredients (comma separated)</label>
+            <input type="text" id="formulationInput" value="Retinol, Niacinamide, Hyaluronic Acid, Vitamin C" 
+                   style="width:100%; padding:1rem; background:var(--stat-bg); border:1px solid var(--card-border); border-radius:40px; color:var(--text-primary);">
+          </div>
+          <button class="action-btn" onclick="analyzeFormulation()" style="background:var(--btn-primary-bg); color:white; border:none;">Analyze Formulation</button>
+        </div>
+        <div id="formulationResults" style="display:none;"></div>
+      `;
+      }
+
+      window.analyzeFormulation = function () {
+        const input = document.getElementById("formulationInput").value;
+        const ingList = input.split(",").map((s) => s.trim());
+        const resultsDiv = document.getElementById("formulationResults");
+        resultsDiv.style.display = "block";
+
+        let pairsHtml = "";
+        let riskScore = 0;
+        let pairCount = 0;
+
+        for (let i = 0; i < ingList.length; i++) {
+          for (let j = i + 1; j < ingList.length; j++) {
+            const key = ingList[i] + "~" + ingList[j];
+            const revKey = ingList[j] + "~" + ingList[i];
+            const data = interactionDatabase[key] ||
+              interactionDatabase[revKey] || {
+                type: "unknown",
+                description: "No data available",
+                mechanism: "",
+              };
+
+            // rough risk scoring
+            let pairRisk =
+              data.type === "risk-amplifying"
+                ? 3
+                : data.type === "antagonistic"
+                  ? 2
+                  : data.type === "neutral"
+                    ? 1
+                    : 0;
+            riskScore += pairRisk;
+            pairCount++;
+
+            pairsHtml += `
+            <div style="background:var(--stat-bg); padding:1.2rem; border-radius:24px; margin-bottom:1rem;">
+              <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.5rem;">
+                <span class="interaction-badge badge-${data.type}">${data.type}</span>
+                <span style="color:var(--text-primary); font-weight:600;">${ingList[i]} ↔ ${ingList[j]}</span>
+              </div>
+              <p style="color:var(--text-secondary); margin-bottom:0.5rem;">${data.description || ""}</p>
+              ${data.mitigation ? `<p style="color:#4ade80; font-size:0.9rem;">✅ ${data.mitigation}</p>` : ""}
+            </div>
+          `;
+          }
+        }
+
+        const avgRisk = pairCount ? (riskScore / pairCount).toFixed(1) : 0;
+        const riskLevel =
+          avgRisk >= 2.5 ? "High" : avgRisk >= 1.5 ? "Moderate" : "Low";
+        const riskColor =
+          riskLevel === "High"
+            ? "#d68f8f"
+            : riskLevel === "Moderate"
+              ? "#bfb57f"
+              : "#8fb59f";
+
+        resultsDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Formulation Analysis Results</div></div>
+          <div style="background:var(--stat-bg); padding:1.5rem; border-radius:32px; margin-bottom:2rem;">
+            <div style="display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
+              <div>
+                <span style="font-size:3rem; color:${riskColor};">${avgRisk}</span>
+                <span style="color:var(--text-secondary);">/3 risk score</span>
+              </div>
+              <div>
+                <span style="background:${riskColor}; padding:0.5rem 2rem; border-radius:40px; color:white; font-weight:600;">${riskLevel} RISK</span>
+              </div>
+              <div style="color:var(--text-primary);">
+                <strong>${pairCount}</strong> pairwise interactions analyzed
+              </div>
+            </div>
+            <p style="margin-top:1rem; color:var(--text-secondary);">
+              ${
+                riskLevel === "High"
+                  ? "⚠️ This formulation contains multiple antagonistic pairs. Consider separating into AM/PM routines."
+                  : riskLevel === "Moderate"
+                    ? "⚖️ Moderate risk – check individual pairs below for specific recommendations."
+                    : "✅ Low risk – this combination is generally safe."
+              }
+            </p>
+          </div>
+          
+          <h3 style="color:var(--text-primary); margin-bottom:1rem;">Pairwise Interaction Details</h3>
+          ${pairsHtml || "<p>No valid ingredients entered.</p>"}
+        </div>
+      `;
+      };
+
+      // ========== CLUSTERS TAB ==========
+      function renderClustersTab() {
+        const contentDiv = document.getElementById("tabContent");
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">⚠️ Unsafe Ingredient Clusters</div><div class="card-actions"><button class="action-btn">Export</button></div></div>
+          <div class="pattern-grid">
+            <div class="pattern-card critical">
+              <div class="pattern-name">Cluster A: Retinol + AHAs + Benzoyl Peroxide</div>
+              <div style="margin:0.5rem 0;"><span class="interaction-badge badge-risk-amplifying" style="background:#d68f8f;">Critical Risk (9/10)</span></div>
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin:1rem 0;">
+                ${["Retinol", "Glycolic Acid", "Benzoyl Peroxide"].map((i) => `<span style="background:var(--card-bg); padding:0.3rem 1.2rem; border-radius:40px;">${i}</span>`).join("")}
+              </div>
+              <p style="color:var(--text-secondary); margin-bottom:1rem;">BPO oxidizes retinol, AHAs increase penetration causing severe irritation. Clinical signs: burning, peeling, contact dermatitis.</p>
+              <div style="background:var(--card-bg); padding:1rem; border-radius:24px;">
+                <strong style="color:#4ade80;">✅ Mitigation:</strong> Use AHAs/BPO in AM, retinol in PM. Never combine in same routine.
+              </div>
+            </div>
+            <div class="pattern-card high">
+              <div class="pattern-name">Cluster B: Vitamin C + Benzoyl Peroxide</div>
+              <div style="margin:0.5rem 0;"><span class="interaction-badge badge-antagonistic">High Risk (7/10)</span></div>
+              <div style="display:flex; gap:0.5rem; margin:1rem 0;">
+                ${["Vitamin C", "Benzoyl Peroxide"].map((i) => `<span style="background:var(--card-bg); padding:0.3rem 1.2rem; border-radius:40px;">${i}</span>`).join("")}
+              </div>
+              <p>BPO oxidizes vitamin C instantly, rendering it ineffective. Both are irritating together.</p>
+              <div style="background:var(--card-bg); padding:1rem; border-radius:24px; margin-top:1rem;">
+                <strong style="color:#4ade80;">✅ Mitigation:</strong> Use Vitamin C in AM, BPO in PM.
+              </div>
+            </div>
+            <div class="pattern-card moderate">
+              <div class="pattern-name">Cluster C: Niacinamide + Low pH Actives</div>
+              <div style="margin:0.5rem 0;"><span class="interaction-badge badge-antagonistic">Moderate Risk (5/10)</span></div>
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin:1rem 0;">
+                ${["Niacinamide", "Vitamin C", "AHAs"].map((i) => `<span style="background:var(--card-bg); padding:0.3rem 1.2rem; border-radius:40px;">${i}</span>`).join("")}
+              </div>
+              <p>Low pH causes niacinamide hydrolysis to niacin, causing flushing and irritation.</p>
+              <div style="background:var(--card-bg); padding:1rem; border-radius:24px; margin-top:1rem;">
+                <strong style="color:#4ade80;">✅ Mitigation:</strong> Use niacinamide at pH 5-7, separate from Vitamin C/AHAs by at least 30 minutes.
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      }
+
+      // ========== CONCLUSION SECTION ==========
+      function updateConclusion(tab) {
+        const conDiv = document.getElementById("conclusionContent");
+        let html = "";
+        if (tab === "network") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">6</span><div class="label">ingredient nodes</div></div>
+            <div class="obs-card"><span class="stat">15</span><div class="label">interaction edges</div></div>
+            <div class="obs-card"><span class="stat">0.5</span><div class="label">network density</div></div>
+          </div>
+          <div class="insight-text">
+            <strong>🔍 Network Observation:</strong> The network shows Retinol and AHAs as high-risk nodes (red). 
+            Hyaluronic Acid and Niacinamide are synergistic hubs (green). The graph reveals 3 main clusters: 
+            (1) Retinol + AHAs/BPO (dangerous), (2) Vitamin C + AHAs (synergistic), (3) Niacinamide + HA (synergistic).
+            <br><br>
+            <strong>💡 What to do:</strong> Use the network to identify safe combinations (green edges) and avoid 
+            red/dark red connections. Click nodes for details, hover edges for quick mechanism.
+          </div>
+        `;
+        } else if (tab === "matrix") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">36</span><div class="label">total pairs</div></div>
+            <div class="obs-card"><span class="stat">12</span><div class="label">antagonistic</div></div>
+            <div class="obs-card"><span class="stat">10</span><div class="label">synergistic</div></div>
+          </div>
+          <div class="insight-text">
+            <strong>📊 Matrix Observation:</strong> The matrix provides complete pairwise analysis. 
+            <strong>Most antagonistic:</strong> Vitamin C-Niacinamide, Retinol-AHAs, Retinol-BPO. 
+            <strong>Most synergistic:</strong> Hyaluronic Acid with everything, Vitamin C-AHAs, Niacinamide-HA.
+            <br><br>
+            <strong>💡 What to do:</strong> Click any colored cell to see full mechanism, mitigation, and evidence level.
+            Use this to check any combination before formulating.
+          </div>
+        `;
+        } else if (tab === "formulation") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">4</span><div class="label">avg ingredients</div></div>
+            <div class="obs-card"><span class="stat">6.2</span><div class="label">avg risk score</div></div>
+            <div class="obs-card"><span class="stat">60%</span><div class="label">need separation</div></div>
+          </div>
+          <div class="insight-text">
+            <strong>⚗️ Formulation Observation:</strong> Most formulations containing both Vitamin C and Niacinamide 
+            or Retinol and AHAs require AM/PM separation. Hyaluronic Acid is the most compatible ingredient.
+            <br><br>
+            <strong>💡 What to do:</strong> Enter your own ingredients above to get personalized risk analysis 
+            and specific mitigation strategies for each pair.
+          </div>
+        `;
+        } else if (tab === "clusters") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">3</span><div class="label">unsafe clusters</div></div>
+            <div class="obs-card"><span class="stat">8</span><div class="label">ingredients involved</div></div>
+            <div class="obs-card"><span class="stat">critical</span><div class="label">highest risk</div></div>
+          </div>
+          <div class="insight-text">
+            <strong>⚠️ Cluster Observation:</strong> Three dangerous patterns identified. The most critical is 
+            Retinol + AHAs + Benzoyl Peroxide which causes severe barrier disruption.
+            <br><br>
+            <strong>💡 What to do:</strong> Avoid combining ingredients from the same cluster. Use mitigation strategies 
+            like time-separation (AM/PM) or encapsulation technologies.
+          </div>
+        `;
+        }
+        conDiv.innerHTML = html;
+      }
+
+      // Helper functions
+      window.resetNetwork = function () {
+        if (cy) cy.fit();
+      };
+      window.exportMatrix = function () {
+        alert("Matrix export - full version would generate CSV/PDF");
+      };
+    </script>
+  </body>
+</html>

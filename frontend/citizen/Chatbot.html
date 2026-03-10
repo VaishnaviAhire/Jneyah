@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · AI Assistant</title>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-primary);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Light mode variables */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.7);
+        --card-border: #f0d9c8;
+        --btn-primary: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-secondary: #6b5e55;
+        --badge-bg: #b45f4b15;
+        --badge-text: #b45f4b;
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --accent-glow: #e3b7a0;
+        --header-bg: rgba(255, 255, 240, 0.8);
+        --particle-color: rgba(180, 95, 75, 0.15);
+        --success: #4f7a6b;
+        --warning: #b65f5f;
+        --info: #a8745f;
+        --user-message: #b45f4b;
+        --bot-message: white;
+        --input-bg: rgba(255, 255, 255, 0.9);
+        --suggestion-bg: #f0e8e0;
+      }
+
+      /* Dark mode variables */
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.7);
+        --card-border: #534b45;
+        --btn-primary: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-secondary: #6b5e55;
+        --badge-bg: #a8745f25;
+        --badge-text: #e2cfc2;
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --accent-glow: #7f6a5c;
+        --header-bg: rgba(30, 28, 26, 0.9);
+        --particle-color: rgba(168, 116, 95, 0.15);
+        --success: #8fbf9f;
+        --warning: #d68f8f;
+        --info: #b5876f;
+        --user-message: #a8745f;
+        --bot-message: #3a3532;
+        --input-bg: rgba(45, 40, 37, 0.9);
+        --suggestion-bg: #3a3532;
+      }
+
+      /* Floating Background Circles */
+      .bg-circles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--particle-color);
+        animation: float 20s infinite ease-in-out;
+      }
+
+      .circle-1 {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        right: -100px;
+        animation-delay: 0s;
+      }
+
+      .circle-2 {
+        width: 400px;
+        height: 400px;
+        bottom: -200px;
+        left: -150px;
+        animation-delay: -5s;
+      }
+
+      .circle-3 {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        left: 10%;
+        animation-delay: -10s;
+      }
+
+      .circle-4 {
+        width: 250px;
+        height: 250px;
+        bottom: 20%;
+        right: 5%;
+        animation-delay: -15s;
+      }
+
+      .circle-5 {
+        width: 150px;
+        height: 150px;
+        top: 60%;
+        left: 20%;
+        animation-delay: -7s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(30px, -30px) scale(1.05);
+        }
+        50% {
+          transform: translate(50px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(-20px, 40px) scale(1.02);
+        }
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0.8rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.4rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      .project-name {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        margin-left: 6px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-links a i {
+        color: var(--btn-primary);
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      .nav-links a:hover i,
+      .nav-links a.active i {
+        color: var(--btn-primary);
+      }
+
+      .user-avatar {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      /* Main Container */
+      .expert-main {
+        width: 100%;
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      /* Page Header */
+      .page-header {
+        margin-bottom: 2rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .page-header h1 i {
+        color: var(--btn-primary);
+      }
+
+      .page-header p {
+        color: var(--text-secondary);
+        margin-top: 0.3rem;
+      }
+
+      /* Chat Layout */
+      .chat-layout {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Main Chat Area */
+      .chat-main {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 600px;
+      }
+
+      .chat-header {
+        background: linear-gradient(
+          145deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        padding: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .chat-avatar {
+        width: 48px;
+        height: 48px;
+        background: white;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .chat-info {
+        flex: 1;
+        color: white;
+      }
+
+      .chat-info h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.2rem;
+      }
+
+      .chat-info p {
+        font-size: 0.8rem;
+        opacity: 0.9;
+      }
+
+      .chat-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .chat-actions button {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .chat-actions button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+      }
+
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .message {
+        display: flex;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message.user {
+        justify-content: flex-end;
+      }
+
+      .message-content {
+        max-width: 80%;
+        padding: 1rem 1.2rem;
+        border-radius: 20px;
+        position: relative;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .message.user .message-content {
+        background: var(--user-message);
+        color: white;
+        border-bottom-right-radius: 4px;
+      }
+
+      .message.bot .message-content {
+        background: var(--bot-message);
+        color: var(--text-primary);
+        border-bottom-left-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .message-time {
+        font-size: 0.65rem;
+        margin-top: 0.3rem;
+        opacity: 0.7;
+      }
+
+      .message.user .message-time {
+        text-align: right;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .message.bot .message-time {
+        color: var(--text-secondary);
+      }
+
+      .message-content ul,
+      .message-content ol {
+        margin-left: 1.2rem;
+        margin-top: 0.3rem;
+      }
+
+      .message-content li {
+        margin-bottom: 0.2rem;
+      }
+
+      /* Typing Indicator */
+      .typing-indicator {
+        display: flex;
+        gap: 0.3rem;
+        padding: 1rem 1.2rem;
+        background: var(--bot-message);
+        border-radius: 20px;
+        width: fit-content;
+        border-bottom-left-radius: 4px;
+      }
+
+      .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        background: var(--btn-primary);
+        border-radius: 50%;
+        animation: typing 1.4s infinite;
+      }
+
+      .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes typing {
+        0%,
+        60%,
+        100% {
+          transform: translateY(0);
+        }
+        30% {
+          transform: translateY(-8px);
+        }
+      }
+
+      /* Input Area */
+      .chat-input-area {
+        padding: 1.2rem;
+        border-top: 1px solid var(--card-border);
+        display: flex;
+        gap: 1rem;
+        background: var(--card-bg);
+      }
+
+      .chat-input-area input {
+        flex: 1;
+        padding: 0.8rem 1.2rem;
+        background: var(--input-bg);
+        border: 2px solid var(--card-border);
+        border-radius: 40px;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+      }
+
+      .chat-input-area input:focus {
+        outline: none;
+        border-color: var(--btn-primary);
+      }
+
+      .chat-input-area input::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.7;
+      }
+
+      .chat-input-area button {
+        padding: 0 1.5rem;
+        background: linear-gradient(
+          145deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        color: white;
+        border: none;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .chat-input-area button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(180, 95, 75, 0.3);
+      }
+
+      /* Suggestions Panel */
+      .suggestions-panel {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        padding: 1.5rem;
+        height: 600px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+
+      .suggestions-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        font-size: 1.1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      .suggestions-header i {
+        color: var(--btn-primary);
+      }
+
+      .suggestion-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .suggestion-group-title {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-secondary);
+        margin-bottom: 0.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .suggestion-chip {
+        padding: 0.6rem 1rem;
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 30px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: var(--text-primary);
+        text-align: left;
+      }
+
+      .suggestion-chip:hover {
+        border-color: var(--btn-primary);
+        background: var(--badge-bg);
+        transform: translateX(3px);
+      }
+
+      .suggestion-chip i {
+        color: var(--btn-primary);
+        margin-right: 0.5rem;
+        font-size: 0.75rem;
+      }
+
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-secondary);
+      }
+
+      .empty-state-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
+
+      .empty-state h3 {
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .empty-state p {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .empty-state-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .empty-state-chip {
+        padding: 0.5rem 1rem;
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.8rem;
+      }
+
+      .empty-state-chip:hover {
+        border-color: var(--btn-primary);
+        background: var(--badge-bg);
+      }
+
+      /* Footer */
+      .global-footer {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--card-border);
+        padding: 1rem 2rem;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--btn-primary);
+      }
+
+      /* Theme Toggle */
+      .theme-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+      }
+
+      .theme-toggle-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--btn-primary);
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(180, 95, 75, 0.4);
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        transform: scale(1.1);
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .chat-layout {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+
+        .suggestions-panel {
+          height: auto;
+          max-height: 400px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .global-header {
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 0.3rem;
+        }
+
+        .nav-links a {
+          padding: 0.3rem 0.6rem;
+          font-size: 0.8rem;
+        }
+
+        .message-content {
+          max-width: 90%;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 0.5rem;
+          text-align: center;
+        }
+
+        .footer-links {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <!-- Floating Background Circles -->
+    <div class="bg-circles">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="circle circle-4"></div>
+      <div class="circle circle-5"></div>
+    </div>
+
+    <div class="app-wrapper">
+      <!-- Header -->
+      <header class="global-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="CitizenHome.html"><i class="fas fa-home"></i> Home</a>
+          <a href="UploadAndKnow.html"><i class="fas fa-camera"></i> Upload</a>
+          <a href="EnterIngredients.html"
+            ><i class="fas fa-keyboard"></i> Enter</a
+          >
+          <a href="IngredientOfTheDay.html"
+            ><i class="fas fa-lightbulb"></i> Daily</a
+          >
+          <a href="Community.html"><i class="fas fa-users"></i> Community</a>
+          <a href="Chatbot.html" class="active"
+            ><i class="fas fa-robot"></i> AI Assistant</a
+          >
+          <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
+        </div>
+
+        <div class="user-avatar" id="userAvatar">SA</div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="expert-main">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h1><i class="fas fa-robot"></i> AI Assistant</h1>
+          <p>Ask me anything about ingredients, product safety, or skincare</p>
+        </div>
+
+        <!-- Chat Layout -->
+        <div class="chat-layout">
+          <!-- Main Chat Area -->
+          <div class="chat-main">
+            <div class="chat-header">
+              <div class="chat-avatar">🤖</div>
+              <div class="chat-info">
+                <h2>Ingredient Safety Assistant</h2>
+                <p>Ask me anything · 24/7</p>
+              </div>
+              <div class="chat-actions">
+                <button onclick="clearChat()" title="Clear chat">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+                <button onclick="toggleTheme()" title="Toggle theme">
+                  <i class="fas fa-palette"></i>
+                </button>
+              </div>
+            </div>
+
+            <div id="chatMessages" class="chat-messages">
+              <!-- Messages will appear here -->
+              <div class="empty-state" id="emptyState">
+                <div class="empty-state-icon">💬</div>
+                <h3>Start a Conversation</h3>
+                <p>
+                  Ask me about ingredients, safety ratings, or skincare tips
+                </p>
+                <div class="empty-state-actions">
+                  <span
+                    class="empty-state-chip"
+                    onclick="sendQuickMessage('Tell me about retinol')"
+                    >Tell me about retinol</span
+                  >
+                  <span
+                    class="empty-state-chip"
+                    onclick="sendQuickMessage('What\'s good for acne?')"
+                    >What's good for acne?</span
+                  >
+                  <span
+                    class="empty-state-chip"
+                    onclick="
+                      sendQuickMessage('Compare vitamin C and niacinamide')
+                    "
+                    >Compare vitamin C and niacinamide</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-input-area">
+              <input
+                type="text"
+                id="messageInput"
+                placeholder="Type your message..."
+                onkeypress="handleKeyPress(event)"
+              />
+              <button id="sendButton" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i> Send
+              </button>
+            </div>
+          </div>
+
+          <!-- Suggestions Panel -->
+          <div class="suggestions-panel">
+            <div class="suggestions-header">
+              <i class="fas fa-lightbulb"></i>
+              <span>Suggested</span>
+            </div>
+
+            <div class="suggestion-group">
+              <div class="suggestion-group-title">
+                <i class="fas fa-flask"></i> Ingredients
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('What is retinol?')"
+              >
+                <i class="fas fa-chevron-right"></i> What is retinol?
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('Is hyaluronic acid safe?')"
+              >
+                <i class="fas fa-chevron-right"></i> Is hyaluronic acid safe?
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('Niacinamide benefits')"
+              >
+                <i class="fas fa-chevron-right"></i> Niacinamide benefits
+              </div>
+            </div>
+
+            <div class="suggestion-group">
+              <div class="suggestion-group-title">
+                <i class="fas fa-shield-alt"></i> Safety
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="
+                  sendQuickMessage('Ingredients to avoid during pregnancy')
+                "
+              >
+                <i class="fas fa-chevron-right"></i> Avoid during pregnancy?
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('Common skincare allergens')"
+              >
+                <i class="fas fa-chevron-right"></i> Common allergens
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('How to patch test?')"
+              >
+                <i class="fas fa-chevron-right"></i> How to patch test?
+              </div>
+            </div>
+
+            <div class="suggestion-group">
+              <div class="suggestion-group-title">
+                <i class="fas fa-balance-scale"></i> Comparisons
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('Retinol vs Bakuchiol')"
+              >
+                <i class="fas fa-chevron-right"></i> Retinol vs Bakuchiol
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('Vitamin C vs Niacinamide')"
+              >
+                <i class="fas fa-chevron-right"></i> Vitamin C vs Niacinamide
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('AHAs vs BHAs')"
+              >
+                <i class="fas fa-chevron-right"></i> AHAs vs BHAs
+              </div>
+            </div>
+
+            <div class="suggestion-group">
+              <div class="suggestion-group-title">
+                <i class="fas fa-lightbulb"></i> Tips
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('How to layer skincare')"
+              >
+                <i class="fas fa-chevron-right"></i> Skincare layering
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('Routine for oily skin')"
+              >
+                <i class="fas fa-chevron-right"></i> Routine for oily skin
+              </div>
+              <div
+                class="suggestion-chip"
+                onclick="sendQuickMessage('How to read ingredient labels')"
+              >
+                <i class="fas fa-chevron-right"></i> Reading labels
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div>© 2026 Jneyaḥ — truth before belief</div>
+          <div class="footer-links">
+            <a href="/about">About</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <button class="theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-palette"></i>
+      </button>
+    </div>
+
+    <script>
+      // Theme Toggle
+      function toggleTheme() {
+        document.body.classList.toggle("dark");
+        localStorage.setItem(
+          "jneyah-theme",
+          document.body.classList.contains("dark") ? "dark" : "light",
+        );
+      }
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+      document.body.classList.add(savedTheme);
+
+      // Configuration
+      const USER_ID =
+        localStorage.getItem("user_id") ||
+        "user_" + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem("user_id", USER_ID);
+
+      // DOM Elements
+      const chatMessages = document.getElementById("chatMessages");
+      const emptyState = document.getElementById("emptyState");
+      const messageInput = document.getElementById("messageInput");
+      const sendButton = document.getElementById("sendButton");
+
+      // Mock responses
+      const mockResponses = {
+        retinol:
+          '**Retinol** is a vitamin A derivative that accelerates skin cell turnover and stimulates collagen production.\n\n**Key benefits:**\n• ✨ Reduces fine lines and wrinkles\n• 🚀 Speeds up cell turnover\n• 🌟 Boosts collagen production\n• 🎯 Unclogs pores\n\n**Side effects:**\n• 😱 Initial peeling (the "retinol uglies")\n• 🔥 Redness and irritation\n• ☀️ Increased sun sensitivity\n\n**Tips:** Start with low concentration (0.25%) 2-3 times a week, use sunscreen daily, and be patient - results take 3-6 months!',
+
+        niacinamide:
+          "**Niacinamide** (Vitamin B3) is a versatile ingredient that helps build proteins in the skin and locks in moisture.\n\n**Benefits:**\n• 🎭 Reduces redness and inflammation\n• ⚡ Controls oil production\n• 🧱 Strengthens skin barrier\n• ✨ Minimizes pore appearance\n• 🌟 Brightens skin tone\n\n**Best for:** All skin types, especially sensitive and acne-prone skin. Generally well-tolerated with minimal side effects.",
+
+        "hyaluronic acid":
+          "**Hyaluronic Acid** is a humectant that can hold up to 1000x its weight in water.\n\n**Benefits:**\n• 💦 Deep hydration\n• 🎈 Plumps skin\n• ✨ Reduces fine lines temporarily\n• 🌍 Suitable for all skin types\n\n**Tips:** Apply to damp skin for best absorption. Layer under moisturizer to lock in hydration.",
+
+        "vitamin c":
+          "**Vitamin C** (Ascorbic Acid) is a powerful antioxidant that brightens skin and boosts collagen.\n\n**Benefits:**\n• ✨ Brightens skin\n• 🛡️ Protects from pollution\n• 🌟 Boosts collagen\n• 🎯 Fades dark spots\n\n**Tips:** Use in the morning, store in dark bottles, and look for concentrations between 10-20%.",
+
+        acne: "For **acne**, look for these ingredients:\n\n• 🧴 **Salicylic acid** - unclogs pores\n• 🌿 **Benzoyl peroxide** - kills bacteria\n• ✨ **Niacinamide** - reduces inflammation\n• 🧪 **Retinoids** - speeds cell turnover\n• 🌱 **Azelaic acid** - gentle exfoliation\n\n**Tips:** Start with one new product at a time, be patient (results take 4-6 weeks), and don't forget moisturizer even for oily skin!",
+
+        pregnancy:
+          "**Ingredients to avoid during pregnancy:**\n\n🚫 **Retinoids** (retinol, tretinoin, isotretinoin)\n🚫 **High-dose salicylic acid** (peels)\n🚫 **Hydroquinone**\n🚫 **Chemical sunscreens** (oxybenzone, avobenzone)\n🚫 **Essential oils** like rosemary, sage\n\n**Safe alternatives:**\n✅ **Vitamin C** - brightening\n✅ **Hyaluronic Acid** - hydration\n✅ **Azelaic Acid** - acne treatment\n✅ **Mineral sunscreens** (zinc oxide, titanium dioxide)\n\n⚠️ Always consult your doctor before using any products during pregnancy!",
+
+        layering:
+          "**Skincare layering order (AM):**\n\n1️⃣ **Cleanser** - remove dirt\n2️⃣ **Vitamin C** - antioxidant protection\n3️⃣ **Hyaluronic Acid** - hydration (damp skin)\n4️⃣ **Moisturizer** - lock it in\n5️⃣ **Sunscreen** - SPF 30+ (most important!)\n\n**PM routine:**\n1️⃣ **Cleanser** (double cleanse if wearing makeup)\n2️⃣ **Exfoliant** (2-3x/week)\n3️⃣ **Treatment** (retinol/spot treatment)\n4️⃣ **Moisturizer** - richer at night\n\n⏱️ Wait 30-60 seconds between layers for absorption!",
+      };
+
+      // Add message to chat
+      function addMessage(text, isUser = true) {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${isUser ? "user" : "bot"}`;
+
+        const time = new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        // Format text with markdown-style bold and line breaks
+        const formattedText = text
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+          .replace(/\n/g, "<br>");
+
+        messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${formattedText}
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Hide empty state
+        if (emptyState && emptyState.style.display !== "none") {
+          emptyState.style.display = "none";
+        }
+      }
+
+      // Show typing indicator
+      function showTyping(show) {
+        const existing = document.getElementById("typingIndicator");
+
+        if (show && !existing) {
+          const indicator = document.createElement("div");
+          indicator.className = "message bot";
+          indicator.id = "typingIndicator";
+          indicator.innerHTML = `
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                `;
+          chatMessages.appendChild(indicator);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        } else if (!show && existing) {
+          existing.remove();
+        }
+      }
+
+      // Get mock response
+      function getMockResponse(message) {
+        const lowerMsg = message.toLowerCase();
+
+        if (lowerMsg.includes("retinol")) return mockResponses.retinol;
+        if (lowerMsg.includes("niacinamide")) return mockResponses.niacinamide;
+        if (lowerMsg.includes("hyaluronic"))
+          return mockResponses["hyaluronic acid"];
+        if (lowerMsg.includes("vitamin c")) return mockResponses["vitamin c"];
+        if (lowerMsg.includes("acne")) return mockResponses.acne;
+        if (lowerMsg.includes("pregnan")) return mockResponses.pregnancy;
+        if (lowerMsg.includes("layer") || lowerMsg.includes("routine"))
+          return mockResponses.layering;
+
+        return "I'd be happy to help with that! Could you please be more specific about what you'd like to know? You can ask about specific ingredients, skincare concerns, or safety questions.";
+      }
+
+      // Send message
+      async function sendMessage() {
+        const message = messageInput.value.trim();
+        if (!message) return;
+
+        // Clear input
+        messageInput.value = "";
+
+        // Add user message
+        addMessage(message, true);
+
+        // Show typing
+        showTyping(true);
+
+        // Simulate AI response
+        setTimeout(() => {
+          showTyping(false);
+          const response = getMockResponse(message);
+          addMessage(response, false);
+        }, 1500);
+      }
+
+      // Send quick message
+      function sendQuickMessage(message) {
+        messageInput.value = message;
+        sendMessage();
+      }
+
+      // Handle Enter key
+      function handleKeyPress(event) {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      }
+
+      // Clear chat
+      function clearChat() {
+        if (confirm("Clear chat history?")) {
+          chatMessages.innerHTML = "";
+          if (emptyState) {
+            emptyState.style.display = "flex";
+            chatMessages.appendChild(emptyState);
+          }
+        }
+      }
+
+      // Set user avatar
+      document.getElementById("userAvatar").textContent = "SA";
+    </script>
+  </body>
+</html>

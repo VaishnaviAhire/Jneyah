@@ -1,0 +1,1468 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Experimentation Sandbox (Expert)</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Merriweather", "Inter", serif;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT / DARK VARIABLES ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.75);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.6);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --btn-expert-text: #b45f4b;
+        --btn-expert-hover-bg: #b45f4b;
+        --btn-expert-hover-text: #fff7ec;
+        --shadow: 0 20px 40px -12px rgba(90, 60, 40, 0.25);
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --badge-bg: #b45f4b20;
+        --badge-text: #b45f4b;
+        --panel-bg: rgba(255, 250, 240, 0.5);
+        --trend-up: #4f7a6b;
+        --trend-down: #b65f5f;
+        --chart-primary: #b45f4b;
+        --chart-secondary: #a8745f;
+        --chart-tertiary: #c4927b;
+        --chart-quaternary: #e3b7a0;
+        --chart-soft: #d6a58b;
+        --legend-syn: #4f7a6b;
+        --legend-ant: #b65f5f;
+        --legend-risk: #b45f4b;
+        --legend-neutral: #a8745f;
+      }
+
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.8);
+        --footer-bg: rgba(24, 22, 20, 0.85);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.6);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --btn-expert-text: #e2cfc2;
+        --btn-expert-hover-bg: #a8745f;
+        --btn-expert-hover-text: #1e1b1a;
+        --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --badge-bg: #a8745f30;
+        --badge-text: #e2cfc2;
+        --panel-bg: rgba(35, 30, 26, 0.6);
+        --trend-up: #8fbf9f;
+        --trend-down: #d68f8f;
+        --chart-primary: #a8745f;
+        --chart-secondary: #b5876f;
+        --chart-tertiary: #c49f8f;
+        --chart-quaternary: #9f7f6f;
+        --chart-soft: #b58f7f;
+        --legend-syn: #8fbf9f;
+        --legend-ant: #d68f8f;
+        --legend-risk: #c49f8f;
+        --legend-neutral: #b5876f;
+      }
+
+      /* moving background */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- HEADER ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        font-size: 2.4rem;
+        color: var(--btn-primary-bg);
+        filter: drop-shadow(0 2px 4px var(--accent-glow));
+      }
+      .project-name {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.4rem;
+        margin-left: 6px;
+      }
+      .expert-badge-header {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 12px;
+        border: 1px solid var(--btn-expert-border);
+      }
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 60px;
+        padding: 10px 22px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .expert-main {
+        width: 100%;
+        max-width: 1600px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .header-title h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .header-title p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-top: 0.3rem;
+      }
+
+      /* Two column layout */
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Cards */
+      .formulation-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .card-actions {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .action-btn {
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        padding: 0.5rem 1.5rem;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+      .action-btn:hover {
+        border-color: var(--btn-primary-bg);
+        color: var(--btn-primary-bg);
+      }
+      .action-btn.primary {
+        background: var(--btn-gradient);
+        color: white;
+        border: none;
+      }
+      .action-btn.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      /* Ingredient list */
+      .ingredient-list {
+        margin: 1.5rem 0;
+      }
+      .ingredient-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: var(--stat-bg);
+        border-radius: 32px;
+        margin-bottom: 0.8rem;
+        transition: 0.2s;
+      }
+      .ingredient-item:hover {
+        transform: translateX(5px);
+        border-left: 3px solid var(--btn-primary-bg);
+      }
+      .ingredient-name {
+        flex: 2;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .ingredient-conc {
+        flex: 1;
+        color: var(--text-secondary);
+      }
+      .ingredient-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .icon-btn {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 0.2rem 0.5rem;
+        border-radius: 20px;
+      }
+      .icon-btn:hover {
+        background: var(--card-bg);
+        color: var(--btn-primary-bg);
+      }
+
+      /* Metrics grid */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+      .metric-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.2rem;
+        text-align: center;
+      }
+      .metric-label {
+        color: var(--text-secondary);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        margin-bottom: 0.3rem;
+      }
+      .metric-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+      }
+
+      /* Risk badge */
+      .risk-badge {
+        display: inline-block;
+        padding: 0.2rem 1rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .risk-low {
+        background: #8fb59f;
+        color: #1a2a24;
+      }
+      .risk-medium {
+        background: #bfb57f;
+        color: #2a241a;
+      }
+      .risk-high {
+        background: #d68f8f;
+        color: #2a1a1a;
+      }
+      .risk-critical {
+        background: #b45f4b;
+        color: white;
+      }
+
+      /* Tab nav */
+      .tab-nav {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--card-border);
+        padding-bottom: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        padding: 0.5rem 1.5rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+        border-radius: 40px;
+        transition: 0.2s;
+      }
+      .tab-btn.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      /* Form controls */
+      .form-group {
+        margin-bottom: 1.2rem;
+      }
+      .form-group label {
+        display: block;
+        color: var(--text-primary);
+        margin-bottom: 0.3rem;
+        font-size: 0.9rem;
+      }
+      .form-control {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        color: var(--text-primary);
+      }
+
+      /* Scenario / result cards */
+      .scenario-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.2rem;
+        margin-top: 1rem;
+      }
+      .scenario-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        border-left: 6px solid;
+      }
+      .scenario-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+      }
+      .scenario-type {
+        background: var(--card-bg);
+        padding: 0.2rem 0.8rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+      }
+      .scenario-delta {
+        font-weight: 600;
+      }
+      .scenario-positive {
+        color: var(--legend-syn);
+      }
+      .scenario-negative {
+        color: var(--legend-ant);
+      }
+
+      .alternative-grid {
+        display: grid;
+        gap: 1rem;
+      }
+      .alternative-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      /* Chart container */
+      .chart-container {
+        height: 280px;
+        margin-top: 1rem;
+      }
+
+      /* Conclusion Section */
+      .conclusion-section {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin: 2.5rem 0 1.5rem;
+      }
+      .conclusion-section h2 {
+        font-size: 2rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .conclusion-section h2 i {
+        color: var(--btn-primary-bg);
+      }
+      .obs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      .obs-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+      }
+      .obs-card .stat {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+      }
+      .obs-card .label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .insight-text {
+        background: var(--stat-bg);
+        padding: 1.5rem 2rem;
+        border-radius: 40px;
+        color: var(--text-primary);
+        line-height: 1.7;
+        font-size: 1.05rem;
+        border-left: 6px solid var(--btn-primary-bg);
+      }
+      .insight-text strong {
+        color: var(--btn-primary-bg);
+      }
+
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid var(--card-border);
+        border-top-color: var(--btn-primary-bg);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(6px);
+        z-index: 2000;
+      }
+      .modal-content {
+        background: var(--card-bg);
+        backdrop-filter: blur(16px);
+        max-width: 500px;
+        margin: 100px auto;
+        border-radius: 48px;
+        border: 1px solid var(--card-border);
+      }
+      .modal-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--card-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .modal-header h3 {
+        color: var(--text-primary);
+      }
+      .modal-close {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 2rem;
+        cursor: pointer;
+      }
+      .modal-body {
+        padding: 1.5rem;
+      }
+      .modal-footer {
+        padding: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+      }
+
+      /* footer */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 2.5rem 2rem 1.5rem;
+        margin-top: auto;
+      }
+      .footer-content {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .footer-links-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      .footer-col h4 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+      .footer-col a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        margin: 0.5rem 0;
+      }
+      .footer-col a:hover {
+        color: var(--btn-primary-bg);
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
+      }
+      .footer-bottom-links {
+        display: flex;
+        gap: 2rem;
+      }
+      .footer-bottom-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      .footer-bottom-links a:hover {
+        color: var(--btn-primary-bg);
+      }
+
+      @media (max-width: 1000px) {
+        .two-column {
+          grid-template-columns: 1fr;
+        }
+        .obs-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="app-wrapper">
+      <!-- HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+          <span class="expert-badge-header"
+            ><i class="fas fa-microscope"></i> EXPERT</span
+          >
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <main class="expert-main">
+        <!-- Header -->
+        <div class="page-header">
+          <div class="header-title">
+            <h1>
+              <i class="fas fa-flask" style="color: var(--btn-primary-bg)"></i>
+              Experimentation Sandbox
+            </h1>
+            <p>
+              Test "what-if" scenarios, simulate alternatives, and optimize
+              formulations for R&D
+            </p>
+          </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="two-column">
+          <!-- Formulation Editor -->
+          <div class="formulation-card">
+            <div class="card-header">
+              <div class="card-title">Current Formulation</div>
+              <div class="card-actions">
+                <button class="action-btn" onclick="addIngredient()">
+                  <i class="fas fa-plus"></i> Add
+                </button>
+                <button class="action-btn" onclick="resetFormulation()">
+                  <i class="fas fa-undo-alt"></i> Reset
+                </button>
+              </div>
+            </div>
+
+            <div class="ingredient-list" id="ingredientList"></div>
+            <div class="metrics-grid" id="baselineMetrics"></div>
+          </div>
+
+          <!-- What-If Controls -->
+          <div class="formulation-card">
+            <div class="card-header">
+              <div class="card-title">What-If Analysis</div>
+              <div class="card-actions">
+                <button class="action-btn primary" onclick="runWhatIf()">
+                  <i class="fas fa-seedling"></i> Run Analysis
+                </button>
+              </div>
+            </div>
+
+            <div class="tab-nav">
+              <button
+                class="tab-btn active"
+                onclick="switchSandboxTab('whatif', this)"
+              >
+                What-If
+              </button>
+              <button
+                class="tab-btn"
+                onclick="switchSandboxTab('alternative', this)"
+              >
+                Alternatives
+              </button>
+              <button
+                class="tab-btn"
+                onclick="switchSandboxTab('optimize', this)"
+              >
+                Optimize
+              </button>
+            </div>
+
+            <div id="sandboxContent">
+              <!-- What-If Builder -->
+              <div id="whatifBuilder">
+                <div class="form-group">
+                  <label>Change Type</label>
+                  <select class="form-control" id="changeType">
+                    <option value="remove">Remove Ingredient</option>
+                    <option value="add">Add Ingredient</option>
+                    <option value="modify_concentration">
+                      Modify Concentration
+                    </option>
+                    <option value="replace">Replace Ingredient</option>
+                  </select>
+                </div>
+                <div class="form-group" id="ingredientSelect">
+                  <label>Select Ingredient</label>
+                  <select class="form-control" id="targetIngredient"></select>
+                </div>
+                <div class="form-group" id="valueInput">
+                  <label>New Value</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="changeValue"
+                    placeholder="e.g., 2.0"
+                  />
+                </div>
+                <button
+                  class="action-btn primary"
+                  onclick="addChange()"
+                  style="width: 100%"
+                >
+                  Add to Scenario
+                </button>
+                <div id="pendingChanges" style="margin-top: 1.5rem"></div>
+              </div>
+
+              <!-- Alternatives Simulator -->
+              <div id="alternativeBuilder" style="display: none">
+                <div class="form-group">
+                  <label>Target Ingredient to Replace</label
+                  ><select class="form-control" id="targetAlternative"></select>
+                </div>
+                <div class="form-group">
+                  <label>Max Risk Reduction (%)</label
+                  ><input
+                    type="range"
+                    class="form-control"
+                    id="maxRiskReduction"
+                    min="0"
+                    max="50"
+                    value="30"
+                  />
+                  <div style="text-align: center">30%</div>
+                </div>
+                <button
+                  class="action-btn primary"
+                  onclick="findAlternatives()"
+                  style="width: 100%"
+                >
+                  Find Safer Alternatives
+                </button>
+              </div>
+
+              <!-- Optimizer -->
+              <div id="optimizeBuilder" style="display: none">
+                <div class="form-group">
+                  <label>Optimization Objectives</label
+                  ><select
+                    class="form-control"
+                    id="optimizeObjective"
+                    multiple
+                    size="3"
+                  >
+                    <option value="risk" selected>Minimize Risk</option>
+                    <option value="cost" selected>Minimize Cost</option>
+                    <option value="efficacy" selected>Maximize Efficacy</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Select Ingredient to Optimize</label
+                  ><select
+                    class="form-control"
+                    id="optimizeIngredient"
+                  ></select>
+                </div>
+                <button
+                  class="action-btn primary"
+                  onclick="optimizeConcentration()"
+                  style="width: 100%"
+                >
+                  Optimize Concentration
+                </button>
+                <button
+                  class="action-btn"
+                  onclick="getOptimizationSuggestions()"
+                  style="width: 100%; margin-top: 0.8rem"
+                >
+                  Get Full Optimization Suggestions
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="formulation-card" id="resultsSection" style="display: none">
+          <div class="card-header">
+            <div class="card-title">Analysis Results</div>
+            <div class="card-actions">
+              <button class="action-btn" onclick="exportResults()">
+                <i class="fas fa-download"></i> Export
+              </button>
+              <button class="action-btn" onclick="hideResults()">
+                <i class="fas fa-times"></i> Close
+              </button>
+            </div>
+          </div>
+          <div id="resultsContent"></div>
+        </div>
+
+        <!-- CONCLUSION SECTION (updates per active analysis) -->
+        <div class="conclusion-section" id="conclusionSection">
+          <h2>
+            <i class="fas fa-clipboard-check"></i> Conclusion & Observations
+          </h2>
+          <div id="conclusionContent">—</div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <a href="/citizen/home">Citizen Home</a
+              ><a href="/expert/ExpertHome">Expert Home</a
+              ><a href="/expert/IngredientExplorer">Explorer</a
+              ><a href="/expert/InteractionGraphs">Graphs</a>
+            </div>
+            <div class="footer-col">
+              <h4>Analytics</h4>
+              <a href="/expert/AnalyticsDashboard">Dashboard</a
+              ><a href="/expert/MLInsights">ML Insights</a
+              ><a href="/expert/DatasetExplorer">Datasets</a
+              ><a href="/expert/Reports">Reports</a>
+            </div>
+            <div class="footer-col">
+              <h4>Regulatory</h4>
+              <a href="/expert/RegulatoryIntelligence">Regulatory</a
+              ><a href="/expert/ExperimentationSandbox">Sandbox</a>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <a href="/profile">Profile</a><a href="/settings">Settings</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div>© 2026 Jneyaḥ — truth before belief · Research Use Only</div>
+            <div class="footer-bottom-links">
+              <a href="/about">About</a><a href="/privacy">Privacy</a
+              ><a href="/contact">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Add Ingredient Modal -->
+    <div id="addModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add Ingredient</h3>
+          <button class="modal-close" onclick="closeAddModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Ingredient</label
+            ><select class="form-control" id="newIngredient">
+              <option value="retinol">Retinol</option>
+              <option value="niacinamide">Niacinamide</option>
+              <option value="hyaluronic_acid">Hyaluronic Acid</option>
+              <option value="vitamin_c">Vitamin C</option>
+              <option value="salicylic_acid">Salicylic Acid</option>
+              <option value="benzoyl_peroxide">Benzoyl Peroxide</option>
+              <option value="glycerin">Glycerin</option>
+              <option value="dimethicone">Dimethicone</option>
+              <option value="ceramides">Ceramides</option>
+              <option value="aha_bha">AHAs/BHAs</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Concentration (%)</label
+            ><input
+              type="number"
+              class="form-control"
+              id="newConcentration"
+              value="1.0"
+              step="0.1"
+              min="0.1"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="action-btn" onclick="closeAddModal()">Cancel</button
+          ><button
+            class="action-btn primary"
+            onclick="addIngredientToFormulation()"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const body = document.body,
+          toggleBtn = document.getElementById("themeToggleBtn");
+        function toggleTheme() {
+          if (body.classList.contains("light")) {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("jneyah-theme", "dark");
+          } else {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("jneyah-theme", "light");
+          }
+        }
+        toggleBtn.addEventListener("click", toggleTheme);
+        const saved = localStorage.getItem("jneyah-theme") || "light";
+        body.classList.remove("light", "dark");
+        body.classList.add(saved);
+
+        // bg canvas
+        const canvas = document.getElementById("bgCanvas"),
+          ctx = canvas.getContext("2d");
+        let width,
+          height,
+          particles = [];
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 20; i++)
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: 20 + Math.random() * 50,
+              speedX: (Math.random() - 0.5) * 0.1,
+              speedY: (Math.random() - 0.5) * 0.1,
+              color: `rgba(180,95,75,${0.1 + Math.random() * 0.1})`,
+            });
+        }
+        function resizeCanvas() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initParticles();
+        }
+        function drawParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(drawParticles);
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        drawParticles();
+      })();
+
+      // ========== Sandbox State ==========
+      let formulation = [
+        { name: "Retinol", concentration: 0.5 },
+        { name: "Niacinamide", concentration: 5.0 },
+        { name: "Hyaluronic Acid", concentration: 1.0 },
+      ];
+      let baselineMetrics = null;
+      let pendingChanges = [];
+      let lastAnalysisType = "whatif"; // for conclusion
+
+      const displayNames = {
+        retinol: "Retinol",
+        niacinamide: "Niacinamide",
+        hyaluronic_acid: "Hyaluronic Acid",
+        vitamin_c: "Vitamin C",
+        salicylic_acid: "Salicylic Acid",
+        benzoyl_peroxide: "Benzoyl Peroxide",
+        glycerin: "Glycerin",
+        dimethicone: "Dimethicone",
+        ceramides: "Ceramides",
+        aha_bha: "AHAs/BHAs",
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderFormulation();
+        calculateBaseline();
+      });
+
+      function renderFormulation() {
+        const list = document.getElementById("ingredientList");
+        list.innerHTML = formulation
+          .map(
+            (ing, idx) => `
+        <div class="ingredient-item">
+          <span class="ingredient-name">${ing.name}</span>
+          <span class="ingredient-conc">${ing.concentration}%</span>
+          <div class="ingredient-actions">
+            <button class="icon-btn" onclick="editIngredient(${idx})"><i class="fas fa-edit"></i></button>
+            <button class="icon-btn" onclick="removeIngredient(${idx})"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      `,
+          )
+          .join("");
+        updateIngredientSelects();
+      }
+
+      function updateIngredientSelects() {
+        ["targetIngredient", "targetAlternative", "optimizeIngredient"].forEach(
+          (id) => {
+            const sel = document.getElementById(id);
+            if (sel)
+              sel.innerHTML = formulation
+                .map(
+                  (ing) => `<option value="${ing.name}">${ing.name}</option>`,
+                )
+                .join("");
+          },
+        );
+      }
+
+      async function calculateBaseline() {
+        baselineMetrics = await simulateFormulation(formulation);
+        renderBaselineMetrics(baselineMetrics);
+      }
+
+      async function simulateFormulation(form) {
+        const riskMap = {
+          Retinol: 7.5,
+          Niacinamide: 2.5,
+          "Hyaluronic Acid": 1.5,
+          "Vitamin C": 3.0,
+          "Salicylic Acid": 6.0,
+          "Benzoyl Peroxide": 8.0,
+          Glycerin: 1.0,
+          Dimethicone: 2.0,
+          Ceramides: 1.0,
+          "AHAs/BHAs": 6.5,
+        };
+        let totalRisk = 0;
+        form.forEach((ing) => {
+          totalRisk += (riskMap[ing.name] || 5.0) * (ing.concentration / 5);
+        });
+        const avgRisk = totalRisk / form.length;
+        let level = "Low";
+        if (avgRisk > 7) level = "Critical";
+        else if (avgRisk > 5) level = "High";
+        else if (avgRisk > 3) level = "Medium";
+        return {
+          overall_risk: avgRisk.toFixed(2),
+          risk_level: level,
+          irritation_potential: (avgRisk * 0.8).toFixed(2),
+          efficacy: (7 - avgRisk * 0.5).toFixed(2),
+          cost: form
+            .reduce((s, ing) => s + ing.concentration * 2, 0)
+            .toFixed(2),
+          stability: (8 - avgRisk * 0.3).toFixed(2),
+          ingredient_count: form.length,
+        };
+      }
+
+      function renderBaselineMetrics(m) {
+        const cls =
+          {
+            Low: "risk-low",
+            Medium: "risk-medium",
+            High: "risk-high",
+            Critical: "risk-critical",
+          }[m.risk_level] || "risk-low";
+        document.getElementById("baselineMetrics").innerHTML = `
+        <div class="metric-card"><div class="metric-label">Overall Risk</div><div class="metric-value">${m.overall_risk}</div><div><span class="risk-badge ${cls}">${m.risk_level}</span></div></div>
+        <div class="metric-card"><div class="metric-label">Irritation</div><div class="metric-value">${m.irritation_potential}</div></div>
+        <div class="metric-card"><div class="metric-label">Efficacy</div><div class="metric-value">${m.efficacy}</div></div>
+        <div class="metric-card"><div class="metric-label">Cost ($)</div><div class="metric-value">${m.cost}</div></div>
+      `;
+      }
+
+      // Ingredient actions
+      window.addIngredient = () =>
+        (document.getElementById("addModal").style.display = "block");
+      window.closeAddModal = () =>
+        (document.getElementById("addModal").style.display = "none");
+      window.addIngredientToFormulation = () => {
+        const name =
+          displayNames[document.getElementById("newIngredient").value];
+        const conc = parseFloat(
+          document.getElementById("newConcentration").value,
+        );
+        formulation.push({ name, concentration: conc });
+        renderFormulation();
+        calculateBaseline();
+        closeAddModal();
+      };
+      window.removeIngredient = (idx) => {
+        formulation.splice(idx, 1);
+        renderFormulation();
+        calculateBaseline();
+      };
+      window.editIngredient = (idx) => {
+        let newc = prompt(
+          "New concentration (%)",
+          formulation[idx].concentration,
+        );
+        if (newc) {
+          formulation[idx].concentration = parseFloat(newc);
+          renderFormulation();
+          calculateBaseline();
+        }
+      };
+      window.resetFormulation = () => {
+        formulation = [
+          { name: "Retinol", concentration: 0.5 },
+          { name: "Niacinamide", concentration: 5.0 },
+          { name: "Hyaluronic Acid", concentration: 1.0 },
+        ];
+        pendingChanges = [];
+        renderFormulation();
+        calculateBaseline();
+        document.getElementById("pendingChanges").innerHTML = "";
+      };
+
+      // Tab switching
+      window.switchSandboxTab = (tab, el) => {
+        document
+          .querySelectorAll("#sandboxContent > div")
+          .forEach((d) => (d.style.display = "none"));
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        el.classList.add("active");
+        if (tab === "whatif")
+          document.getElementById("whatifBuilder").style.display = "block";
+        else if (tab === "alternative")
+          document.getElementById("alternativeBuilder").style.display = "block";
+        else if (tab === "optimize")
+          document.getElementById("optimizeBuilder").style.display = "block";
+      };
+
+      // Pending changes
+      window.addChange = () => {
+        const type = document.getElementById("changeType").value;
+        const ingredient = document.getElementById("targetIngredient").value;
+        const value = document.getElementById("changeValue").value;
+        pendingChanges.push({
+          type,
+          ingredient,
+          value: type === "modify_concentration" ? parseFloat(value) : value,
+        });
+        renderPendingChanges();
+      };
+      function renderPendingChanges() {
+        const c = document.getElementById("pendingChanges");
+        if (!pendingChanges.length) {
+          c.innerHTML = "";
+          return;
+        }
+        c.innerHTML =
+          '<h4 style="color:var(--text-primary); margin-bottom:0.5rem;">Pending Changes:</h4>' +
+          pendingChanges
+            .map(
+              (ch, i) =>
+                `<div style="background:var(--stat-bg); padding:0.8rem; border-radius:32px; margin-bottom:0.5rem; display:flex; justify-content:space-between;"><span>${ch.type}: ${ch.ingredient}</span><button class="icon-btn" onclick="removeChange(${i})"><i class="fas fa-times"></i></button></div>`,
+            )
+            .join("");
+      }
+      window.removeChange = (i) => {
+        pendingChanges.splice(i, 1);
+        renderPendingChanges();
+      };
+
+      // Run what-if (mock)
+      window.runWhatIf = async () => {
+        if (!pendingChanges.length) {
+          alert("Add at least one change");
+          return;
+        }
+        lastAnalysisType = "whatif";
+        const data = mockWhatIfResults();
+        displayWhatIfResults(data);
+        updateConclusion("whatif", data);
+      };
+
+      function mockWhatIfResults() {
+        return {
+          baseline: baselineMetrics || {
+            overall_risk: 4.2,
+            irritation_potential: 3.1,
+            efficacy: 6.8,
+            cost: 15.5,
+          },
+          scenarios: pendingChanges.map((c) => ({
+            change: c,
+            new_metrics: {
+              overall_risk: (
+                parseFloat(baselineMetrics?.overall_risk || 4.2) +
+                (Math.random() * 2 - 1)
+              ).toFixed(2),
+              efficacy: (
+                parseFloat(baselineMetrics?.efficacy || 6.8) +
+                (Math.random() * 1 - 0.5)
+              ).toFixed(2),
+            },
+            delta: { risk_score: (Math.random() * 2 - 1).toFixed(2) },
+            interpretation: `${c.type} of ${c.ingredient}: ${Math.random() > 0.5 ? "increases" : "decreases"} risk by ${(Math.random() * 1.5).toFixed(1)} points.`,
+          })),
+        };
+      }
+
+      function displayWhatIfResults(data) {
+        const r = document.getElementById("resultsContent");
+        r.innerHTML =
+          `<div style="margin-bottom:1rem;"><h3 style="color:var(--text-primary);">Baseline</h3><div class="metrics-grid" style="grid-template-columns:repeat(4,1fr);"><div>Risk ${data.baseline.overall_risk}</div><div>Irr ${data.baseline.irritation_potential}</div><div>Eff ${data.baseline.efficacy}</div><div>Cost $${data.baseline.cost}</div></div></div><h3 style="color:var(--text-primary); margin-bottom:1rem;">Scenarios</h3><div class="scenario-grid">` +
+          data.scenarios
+            .map(
+              (s) =>
+                `<div class="scenario-card" style="border-left-color:${parseFloat(s.delta.risk_score) < 0 ? "#8fbf9f" : "#d68f8f"}"><div class="scenario-header"><span class="scenario-type">${s.change.type}</span><span class="scenario-delta ${parseFloat(s.delta.risk_score) < 0 ? "scenario-positive" : "scenario-negative"}">${parseFloat(s.delta.risk_score) > 0 ? "+" : ""}${s.delta.risk_score}</span></div><div><strong>${s.change.ingredient}</strong></div><div class="metrics-grid" style="grid-template-columns:repeat(2,1fr); margin:0.5rem 0;"><div><span style="color:var(--text-secondary);">Risk</span> ${s.new_metrics.overall_risk}</div><div><span style="color:var(--text-secondary);">Efficacy</span> ${s.new_metrics.efficacy}</div></div><div style="color:var(--text-secondary); font-size:0.9rem;">${s.interpretation}</div></div>`,
+            )
+            .join("") +
+          "</div>";
+        document.getElementById("resultsSection").style.display = "block";
+      }
+
+      // Find alternatives (mock)
+      window.findAlternatives = async () => {
+        lastAnalysisType = "alternative";
+        const target = document.getElementById("targetAlternative").value;
+        const data = mockAlternativeResults(target);
+        displayAlternativeResults(data);
+        updateConclusion("alternative", data);
+      };
+
+      function mockAlternativeResults(target) {
+        return {
+          original: { ingredient: { name: target } },
+          alternatives: [
+            {
+              alternative: { name: "Niacinamide", risk_score: 2.5 },
+              metrics: { efficacy: 7.2 },
+              risk_reduction: 35,
+            },
+            {
+              alternative: { name: "Azelaic Acid", risk_score: 3.0 },
+              metrics: { efficacy: 6.5 },
+              risk_reduction: 28,
+            },
+            {
+              alternative: { name: "Bakuchiol", risk_score: 2.0 },
+              metrics: { efficacy: 6.0 },
+              risk_reduction: 42,
+            },
+          ],
+        };
+      }
+
+      function displayAlternativeResults(data) {
+        document.getElementById("resultsContent").innerHTML =
+          `<h3 style="color:var(--text-primary); margin-bottom:1rem;">Safer Alternatives for ${data.original.ingredient.name}</h3><div class="alternative-grid">` +
+          data.alternatives
+            .map(
+              (a) =>
+                `<div class="alternative-card"><div><div class="alternative-name" style="font-weight:600;">${a.alternative.name}</div><div style="font-size:0.8rem; color:var(--text-secondary);">Risk ${a.alternative.risk_score} · Efficacy ${a.metrics.efficacy}</div></div><div><span class="risk-badge risk-low">-${a.risk_reduction}% risk</span></div></div>`,
+            )
+            .join("") +
+          "</div>";
+        document.getElementById("resultsSection").style.display = "block";
+      }
+
+      // Optimize concentration (mock)
+      window.optimizeConcentration = async () => {
+        lastAnalysisType = "optimize";
+        const ingredient = document.getElementById("optimizeIngredient").value;
+        const ing = formulation.find((i) => i.name === ingredient);
+        const data = mockOptimizationResults(
+          ingredient,
+          ing?.concentration || 1.0,
+        );
+        displayOptimizationResults(data);
+        updateConclusion("optimize", data);
+      };
+
+      function mockOptimizationResults(ingredient, current) {
+        return {
+          ingredient,
+          current_concentration: current,
+          optimal_concentration: (current * 0.8).toFixed(1),
+          curve: {
+            concentrations: [0.5, 1.0, 1.5, 2.0, 2.5],
+            risks: [3.0, 4.5, 5.8, 7.0, 8.0],
+            efficacies: [4.0, 6.0, 7.5, 8.2, 8.5],
+          },
+          recommendation: `Decrease concentration to ${(current * 0.8).toFixed(1)}% to reduce risk while maintaining good efficacy.`,
+        };
+      }
+
+      function displayOptimizationResults(data) {
+        const r = document.getElementById("resultsContent");
+        r.innerHTML = `<h3 style="color:var(--text-primary); margin-bottom:1rem;">Concentration Optimization for ${data.ingredient}</h3>
+        <div style="background:var(--stat-bg); padding:1rem; border-radius:32px; margin-bottom:1rem;">
+          <div style="display:flex; justify-content:space-between;">Current: ${data.current_concentration}% <strong style="color:var(--btn-primary-bg);">Optimal: ${data.optimal_concentration}%</strong></div>
+          <div style="margin-top:0.5rem; color:var(--text-secondary);">${data.recommendation}</div>
+        </div>
+        <div class="chart-container"><canvas id="optChart"></canvas></div>`;
+        setTimeout(() => {
+          const ctx = document.getElementById("optChart")?.getContext("2d");
+          if (!ctx) return;
+          new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: data.curve.concentrations,
+              datasets: [
+                {
+                  label: "Risk",
+                  data: data.curve.risks,
+                  borderColor: "#d68f8f",
+                },
+                {
+                  label: "Efficacy",
+                  data: data.curve.efficacies,
+                  borderColor: "#8fbf9f",
+                },
+              ],
+            },
+            options: { responsive: true, maintainAspectRatio: false },
+          });
+        }, 100);
+        document.getElementById("resultsSection").style.display = "block";
+      }
+
+      window.getOptimizationSuggestions = () => {
+        lastAnalysisType = "optimize";
+        const data = {
+          optimization_suggestions: [
+            {
+              type: "concentration_adjustment",
+              ingredient: "Retinol",
+              suggested: "0.25%",
+              reason:
+                "Lower concentration reduces irritation while maintaining efficacy",
+              expected_impact: { risk_reduction: "20%" },
+            },
+            {
+              type: "pair_optimization",
+              ingredient: "Niacinamide",
+              suggested_pair: "Hyaluronic Acid",
+              reason: "Synergistic for hydration, no risk increase",
+              expected_impact: { efficacy_boost: "15%" },
+            },
+          ],
+        };
+        displayOptimizationSuggestions(data);
+        updateConclusion("optimize", data);
+      };
+
+      function displayOptimizationSuggestions(data) {
+        const r = document.getElementById("resultsContent");
+        r.innerHTML =
+          '<h3 style="color:var(--text-primary); margin-bottom:1rem;">Optimization Suggestions</h3><div class="scenario-grid">' +
+          data.optimization_suggestions
+            .map(
+              (s) =>
+                `<div class="scenario-card" style="border-left-color:var(--btn-primary-bg);"><div class="scenario-header"><span class="scenario-type">${s.type.replace(/_/g, " ")}</span></div><div><strong>${s.ingredient || ""} ${s.suggested_pair || s.suggested || ""}</strong></div><div style="color:var(--text-secondary); margin:0.5rem 0;">${s.reason}</div><div>Expected: ${s.expected_impact.risk_reduction || s.expected_impact.efficacy_boost}</div></div>`,
+            )
+            .join("") +
+          "</div>";
+        document.getElementById("resultsSection").style.display = "block";
+      }
+
+      // Conclusion updater
+      function updateConclusion(type, data) {
+        const conDiv = document.getElementById("conclusionContent");
+        let html = "";
+        if (type === "whatif") {
+          const avgDelta =
+            data.scenarios.reduce(
+              (a, s) => a + parseFloat(s.delta.risk_score),
+              0,
+            ) / data.scenarios.length;
+          html = `<div class="obs-grid"><div class="obs-card"><span class="stat">${data.scenarios.length}</span><div class="label">scenarios</div></div><div class="obs-card"><span class="stat">${avgDelta > 0 ? "+" + avgDelta.toFixed(2) : avgDelta.toFixed(2)}</span><div class="label">avg risk Δ</div></div><div class="obs-card"><span class="stat">${data.baseline.overall_risk}</span><div class="label">baseline risk</div></div></div><div class="insight-text"><strong>🔍 Observation:</strong> ${avgDelta > 0 ? "Most changes increase risk" : "Most changes reduce risk"}. The most impactful change is usually modifying Retinol concentration.</div>`;
+        } else if (type === "alternative") {
+          const best = data.alternatives.reduce((a, b) =>
+            a.risk_reduction > b.risk_reduction ? a : b,
+          );
+          html = `<div class="obs-grid"><div class="obs-card"><span class="stat">${data.alternatives.length}</span><div class="label">alternatives</div></div><div class="obs-card"><span class="stat">${best.risk_reduction}%</span><div class="label">max risk reduction</div></div><div class="obs-card"><span class="stat">${best.alternative.name}</span><div class="label">best alternative</div></div></div><div class="insight-text"><strong>🔍 Observation:</strong> ${best.alternative.name} offers ${best.risk_reduction}% lower risk with efficacy ${best.metrics.efficacy}. Consider replacing ${data.original.ingredient.name}.</div>`;
+        } else if (type === "optimize") {
+          html = `<div class="obs-grid"><div class="obs-card"><span class="stat">${data.optimal_concentration || "0.4%"}</span><div class="label">optimal conc</div></div><div class="obs-card"><span class="stat">${data.current_concentration || "0.5%"}</span><div class="label">current</div></div><div class="obs-card"><span class="stat">${((1 - (data.optimal_concentration || 0.4) / (data.current_concentration || 0.5)) * 100).toFixed(0)}%</span><div class="label">reduction</div></div></div><div class="insight-text"><strong>🔍 Observation:</strong> ${data.recommendation || "Adjust concentration to balance risk and efficacy."}</div>`;
+        }
+        conDiv.innerHTML = html;
+      }
+
+      window.hideResults = () =>
+        (document.getElementById("resultsSection").style.display = "none");
+      window.exportResults = () =>
+        alert("Export functionality - would generate JSON/CSV");
+    </script>
+  </body>
+</html>

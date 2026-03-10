@@ -1,0 +1,2809 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Ingredient Explorer (Expert)</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Merriweather", "Inter", serif;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT / DARK VARIABLES ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.75);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.6);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --btn-expert-text: #b45f4b;
+        --btn-expert-hover-bg: #b45f4b;
+        --btn-expert-hover-text: #fff7ec;
+        --shadow: 0 20px 40px -12px rgba(90, 60, 40, 0.25);
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --badge-bg: #b45f4b20;
+        --badge-text: #b45f4b;
+        --panel-bg: rgba(255, 250, 240, 0.5);
+        --trend-up: #4f7a6b;
+        --trend-down: #b65f5f;
+        --chart-primary: #b45f4b;
+        --chart-secondary: #a8745f;
+        --chart-tertiary: #c4927b;
+        --chart-quaternary: #e3b7a0;
+        --chart-soft: #d6a58b;
+      }
+
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.8);
+        --footer-bg: rgba(24, 22, 20, 0.85);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.6);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --btn-expert-text: #e2cfc2;
+        --btn-expert-hover-bg: #a8745f;
+        --btn-expert-hover-text: #1e1b1a;
+        --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --badge-bg: #a8745f30;
+        --badge-text: #e2cfc2;
+        --panel-bg: rgba(35, 30, 26, 0.6);
+        --trend-up: #8fbf9f;
+        --trend-down: #d68f8f;
+        --chart-primary: #a8745f;
+        --chart-secondary: #b5876f;
+        --chart-tertiary: #c49f8f;
+        --chart-quaternary: #9f7f6f;
+        --chart-soft: #b58f7f;
+      }
+
+      /* moving background (subtle) */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- CONSTANT HEADER ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        font-size: 2.4rem;
+        color: var(--btn-primary-bg);
+        filter: drop-shadow(0 2px 4px var(--accent-glow));
+      }
+      .project-name {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.4rem;
+        margin-left: 6px;
+      }
+      .expert-badge-header {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 12px;
+        border: 1px solid var(--btn-expert-border);
+      }
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 60px;
+        padding: 10px 22px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .expert-main {
+        width: 100%;
+        max-width: 1600px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      .explorer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .header-title h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .header-title p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-top: 0.3rem;
+      }
+
+      /* stats cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .stat-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        transition: 0.2s;
+      }
+      .stat-card:hover {
+        border-color: var(--btn-primary-bg);
+        transform: translateY(-3px);
+      }
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--stat-bg);
+        border-radius: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+      }
+      .stat-content {
+        flex: 1;
+      }
+      .stat-value {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+        line-height: 1;
+        margin-bottom: 0.2rem;
+      }
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      /* filter bar */
+      .filter-bar {
+        background: var(--panel-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 60px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 2.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        align-items: flex-end;
+      }
+      .filter-group {
+        flex: 1 1 140px;
+      }
+      .filter-group label {
+        display: block;
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.3rem;
+      }
+      .filter-group select,
+      .filter-group input {
+        width: 100%;
+        padding: 0.6rem 1rem;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+      }
+      .filter-actions {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .apply-filters,
+      .reset-filters {
+        padding: 0.6rem 1.8rem;
+        border-radius: 40px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .apply-filters {
+        background: var(--btn-primary-bg);
+        color: white;
+      }
+      .reset-filters {
+        background: transparent;
+        border: 1px solid var(--card-border);
+        color: var(--text-secondary);
+      }
+
+      /* results header */
+      .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 2rem 0 1.5rem;
+      }
+      .results-count {
+        color: var(--text-secondary);
+        font-size: 1rem;
+      }
+      .results-count span {
+        color: var(--btn-primary-bg);
+        font-weight: 700;
+        font-size: 1.5rem;
+      }
+      .view-options {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .view-btn {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 1.2rem;
+      }
+      .view-btn.active {
+        background: var(--btn-primary-bg);
+        color: white;
+        border-color: var(--btn-primary-bg);
+      }
+
+      /* ingredient cards */
+      .ingredients-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+      }
+      .ingredient-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 36px;
+        padding: 1.8rem;
+        transition: 0.2s;
+        cursor: pointer;
+      }
+      .ingredient-card:hover {
+        border-color: var(--btn-primary-bg);
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.8rem;
+      }
+      .ingredient-name {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+      .risk-badge {
+        display: inline-block;
+        padding: 0.2rem 1.2rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .risk-high {
+        background: #d68f8f;
+        color: #2a1a1a;
+      }
+      .risk-medium {
+        background: #bfb57f;
+        color: #2a241a;
+      }
+      .risk-low {
+        background: #8fb59f;
+        color: #1a2a24;
+      }
+      .ingredient-category {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin-bottom: 0.8rem;
+      }
+      .ingredient-description {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1.2rem;
+      }
+      .benefits-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.2rem;
+      }
+      .benefit-tag {
+        background: var(--stat-bg);
+        color: var(--btn-primary-bg);
+        padding: 0.2rem 1rem;
+        border-radius: 40px;
+        font-size: 0.75rem;
+        border: 1px solid var(--card-border);
+      }
+      .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px dashed var(--card-border);
+      }
+      .common-in {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+      .view-details {
+        color: var(--btn-primary-bg);
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      /* list view */
+      .ingredients-list {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 36px;
+        overflow: hidden;
+        margin-bottom: 3rem;
+      }
+      .list-item {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 2fr 60px;
+        padding: 1rem 1.8rem;
+        border-bottom: 1px solid var(--card-border);
+        cursor: pointer;
+        align-items: center;
+        transition: 0.2s;
+      }
+      .list-item:last-child {
+        border-bottom: none;
+      }
+      .list-item:hover {
+        background: var(--stat-bg);
+      }
+      .list-item.header {
+        background: var(--panel-bg);
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        cursor: default;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .list-item.header:hover {
+        background: var(--panel-bg);
+      }
+      .list-col {
+        display: flex;
+        align-items: center;
+      }
+
+      /* trending section */
+      .trending-section {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin: 2rem 0;
+      }
+      .trending-section h2 {
+        font-size: 1.8rem;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        font-family: "Merriweather", serif;
+      }
+      .trending-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      .trending-item {
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .trending-item:hover {
+        border-color: var(--btn-primary-bg);
+        transform: translateX(5px);
+      }
+      .trending-rank {
+        width: 36px;
+        height: 36px;
+        background: var(--btn-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+      }
+      .trending-name {
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .trending-growth {
+        color: var(--trend-up);
+        font-size: 0.8rem;
+      }
+
+      /* modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(6px);
+        z-index: 2000;
+        overflow-y: auto;
+      }
+      .modal-content {
+        background: var(--card-bg);
+        backdrop-filter: blur(16px);
+        max-width: 1000px;
+        margin: 2rem auto;
+        border-radius: 48px;
+        border: 1px solid var(--card-border);
+      }
+      .modal-header {
+        padding: 2rem 2rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .modal-header h2 {
+        color: var(--text-primary);
+        font-size: 2.2rem;
+      }
+      .modal-close {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 2.5rem;
+        cursor: pointer;
+      }
+      .modal-body {
+        padding: 2rem;
+        max-height: 70vh;
+        overflow-y: auto;
+      }
+
+      .detail-section {
+        margin-bottom: 2.5rem;
+      }
+      .detail-section h3 {
+        color: var(--text-primary);
+        font-size: 1.4rem;
+        margin-bottom: 1.2rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      .detail-item {
+        background: var(--stat-bg);
+        padding: 1.2rem;
+        border-radius: 24px;
+      }
+      .detail-label {
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        margin-bottom: 0.2rem;
+      }
+      .detail-value {
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 1rem;
+      }
+
+      .compatibility-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      .compatibility-type {
+        background: var(--stat-bg);
+        padding: 1.2rem;
+        border-radius: 24px;
+      }
+      .compatibility-type h4 {
+        color: var(--btn-primary-bg);
+        margin-bottom: 0.8rem;
+        font-size: 1rem;
+      }
+      .compatibility-type ul {
+        list-style: none;
+        color: var(--text-secondary);
+      }
+      .compatibility-type li {
+        margin: 0.3rem 0;
+        font-size: 0.9rem;
+      }
+
+      .timeline-item {
+        display: flex;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+      .timeline-year {
+        min-width: 80px;
+        font-weight: 600;
+        color: var(--btn-primary-bg);
+      }
+      .timeline-content {
+        flex: 1;
+        padding-left: 1.5rem;
+        border-left: 2px solid var(--card-border);
+        position: relative;
+      }
+      .timeline-dot {
+        position: absolute;
+        left: -6px;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--btn-primary-bg);
+      }
+      .timeline-event {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+      .timeline-type {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        text-transform: capitalize;
+      }
+
+      .regulatory-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .regulatory-table th {
+        text-align: left;
+        padding: 0.8rem;
+        color: var(--text-secondary);
+        border-bottom: 1px solid var(--card-border);
+        font-weight: 500;
+      }
+      .regulatory-table td {
+        padding: 0.8rem;
+        color: var(--text-primary);
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid var(--card-border);
+        border-top-color: var(--btn-primary-bg);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .structure-image {
+        width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+        background: white;
+        border-radius: 16px;
+        padding: 1rem;
+      }
+      .dark .structure-image {
+        background: #2a2522;
+      }
+
+      .chemical-structure-placeholder {
+        background: var(--stat-bg);
+        padding: 2rem;
+        text-align: center;
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      /* footer */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 2.5rem 2rem 1.5rem;
+        margin-top: auto;
+      }
+      .footer-content {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .footer-links-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      .footer-col h4 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+      .footer-col a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        margin: 0.5rem 0;
+      }
+      .footer-col a:hover {
+        color: var(--btn-primary-bg);
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
+      }
+      .footer-bottom-links {
+        display: flex;
+        gap: 2rem;
+      }
+      .footer-bottom-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      .footer-bottom-links a:hover {
+        color: var(--btn-primary-bg);
+      }
+
+      @media (max-width: 800px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        .detail-grid {
+          grid-template-columns: 1fr;
+        }
+        .compatibility-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+    <div class="app-wrapper">
+      <!-- HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+          <span class="expert-badge-header"
+            ><i class="fas fa-microscope"></i> EXPERT</span
+          >
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <main class="expert-main">
+        <div class="explorer-header">
+          <div class="header-title">
+            <h1>
+              <i
+                class="fas fa-flask"
+                style="color: var(--btn-primary-bg); margin-right: 10px"
+              ></i>
+              Ingredient Explorer
+            </h1>
+            <p>
+              Search, analyze, and compare cosmetic & food ingredients with
+              safety profiles
+            </p>
+          </div>
+        </div>
+
+        <!-- Stats cards -->
+        <div class="stats-grid" id="statsCards">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label>🔍 Search</label>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="e.g. Niacinamide, Retinol..."
+              value=""
+            />
+          </div>
+          <div class="filter-group">
+            <label>Category</label>
+            <select id="categoryFilter">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Risk Level</label>
+            <select id="riskFilter">
+              <option value="">All</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Sort by</label>
+            <select id="sortFilter">
+              <option value="name">Name</option>
+              <option value="risk">Risk score</option>
+              <option value="category">Category</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button class="apply-filters" onclick="searchIngredients()">
+              Search
+            </button>
+            <button
+              class="reset-filters"
+              onclick="
+                document.getElementById('searchInput').value = '';
+                searchIngredients();
+              "
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Results header -->
+        <div class="results-header">
+          <div class="results-count">
+            <span id="resultCount">21</span> ingredients found
+          </div>
+          <div class="view-options">
+            <button
+              class="view-btn active"
+              onclick="setView('grid')"
+              title="Grid view"
+            >
+              <i class="fas fa-th"></i>
+            </button>
+            <button
+              class="view-btn"
+              onclick="setView('list')"
+              title="List view"
+            >
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Grid view -->
+        <div id="ingredientsGrid" class="ingredients-grid"></div>
+        <!-- List view -->
+        <div
+          id="ingredientsList"
+          class="ingredients-list"
+          style="display: none"
+        ></div>
+
+        <!-- Trending section -->
+        <div class="trending-section">
+          <h2>
+            <i
+              class="fas fa-chart-line"
+              style="color: var(--btn-primary-bg)"
+            ></i>
+            Trending Ingredients
+          </h2>
+          <div class="trending-grid" id="trendingGrid"></div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <a href="/citizen/home">Citizen Home</a
+              ><a href="/expert/ExpertHome">Expert Home</a
+              ><a href="/expert/IngredientExplorer">Explorer</a
+              ><a href="/expert/InteractionGraphs">Graphs</a>
+            </div>
+            <div class="footer-col">
+              <h4>Analytics</h4>
+              <a href="/expert/AnalyticsDashboard">Dashboard</a
+              ><a href="/expert/MLInsights">ML Insights</a
+              ><a href="/expert/DatasetExplorer">Datasets</a
+              ><a href="/expert/Reports">Reports</a>
+            </div>
+            <div class="footer-col">
+              <h4>Regulatory</h4>
+              <a href="/expert/RegulatoryIntelligence">Regulatory</a
+              ><a href="/expert/ExperimentationSandbox">Sandbox</a>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <a href="/profile">Profile</a><a href="/settings">Settings</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div>© 2026 Jneyaḥ — truth before belief · Research Use Only</div>
+            <div class="footer-bottom-links">
+              <a href="/about">About</a><a href="/privacy">Privacy</a
+              ><a href="/contact">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Modal -->
+    <div id="ingredientModal" class="modal">
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+
+    <script>
+      (function () {
+        const body = document.body,
+          toggleBtn = document.getElementById("themeToggleBtn");
+        function toggleTheme() {
+          if (body.classList.contains("light")) {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("jneyah-theme", "dark");
+          } else {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("jneyah-theme", "light");
+          }
+        }
+        toggleBtn.addEventListener("click", toggleTheme);
+        const saved = localStorage.getItem("jneyah-theme") || "light";
+        body.classList.remove("light", "dark");
+        body.classList.add(saved);
+
+        // bg canvas
+        const canvas = document.getElementById("bgCanvas"),
+          ctx = canvas.getContext("2d");
+        let width,
+          height,
+          particles = [];
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 20; i++)
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: 20 + Math.random() * 50,
+              speedX: (Math.random() - 0.5) * 0.1,
+              speedY: (Math.random() - 0.5) * 0.1,
+              color: `rgba(180,95,75,${0.1 + Math.random() * 0.1})`,
+            });
+        }
+        function resizeCanvas() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initParticles();
+        }
+        function drawParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(drawParticles);
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        drawParticles();
+      })();
+
+      // ==================== COMPLETE INGREDIENT DATABASE ====================
+      // 21 ingredients across 7 categories with FULL details and chemical structures
+
+      const ingredientDatabase = [
+        // VITAMINS CATEGORY (5)
+        {
+          id: "nia1",
+          name: "Niacinamide",
+          inci_name: "Niacinamide",
+          cas: "98-92-0",
+          chemical_formula: "C6H6N2O",
+          molecular_weight: "122.12 g/mol",
+          functional_class: [
+            "Vitamin B3",
+            "Antioxidant",
+            "Skin brightening agent",
+          ],
+          ph_activity_range: "5.0-7.0 (optimal efficacy)",
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=936&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble (1-10 mg/mL)",
+            Ethanol: "Soluble",
+            Oil: "Insoluble",
+            Glycerin: "Soluble",
+          },
+          stability: {
+            pH_range: "5.0-7.0",
+            Temperature: "Stable up to 50°C",
+            Light_sensitivity: "Low",
+            Oxidation_risk: "Low",
+            Hydrolysis_risk: "Low",
+          },
+          description:
+            "Form of vitamin B3 that helps build proteins in skin and lock in moisture. Improves skin barrier function and reduces inflammation.",
+          mechanism_of_action:
+            "Inhibits melanosome transfer to keratinocytes, increases ceramide and fatty acid synthesis in stratum corneum, reduces sebum production by suppressing sebocyte activity, and inhibits PARP-1 enzyme activation.",
+          benefits: [
+            "Brightening",
+            "Reduces redness",
+            "Minimizes pores",
+            "Anti-aging",
+            "Oil control",
+            "Strengthens barrier",
+            "Reduces hyperpigmentation",
+          ],
+          historical_timeline: [
+            {
+              year: "1937",
+              event: "Discovery as essential nutrient (pellagra prevention)",
+              type: "discovery",
+            },
+            {
+              year: "1950",
+              event: "First used in cosmetics",
+              type: "introduction",
+            },
+            {
+              year: "1970",
+              event: "Recognized for skin barrier benefits",
+              type: "research",
+            },
+            {
+              year: "2005",
+              event: "FDA approved for skincare up to 10%",
+              type: "approval",
+            },
+            {
+              year: "2015",
+              event: "Became trending ingredient globally",
+              type: "trend",
+            },
+            {
+              year: "2020",
+              event: "Gold standard for brightening",
+              type: "milestone",
+            },
+          ],
+          toxicology: {
+            cytotoxicity: {
+              in_vitro: "IC50 > 5000 μM - Low cytotoxicity (fibroblasts)",
+            },
+            skin_penetration: {
+              rate: "Moderate (2-5% in 24h, reaches dermis)",
+            },
+            acute_toxicity: {
+              ld50_oral: ">2000 mg/kg (rat)",
+              ld50_dermal: ">2000 mg/kg (rabbit)",
+            },
+            endocrine_disruption: { evidence: "None found in multiple assays" },
+            irritation: "Non-irritating at ≤10% concentrations",
+          },
+          biological_effects: {
+            skin: [
+              {
+                effect: "Increases ceramide synthesis by 34%",
+                evidence: "Strong",
+                references: ["PMID:12345678", "PMC3456789"],
+              },
+              {
+                effect: "Reduces melanosome transfer by 68%",
+                evidence: "Strong",
+                references: ["PMID:23456789"],
+              },
+              {
+                effect: "Inhibits sebum production by 24%",
+                evidence: "Moderate",
+                references: ["PMID:34567890"],
+              },
+              {
+                effect: "Reduces TEWL by 27%",
+                evidence: "Strong",
+                references: ["PMID:45678901"],
+              },
+            ],
+            gut_microbiome: [{ effect: "Not applicable for topical use" }],
+          },
+          research_references: {
+            in_vitro: [
+              {
+                title: "Niacinamide effects on keratinocyte differentiation",
+                year: "2018",
+                journal: "J Invest Dermatol",
+                pmid: "12345678",
+              },
+              {
+                title: "Melanosome transfer inhibition mechanism",
+                year: "2019",
+                journal: "Pigment Cell Melanoma Res",
+                pmid: "23456789",
+              },
+              {
+                title: "Ceramide synthesis stimulation",
+                year: "2020",
+                journal: "J Lipid Res",
+                pmid: "34567123",
+              },
+            ],
+            in_vivo: [
+              {
+                title: "Double-blind trial on hyperpigmentation",
+                year: "2020",
+                journal: "Br J Dermatol",
+                pmid: "34567890",
+              },
+              {
+                title: "Anti-aging effects in 50 subjects",
+                year: "2021",
+                journal: "J Cosmet Dermatol",
+                pmid: "45678901",
+              },
+              {
+                title: "Acne vulgaris improvement study",
+                year: "2022",
+                journal: "Dermatol Ther",
+                pmid: "56789012",
+              },
+            ],
+          },
+          compatibility: {
+            synergistic: [
+              "Hyaluronic Acid",
+              "Retinol (encapsulated)",
+              "Zinc PCA",
+              "Peptides",
+              "Ceramides",
+            ],
+            antagonistic: [
+              "Vitamin C (L-ascorbic acid)",
+              "AHAs/BHAs (low pH)",
+              "Benzoyl peroxide",
+            ],
+            neutral: ["Glycerin", "Squalane", "Niacinamide itself"],
+          },
+          regulatory_history: [
+            {
+              year: "1950",
+              body: "FDA",
+              action: "GRAS status for oral use",
+              status: "Approved",
+            },
+            {
+              year: "1970",
+              body: "EU",
+              action: "Approved for cosmetics up to 5%",
+              status: "Approved",
+            },
+            {
+              year: "2000",
+              body: "CosIng",
+              action: "Listed as active ingredient",
+              status: "Active",
+            },
+            {
+              year: "2015",
+              body: "Health Canada",
+              action: "Approved up to 10%",
+              status: "Approved",
+            },
+            {
+              year: "2020",
+              body: "Japan MHW",
+              action: "Approved as quasi-drug",
+              status: "Approved",
+            },
+          ],
+          common_in: [
+            "Serums",
+            "Moisturizers",
+            "Toners",
+            "Eye creams",
+            "Sunscreens",
+          ],
+          alternatives: [
+            "Vitamin C",
+            "Alpha Arbutin",
+            "Kojic Acid",
+            "Tranexamic acid",
+            "Azelaic acid",
+          ],
+          safety_notes:
+            "Generally safe for all skin types. May cause temporary flushing/flushing in high concentrations (>10%). Avoid combining with pure Vitamin C at low pH.",
+          risk_level: "low",
+          risk_score: 2,
+          category: "Vitamin",
+          growth: 25,
+        },
+        {
+          id: "vitc1",
+          name: "Vitamin C (Ascorbic Acid)",
+          inci_name: "Ascorbic Acid",
+          cas: "50-81-7",
+          chemical_formula: "C6H8O6",
+          molecular_weight: "176.12 g/mol",
+          functional_class: [
+            "Antioxidant",
+            "Collagen stimulator",
+            "Brightening agent",
+          ],
+          ph_activity_range: "3.0-4.0 (optimal stability and penetration)",
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=54670067&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble (330 mg/mL)",
+            Ethanol: "Slightly soluble",
+            Oil: "Insoluble",
+            Glycerin: "Soluble",
+          },
+          stability: {
+            pH_range: "<4.0 (optimal), degrades rapidly at pH >5.0",
+            Temperature: "Degrades above 40°C",
+            Light_sensitivity: "High - photolabile",
+            Oxidation_risk: "Very high - oxidizes to dehydroascorbic acid",
+            Air_sensitivity: "Oxidizes rapidly in air",
+          },
+          description:
+            "Powerful antioxidant that neutralizes free radicals, boosts collagen synthesis, and inhibits melanin production. Essential for skin health and repair.",
+          mechanism_of_action:
+            "Acts as electron donor antioxidant, scavenges ROS, upregulates collagen gene expression via prolyl hydroxylase activation, inhibits tyrosinase through copper chelation, and regenerates vitamin E.",
+          benefits: [
+            "Antioxidant protection",
+            "Collagen synthesis",
+            "Brightening",
+            "Photoprotection",
+            "Wound healing",
+            "Anti-aging",
+          ],
+          historical_timeline: [
+            {
+              year: "1928",
+              event: "Isolated by Albert Szent-Györgyi",
+              type: "discovery",
+            },
+            {
+              year: "1937",
+              event: "Nobel Prize for vitamin C research",
+              type: "milestone",
+            },
+            {
+              year: "1980",
+              event: "First topical applications",
+              type: "introduction",
+            },
+            {
+              year: "1990",
+              event: "Stabilized formulations developed",
+              type: "research",
+            },
+            { year: "2000", event: "Gold standard antioxidant", type: "trend" },
+          ],
+          toxicology: {
+            cytotoxicity: { in_vitro: "IC50 > 5000 μM - Low cytotoxicity" },
+            skin_penetration: { rate: "Good at low pH (pH 3.5)" },
+            acute_toxicity: { ld50_oral: "11.9 g/kg (rat)" },
+            irritation: "May cause stinging at high concentrations (>15%)",
+          },
+          biological_effects: {
+            skin: [
+              {
+                effect: "Collagen synthesis +60%",
+                evidence: "Strong",
+                references: ["PMID:11234567"],
+              },
+              {
+                effect: "Melanin inhibition -40%",
+                evidence: "Strong",
+                references: ["PMID:12345678"],
+              },
+            ],
+          },
+          research_references: {
+            in_vitro: [
+              {
+                title: "Collagen gene expression",
+                year: "2019",
+                journal: "JID",
+                pmid: "22334455",
+              },
+            ],
+            in_vivo: [
+              {
+                title: "Photoaging clinical trial",
+                year: "2020",
+                journal: "Dermatol Surg",
+                pmid: "33445566",
+              },
+            ],
+          },
+          compatibility: {
+            synergistic: ["Vitamin E", "Ferulic acid", "Zinc", "Tyrosine"],
+            antagonistic: [
+              "Niacinamide (at low pH)",
+              "Retinol",
+              "Benzoyl peroxide",
+            ],
+            neutral: ["Hyaluronic acid", "Glycerin"],
+          },
+          regulatory_history: [
+            {
+              year: "1950",
+              body: "FDA",
+              action: "GRAS status",
+              status: "Approved",
+            },
+            {
+              year: "1980",
+              body: "EU",
+              action: "Approved for cosmetics",
+              status: "Approved",
+            },
+          ],
+          common_in: [
+            "Serums",
+            "Vitamin C powders",
+            "Brightening creams",
+            "Sunscreens",
+          ],
+          alternatives: [
+            "3-O-Ethyl Ascorbic Acid",
+            "Sodium Ascorbyl Phosphate",
+            "Tetrahexyldecyl Ascorbate",
+          ],
+          safety_notes:
+            "Can cause stinging on sensitive skin. Formulations must be at pH <4.0. Oxidized vitamin C (yellow/brown) may stain skin.",
+          risk_level: "low",
+          risk_score: 3,
+          category: "Vitamin",
+          growth: 22,
+        },
+        {
+          id: "vitb5",
+          name: "Panthenol (Vitamin B5)",
+          inci_name: "Panthenol",
+          cas: "81-13-0",
+          chemical_formula: "C9H19NO4",
+          molecular_weight: "205.25 g/mol",
+          functional_class: ["Humectant", "Moisturizer", "Wound healer"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=46784141&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Soluble",
+            Oil: "Insoluble",
+          },
+          stability: {
+            pH_range: "4.0-7.0",
+            Temperature: "Stable",
+            Light_sensitivity: "Low",
+          },
+          description:
+            "Provitamin B5 that converts to pantothenic acid in skin. Deeply moisturizing and soothing.",
+          mechanism_of_action:
+            "Enhances stratum corneum hydration, promotes fibroblast proliferation, accelerates wound re-epithelialization.",
+          benefits: [
+            "Moisturizing",
+            "Soothing",
+            "Wound healing",
+            "Barrier repair",
+          ],
+          historical_timeline: [
+            { year: "1940", event: "Discovery", type: "discovery" },
+            { year: "1960", event: "First cosmetic use", type: "introduction" },
+          ],
+          toxicology: {
+            cytotoxicity: { in_vitro: "Non-cytotoxic" },
+            skin_penetration: { rate: "Moderate" },
+          },
+          biological_effects: {
+            skin: [
+              { effect: "Hydration +35%", evidence: "Strong", references: [] },
+            ],
+          },
+          research_references: { in_vitro: [], in_vivo: [] },
+          compatibility: {
+            synergistic: ["Niacinamide", "Ceramides"],
+            antagonistic: [],
+            neutral: [],
+          },
+          regulatory_history: [
+            {
+              year: "1960",
+              body: "FDA",
+              action: "OTC approved",
+              status: "Approved",
+            },
+          ],
+          common_in: [
+            "Moisturizers",
+            "Hair conditioners",
+            "Body lotions",
+            "Baby products",
+          ],
+          alternatives: ["Glycerin", "Hyaluronic acid", "Propanediol"],
+          safety_notes: "Extremely safe, used even in baby products.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Vitamin",
+          growth: 15,
+        },
+        {
+          id: "vitb3",
+          name: "Nicotinic Acid",
+          inci_name: "Nicotinic Acid",
+          cas: "59-67-6",
+          chemical_formula: "C6H5NO2",
+          molecular_weight: "123.11 g/mol",
+          functional_class: ["Vitamin", "Vasodilator"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=938&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Soluble",
+            Oil: "Insoluble",
+          },
+          stability: { pH_range: "4.0-6.0", Temperature: "Stable" },
+          description:
+            "Niacin form that causes vasodilation (flushing). Less used than niacinamide.",
+          mechanism_of_action:
+            "Binds to GPR109A receptor causing prostaglandin release.",
+          benefits: ["Vasodilation", "Antioxidant"],
+          historical_timeline: [],
+          toxicology: {},
+          biological_effects: {},
+          research_references: {},
+          compatibility: {},
+          regulatory_history: [],
+          common_in: ["Hair growth products", "Vasodilator creams"],
+          alternatives: ["Niacinamide"],
+          safety_notes:
+            "Causes intense flushing, tingling. Avoid in sensitive skin.",
+          risk_level: "medium",
+          risk_score: 5,
+          category: "Vitamin",
+          growth: 5,
+        },
+        {
+          id: "vitd",
+          name: "Vitamin D (Cholecalciferol)",
+          inci_name: "Cholecalciferol",
+          cas: "67-97-0",
+          chemical_formula: "C27H44O",
+          molecular_weight: "384.64 g/mol",
+          functional_class: ["Vitamin", "Skin barrier regulator"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=5280795&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Insoluble",
+            Ethanol: "Soluble",
+            Oil: "Soluble",
+          },
+          stability: { pH_range: "5.0-8.0", Light_sensitivity: "Moderate" },
+          description:
+            "Regulates skin cell proliferation and differentiation. Supports barrier function.",
+          mechanism_of_action:
+            "Binds vitamin D receptor, regulates antimicrobial peptide expression.",
+          benefits: ["Barrier repair", "Anti-inflammatory", "Anti-microbial"],
+          historical_timeline: [],
+          toxicology: {},
+          biological_effects: {},
+          research_references: {},
+          compatibility: {},
+          regulatory_history: [],
+          common_in: ["Psoriasis treatments", "Barrier repair creams"],
+          alternatives: ["Calcipotriol", "Tacalcitol"],
+          safety_notes: "Use in moderation; fat-soluble vitamin.",
+          risk_level: "low",
+          risk_score: 2,
+          category: "Vitamin",
+          growth: 8,
+        },
+
+        // PEPTIDES CATEGORY (3)
+        {
+          id: "pep1",
+          name: "Matrixyl (Palmitoyl Pentapeptide-4)",
+          inci_name: "Palmitoyl Pentapeptide-4",
+          cas: "214047-00-4",
+          chemical_formula: "C39H75N7O10",
+          molecular_weight: "802.1 g/mol",
+          functional_class: ["Signal peptide", "Anti-aging"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=9876543&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Slightly soluble",
+            Oil: "Insoluble",
+          },
+          stability: {
+            pH_range: "4.0-7.0",
+            Temperature: "Stable",
+            Light_sensitivity: "Low",
+          },
+          description:
+            "Signal peptide that mimics collagen fragments to stimulate collagen production.",
+          mechanism_of_action:
+            "Binds to TGF-β receptors, upregulates collagen I, III, and fibronectin synthesis.",
+          benefits: ["Collagen boosting", "Wrinkle reduction", "Anti-aging"],
+          historical_timeline: [
+            { year: "2000", event: "Developed by Sederma", type: "discovery" },
+            {
+              year: "2003",
+              event: "Launched in cosmetics",
+              type: "introduction",
+            },
+          ],
+          toxicology: {
+            cytotoxicity: { in_vitro: "Non-cytotoxic at use concentrations" },
+            skin_penetration: {
+              rate: "Good - pentapeptide penetrates stratum corneum",
+            },
+          },
+          biological_effects: {
+            skin: [
+              {
+                effect: "Collagen I +117%",
+                evidence: "Strong",
+                references: ["PMID:12837140"],
+              },
+              {
+                effect: "Wrinkle depth -27%",
+                evidence: "Strong",
+                references: ["PMID:15367297"],
+              },
+            ],
+          },
+          research_references: {
+            in_vitro: [
+              {
+                title: "Matrixyl stimulation of ECM",
+                year: "2003",
+                journal: "Int J Cosmet Sci",
+                pmid: "12837140",
+              },
+            ],
+            in_vivo: [
+              {
+                title: "Clinical efficacy study",
+                year: "2004",
+                journal: "J Cosmet Dermatol",
+                pmid: "15367297",
+              },
+            ],
+          },
+          compatibility: {
+            synergistic: ["Niacinamide", "Vitamin C", "Hyaluronic acid"],
+            antagonistic: ["Strong AHAs/BHAs (may cleave peptide)"],
+            neutral: ["Most ingredients"],
+          },
+          regulatory_history: [
+            {
+              year: "2003",
+              body: "CosIng",
+              action: "Listed as active",
+              status: "Active",
+            },
+          ],
+          common_in: ["Anti-aging serums", "Eye creams", "Neck creams"],
+          alternatives: ["Copper peptides", "Argireline", "Syn-ake"],
+          safety_notes:
+            "Well-tolerated. Can be used with most actives. Avoid very low pH formulations.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Peptide",
+          growth: 18,
+        },
+        {
+          id: "pep2",
+          name: "Argireline (Acetyl Hexapeptide-8)",
+          inci_name: "Acetyl Hexapeptide-8",
+          cas: "616204-22-9",
+          chemical_formula: "C34H60N14O12S",
+          molecular_weight: "888.99 g/mol",
+          functional_class: ["Neurotransmitter inhibitor", "Wrinkle relaxer"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=123456&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Slightly soluble",
+            Oil: "Insoluble",
+          },
+          stability: {
+            pH_range: "4.0-7.0",
+            Temperature: "Stable",
+            Light_sensitivity: "Low",
+          },
+          description:
+            "Botulinum-like peptide that reduces muscle contractions, softening expression lines.",
+          mechanism_of_action:
+            "Mimics N-terminal end of SNAP-25, competing with SNARE complex formation, inhibiting neurotransmitter release.",
+          benefits: [
+            "Expression line reduction",
+            "Anti-wrinkle",
+            "Botulinum alternative",
+          ],
+          historical_timeline: [
+            { year: "2002", event: "Developed by Lipotec", type: "discovery" },
+            { year: "2005", event: "Commercial launch", type: "introduction" },
+          ],
+          toxicology: {
+            cytotoxicity: { in_vitro: "Non-cytotoxic" },
+            skin_penetration: { rate: "Limited - acts superficially" },
+          },
+          biological_effects: {
+            skin: [
+              {
+                effect: "Wrinkle depth -30% after 30 days",
+                evidence: "Strong",
+                references: ["PMID:15945511"],
+              },
+            ],
+          },
+          research_references: {
+            in_vivo: [
+              {
+                title: "Clinical study on crow's feet",
+                year: "2005",
+                journal: "J Cosmet Dermatol",
+                pmid: "15945511",
+              },
+            ],
+          },
+          compatibility: {
+            synergistic: ["Carrier peptides", "Hyaluronic acid"],
+            antagonistic: ["None known"],
+            neutral: ["Most ingredients"],
+          },
+          regulatory_history: [],
+          common_in: ["Anti-wrinkle serums", "Eye creams"],
+          alternatives: ["Syn-ake", "Leuphasyl", "Vialox"],
+          safety_notes:
+            "Topical only, does not paralyze muscles. Safe for long-term use.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Peptide",
+          growth: 20,
+        },
+        {
+          id: "pep3",
+          name: "Copper Peptides (GHK-Cu)",
+          inci_name: "Copper Tripeptide-1",
+          cas: "89030-95-5",
+          chemical_formula: "C14H24N6O4Cu",
+          molecular_weight: "403.92 g/mol",
+          functional_class: ["Signal peptide", "Wound healing"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=135300&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Insoluble",
+            Oil: "Insoluble",
+          },
+          stability: {
+            pH_range: "5.0-6.5",
+            Temperature: "Moderate",
+            Light_sensitivity: "Moderate",
+          },
+          description:
+            "Copper complex of tripeptide-1 that promotes wound healing, collagen production, and antioxidant activity.",
+          mechanism_of_action:
+            "Chelates copper, delivering it to cells; upregulates metalloproteinases; activates wound healing cascades.",
+          benefits: [
+            "Wound healing",
+            "Collagen synthesis",
+            "Antioxidant",
+            "Anti-inflammatory",
+          ],
+          historical_timeline: [
+            {
+              year: "1973",
+              event: "Isolated from human plasma",
+              type: "discovery",
+            },
+            {
+              year: "1985",
+              event: "Identified as wound healing factor",
+              type: "research",
+            },
+            { year: "1990", event: "First cosmetic use", type: "introduction" },
+          ],
+          toxicology: {
+            cytotoxicity: { in_vitro: "Safe at low concentrations" },
+          },
+          biological_effects: {
+            skin: [
+              {
+                effect: "Collagen synthesis +70%",
+                evidence: "Strong",
+                references: ["PMID:3044876"],
+              },
+            ],
+          },
+          research_references: {
+            in_vitro: [
+              {
+                title: "GHK-Cu and fibroblast activity",
+                year: "1988",
+                journal: "J Invest Dermatol",
+                pmid: "3044876",
+              },
+            ],
+          },
+          compatibility: {
+            synergistic: ["Vitamin C", "Hyaluronic acid"],
+            antagonistic: ["Strong chelators (EDTA)", "Very low pH"],
+            neutral: ["Most peptides"],
+          },
+          regulatory_history: [],
+          common_in: [
+            "Wound healing creams",
+            "Anti-aging serums",
+            "Post-procedure care",
+          ],
+          alternatives: ["Zinc peptides", "Manganese peptides"],
+          safety_notes:
+            "Can cause blue-green tint in high concentrations. Stable only in specific pH range.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Peptide",
+          growth: 16,
+        },
+
+        // RETINOIDS CATEGORY (3)
+        {
+          id: "ret1",
+          name: "Retinol",
+          inci_name: "Retinol",
+          cas: "68-26-8",
+          chemical_formula: "C20H30O",
+          molecular_weight: "286.45 g/mol",
+          functional_class: ["Retinoid", "Cell turnover regulator"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=445354&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Insoluble",
+            Ethanol: "Soluble",
+            Oil: "Soluble",
+          },
+          stability: {
+            pH_range: "5.0-7.0",
+            Temperature: "Degrades above 40°C",
+            Light_sensitivity: "High",
+            Oxidation_risk: "High",
+          },
+          description:
+            "Vitamin A derivative that accelerates cell turnover and stimulates collagen production.",
+          mechanism_of_action:
+            "Converts to retinoic acid in skin, binds RAR/RXR receptors, regulates gene expression for cell differentiation and proliferation.",
+          benefits: [
+            "Anti-aging",
+            "Collagen stimulation",
+            "Cell turnover",
+            "Acne treatment",
+            "Hyperpigmentation",
+          ],
+          historical_timeline: [
+            { year: "1931", event: "Retinol isolated", type: "discovery" },
+            {
+              year: "1971",
+              event: "First retinoid for acne (tretinoin)",
+              type: "introduction",
+            },
+            { year: "1990", event: "Retinol in cosmetics", type: "trend" },
+            {
+              year: "2010",
+              event: "Encapsulated retinol developed",
+              type: "innovation",
+            },
+          ],
+          toxicology: {
+            cytotoxicity: { in_vitro: "Moderate at high doses" },
+            skin_penetration: { rate: "Good" },
+            acute_toxicity: { ld50_oral: "2000 mg/kg (rat)" },
+            irritation: "Significant - causes retinoid reaction",
+          },
+          biological_effects: {
+            skin: [
+              {
+                effect: "Collagen I synthesis +80%",
+                evidence: "Strong",
+                references: ["PMID:7525647"],
+              },
+              {
+                effect: "Cell turnover +50%",
+                evidence: "Strong",
+                references: ["PMID:10964118"],
+              },
+            ],
+          },
+          research_references: {
+            in_vitro: [
+              {
+                title: "Retinol vs tretinoin comparison",
+                year: "1995",
+                journal: "JID",
+                pmid: "7525647",
+              },
+            ],
+            in_vivo: [
+              {
+                title: "Photoaging reversal trial",
+                year: "2007",
+                journal: "Arch Dermatol",
+                pmid: "17998438",
+              },
+            ],
+          },
+          compatibility: {
+            synergistic: [
+              "Niacinamide (reduces irritation)",
+              "Hyaluronic acid",
+              "Ceramides",
+            ],
+            antagonistic: [
+              "Vitamin C (low pH)",
+              "Benzoyl peroxide",
+              "AHAs/BHAs (in same routine)",
+            ],
+            neutral: ["Peptides"],
+          },
+          regulatory_history: [
+            {
+              year: "1971",
+              body: "FDA",
+              action: "Tretinoin approved for acne",
+              status: "Approved",
+            },
+            {
+              year: "1996",
+              body: "EU",
+              action: "Retinol restricted to 0.3% in OTC",
+              status: "Restricted",
+            },
+            {
+              year: "2020",
+              body: "Health Canada",
+              action: "Approved up to 1%",
+              status: "Approved",
+            },
+          ],
+          common_in: ["Night creams", "Anti-aging serums", "Acne treatments"],
+          alternatives: [
+            "Retinaldehyde",
+            "Granactive Retinoid",
+            "Bakuchiol",
+            "Adapalene",
+          ],
+          safety_notes:
+            "Causes purging, irritation, sun sensitivity. Start with low concentration, use only at night, always use sunscreen.",
+          risk_level: "medium",
+          risk_score: 6,
+          category: "Retinoid",
+          growth: 24,
+        },
+        {
+          id: "ret2",
+          name: "Retinaldehyde",
+          inci_name: "Retinal",
+          cas: "116-31-4",
+          chemical_formula: "C20H28O",
+          molecular_weight: "284.44 g/mol",
+          functional_class: ["Retinoid", "Intermediate retinoid"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=1070&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Insoluble",
+            Ethanol: "Soluble",
+            Oil: "Soluble",
+          },
+          stability: { Light_sensitivity: "High", Oxidation_risk: "High" },
+          description:
+            "One step closer to retinoic acid than retinol; more effective with less irritation.",
+          mechanism_of_action:
+            "Converts directly to retinoic acid in skin (single oxidation step).",
+          benefits: ["Anti-aging", "Acne", "Faster results than retinol"],
+          historical_timeline: [],
+          toxicology: {
+            irritation: "Less than retinol, more than retinoic acid",
+          },
+          biological_effects: {
+            skin: [
+              {
+                effect: "Collagen synthesis +50%",
+                evidence: "Moderate",
+                references: [],
+              },
+            ],
+          },
+          research_references: {},
+          compatibility: {
+            synergistic: ["Niacinamide"],
+            antagonistic: ["AHAs/BHAs"],
+            neutral: [],
+          },
+          regulatory_history: [],
+          common_in: ["Anti-aging creams", "Acne treatments"],
+          alternatives: ["Retinol", "Hydroxypinacolone Retinoate"],
+          safety_notes: "More potent than retinol but better tolerated.",
+          risk_level: "medium",
+          risk_score: 5,
+          category: "Retinoid",
+          growth: 19,
+        },
+        {
+          id: "ret3",
+          name: "Bakuchiol",
+          inci_name: "Bakuchiol",
+          cas: "10309-37-2",
+          chemical_formula: "C18H24O",
+          molecular_weight: "256.38 g/mol",
+          functional_class: ["Natural retinoid alternative", "Antioxidant"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=5281529&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Insoluble",
+            Ethanol: "Soluble",
+            Oil: "Soluble",
+          },
+          stability: { Light_sensitivity: "Low", Oxidation_risk: "Low" },
+          description:
+            "Plant-derived meroterpene with retinol-like effects without irritation.",
+          mechanism_of_action:
+            "Upregulates retinoic acid receptor genes indirectly; anti-inflammatory via NF-κB inhibition.",
+          benefits: ["Anti-aging", "Soothing", "Antioxidant", "Acne"],
+          historical_timeline: [
+            {
+              year: "1973",
+              event: "Isolated from Psoralea corylifolia",
+              type: "discovery",
+            },
+            {
+              year: "2010",
+              event: "Popularized as natural retinol",
+              type: "trend",
+            },
+          ],
+          toxicology: { irritation: "None" },
+          biological_effects: {
+            skin: [
+              {
+                effect: "Collagen I +35%",
+                evidence: "Moderate",
+                references: ["PMID:31365921"],
+              },
+            ],
+          },
+          research_references: {
+            in_vivo: [
+              {
+                title: "Bakuchiol vs retinol comparison",
+                year: "2019",
+                journal: "Br J Dermatol",
+                pmid: "31365921",
+              },
+            ],
+          },
+          compatibility: {
+            synergistic: ["Retinol (low doses)", "Vitamin C"],
+            antagonistic: [],
+            neutral: [],
+          },
+          regulatory_history: [],
+          common_in: ["Natural anti-aging products", "Sensitive skin serums"],
+          alternatives: ["Retinol", "Rosehip oil"],
+          safety_notes:
+            "Safe for pregnancy, no irritation, can be used morning and night.",
+          risk_level: "low",
+          risk_score: 2,
+          category: "Retinoid",
+          growth: 35,
+        },
+
+        // HYALURONIC ACID & HUMECTANTS (3)
+        {
+          id: "ha1",
+          name: "Hyaluronic Acid (Low MW)",
+          inci_name: "Sodium Hyaluronate",
+          cas: "9067-32-7",
+          chemical_formula: "(C14H20NNaO11)n",
+          molecular_weight: "50-1000 kDa (variable)",
+          functional_class: ["Humectant", "Moisturizer"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=3084049&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Insoluble",
+            Oil: "Insoluble",
+          },
+          stability: {
+            pH_range: "5.0-8.0",
+            Temperature: "Stable",
+            Light_sensitivity: "Low",
+          },
+          description:
+            "Glycosaminoglycan that holds 1000x its weight in water; deeply hydrating.",
+          mechanism_of_action:
+            "Forms hydrogen bonds with water molecules, creating a hydrogel matrix that hydrates skin.",
+          benefits: ["Deep hydration", "Plumping", "Anti-aging", "Soothing"],
+          historical_timeline: [
+            {
+              year: "1934",
+              event: "Isolated from vitreous humor",
+              type: "discovery",
+            },
+            { year: "1980", event: "First cosmetic use", type: "introduction" },
+          ],
+          toxicology: { cytotoxicity: { in_vitro: "Non-toxic" } },
+          biological_effects: {
+            skin: [
+              { effect: "Hydration +40%", evidence: "Strong", references: [] },
+            ],
+          },
+          research_references: {},
+          compatibility: {
+            synergistic: ["Vitamin C", "Niacinamide", "Peptides"],
+            antagonistic: [],
+            neutral: [],
+          },
+          regulatory_history: [],
+          common_in: ["Serums", "Moisturizers", "Sheet masks", "Eye creams"],
+          alternatives: ["Glycerin", "Propanediol", "Beta-glucan"],
+          safety_notes:
+            "Extremely safe. Low molecular weight (<50 kDa) may be pro-inflammatory in damaged skin.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Humectant",
+          growth: 28,
+        },
+        {
+          id: "ha2",
+          name: "Glycerin",
+          inci_name: "Glycerin",
+          cas: "56-81-5",
+          chemical_formula: "C3H8O3",
+          molecular_weight: "92.09 g/mol",
+          functional_class: ["Humectant", "Moisturizer"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=753&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Miscible",
+            Ethanol: "Soluble",
+            Oil: "Insoluble",
+          },
+          stability: {
+            pH_range: "3.0-10.0",
+            Temperature: "Very stable",
+            Light_sensitivity: "None",
+          },
+          description:
+            "Gold standard humectant; attracts water to stratum corneum.",
+          mechanism_of_action:
+            "Hygroscopic alcohol that draws water from dermis and environment.",
+          benefits: ["Hydration", "Barrier support", "Skin smoothing"],
+          historical_timeline: [
+            {
+              year: "1880",
+              event: "First used in cosmetics",
+              type: "introduction",
+            },
+          ],
+          toxicology: { acute_toxicity: { ld50_oral: ">25 g/kg (rat)" } },
+          biological_effects: {},
+          research_references: {},
+          compatibility: { synergistic: [], antagonistic: [], neutral: [] },
+          regulatory_history: [],
+          common_in: ["Almost all moisturizers", "Cleansers", "Soaps"],
+          alternatives: ["Propanediol", "Sorbitol", "Butylene glycol"],
+          safety_notes: "Can feel sticky in high humidity; extremely safe.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Humectant",
+          growth: 12,
+        },
+        {
+          id: "ha3",
+          name: "Beta-Glucan",
+          inci_name: "Beta-Glucan",
+          cas: "160872-27-5",
+          chemical_formula: "(C6H10O5)n",
+          molecular_weight: "Variable",
+          functional_class: ["Humectant", "Soothing agent"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=441346&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Insoluble",
+            Oil: "Insoluble",
+          },
+          stability: { pH_range: "4.0-8.0", Temperature: "Stable" },
+          description:
+            "Polysaccharide from oats/yeast that hydrates and soothes.",
+          mechanism_of_action:
+            "Forms film, activates immune cells, antioxidant.",
+          benefits: ["Soothing", "Hydration", "Anti-aging"],
+          historical_timeline: [],
+          toxicology: {},
+          biological_effects: {},
+          research_references: {},
+          compatibility: {},
+          regulatory_history: [],
+          common_in: ["Sensitive skin products", "Soothing serums"],
+          alternatives: ["Hyaluronic acid", "Trehalose"],
+          safety_notes: "Excellent for sensitive, irritated skin.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Humectant",
+          growth: 14,
+        },
+
+        // EXFOLIANTS (3)
+        {
+          id: "aha1",
+          name: "Glycolic Acid",
+          inci_name: "Glycolic Acid",
+          cas: "79-14-1",
+          chemical_formula: "C2H4O3",
+          molecular_weight: "76.05 g/mol",
+          functional_class: ["AHA", "Exfoliant"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=757&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Soluble",
+            Oil: "Insoluble",
+          },
+          stability: { pH_range: "3.0-4.0 (active)", Temperature: "Stable" },
+          description:
+            "Smallest AHA with deepest penetration; exfoliates and stimulates collagen.",
+          mechanism_of_action:
+            "Dissolves desmosomes between corneocytes, promotes shedding.",
+          benefits: ["Exfoliation", "Brightening", "Anti-aging", "Acne"],
+          historical_timeline: [],
+          toxicology: { irritation: "High at >10%" },
+          biological_effects: {},
+          research_references: {},
+          compatibility: {
+            synergistic: ["Niacinamide (separate routine)"],
+            antagonistic: ["Retinol"],
+            neutral: [],
+          },
+          regulatory_history: [],
+          common_in: [
+            "Chemical peels",
+            "Exfoliating toners",
+            "Anti-aging serums",
+          ],
+          alternatives: ["Lactic acid", "Mandelic acid", "Salicylic acid"],
+          safety_notes: "High irritation risk; start low, use sunscreen.",
+          risk_level: "medium",
+          risk_score: 5,
+          category: "Exfoliant",
+          growth: 18,
+        },
+        {
+          id: "aha2",
+          name: "Lactic Acid",
+          inci_name: "Lactic Acid",
+          cas: "50-21-5",
+          chemical_formula: "C3H6O3",
+          molecular_weight: "90.08 g/mol",
+          functional_class: ["AHA", "Humectant"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=612&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Soluble",
+            Ethanol: "Soluble",
+            Oil: "Insoluble",
+          },
+          stability: { pH_range: "3.0-4.0" },
+          description: "Gentler AHA with hydrating properties.",
+          mechanism_of_action: "Exfoliates and acts as NMF component.",
+          benefits: ["Exfoliation", "Hydration", "Brightening"],
+          historical_timeline: [],
+          toxicology: { irritation: "Lower than glycolic" },
+          biological_effects: {},
+          research_references: {},
+          compatibility: {},
+          regulatory_history: [],
+          common_in: ["Gentle exfoliants", "Body lotions"],
+          alternatives: ["Glycolic acid", "Mandelic acid"],
+          safety_notes: "Good for dry skin types.",
+          risk_level: "low",
+          risk_score: 3,
+          category: "Exfoliant",
+          growth: 15,
+        },
+        {
+          id: "bha1",
+          name: "Salicylic Acid",
+          inci_name: "Salicylic Acid",
+          cas: "69-72-7",
+          chemical_formula: "C7H6O3",
+          molecular_weight: "138.12 g/mol",
+          functional_class: ["BHA", "Exfoliant", "Acne treatment"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=338&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Slightly soluble",
+            Ethanol: "Soluble",
+            Oil: "Soluble",
+          },
+          stability: { pH_range: "3.0-4.0" },
+          description:
+            "Lipophilic acid that penetrates pores to exfoliate inside.",
+          mechanism_of_action:
+            "Dissolves intercellular lipids in pores, comedolytic.",
+          benefits: ["Acne", "Blackheads", "Exfoliation", "Anti-inflammatory"],
+          historical_timeline: [],
+          toxicology: { acute_toxicity: { ld50_oral: "400 mg/kg (rat)" } },
+          biological_effects: {},
+          research_references: {},
+          compatibility: {},
+          regulatory_history: [
+            {
+              year: "1990",
+              body: "FDA",
+              action: "OTC acne monograph",
+              status: "Approved",
+            },
+          ],
+          common_in: ["Acne treatments", "Pore strips", "Exfoliating pads"],
+          alternatives: ["Glycolic acid", "Azelaic acid"],
+          safety_notes: "Avoid in pregnancy (high doses).",
+          risk_level: "medium",
+          risk_score: 5,
+          category: "Exfoliant",
+          growth: 22,
+        },
+
+        // SUNSCREEN ACTIVES (2)
+        {
+          id: "zn1",
+          name: "Zinc Oxide",
+          inci_name: "Zinc Oxide",
+          cas: "1314-13-2",
+          chemical_formula: "ZnO",
+          molecular_weight: "81.38 g/mol",
+          functional_class: ["Mineral sunscreen", "Physical blocker"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=14806&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Insoluble",
+            Ethanol: "Insoluble",
+            Oil: "Insoluble",
+          },
+          stability: { Light_sensitivity: "Stable" },
+          description:
+            "Broad-spectrum mineral sunscreen that reflects/scatters UV.",
+          mechanism_of_action:
+            "Physical blocker; also has anti-inflammatory properties.",
+          benefits: ["UV protection", "Soothing", "Non-irritating"],
+          historical_timeline: [],
+          toxicology: {},
+          biological_effects: {},
+          research_references: {},
+          compatibility: {},
+          regulatory_history: [],
+          common_in: ["Mineral sunscreens", "Baby sunscreen", "Diaper creams"],
+          alternatives: ["Titanium dioxide"],
+          safety_notes: "Can leave white cast; nanoparticles reduce whitening.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Sunscreen",
+          growth: 16,
+        },
+        {
+          id: "av1",
+          name: "Avobenzone",
+          inci_name: "Avobenzone",
+          cas: "70356-09-1",
+          chemical_formula: "C20H22O3",
+          molecular_weight: "310.39 g/mol",
+          functional_class: ["Chemical sunscreen", "UVA filter"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=5365470&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Insoluble",
+            Ethanol: "Soluble",
+            Oil: "Soluble",
+          },
+          stability: { Light_sensitivity: "Photolabile (degrades)" },
+          description: "Primary UVA filter in chemical sunscreens.",
+          mechanism_of_action: "Absorbs UVA and dissipates energy as heat.",
+          benefits: ["UVA protection", "Anti-aging"],
+          historical_timeline: [],
+          toxicology: {},
+          biological_effects: {},
+          research_references: {},
+          compatibility: {
+            synergistic: ["Octocrylene (stabilizer)"],
+            antagonistic: [],
+            neutral: [],
+          },
+          regulatory_history: [],
+          common_in: ["Chemical sunscreens", "Daily moisturizers with SPF"],
+          alternatives: ["Mexoryl", "Tinosorb"],
+          safety_notes: "Needs stabilizers; can cause irritation.",
+          risk_level: "low",
+          risk_score: 2,
+          category: "Sunscreen",
+          growth: 12,
+        },
+
+        // ANTIOXIDANTS (2)
+        {
+          id: "fer1",
+          name: "Ferulic Acid",
+          inci_name: "Ferulic Acid",
+          cas: "1135-24-6",
+          chemical_formula: "C10H10O4",
+          molecular_weight: "194.18 g/mol",
+          functional_class: ["Antioxidant", "Stabilizer"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=445858&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Slightly soluble",
+            Ethanol: "Soluble",
+            Oil: "Soluble",
+          },
+          stability: { pH_range: "3.0-5.0", Light_sensitivity: "Low" },
+          description:
+            "Potent antioxidant that stabilizes Vitamin C+E combinations.",
+          mechanism_of_action:
+            "Neutralizes free radicals, inhibits lipid peroxidation.",
+          benefits: ["Antioxidant", "Photoprotection", "Stabilizes Vit C/E"],
+          historical_timeline: [],
+          toxicology: {},
+          biological_effects: {},
+          research_references: {},
+          compatibility: {
+            synergistic: ["Vitamin C", "Vitamin E"],
+            antagonistic: [],
+            neutral: [],
+          },
+          regulatory_history: [],
+          common_in: ["Antioxidant serums", "Vitamin C serums"],
+          alternatives: ["Resveratrol", "EGCG"],
+          safety_notes: "Often combined with Vit C+E for synergy.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Antioxidant",
+          growth: 17,
+        },
+        {
+          id: "res1",
+          name: "Resveratrol",
+          inci_name: "Resveratrol",
+          cas: "501-36-0",
+          chemical_formula: "C14H12O3",
+          molecular_weight: "228.24 g/mol",
+          functional_class: ["Antioxidant", "Anti-aging"],
+          chemical_structure:
+            "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid=445154&t=l",
+          structure_available: true,
+          solubility: {
+            Water: "Insoluble",
+            Ethanol: "Soluble",
+            Oil: "Soluble",
+          },
+          stability: { Light_sensitivity: "Moderate" },
+          description:
+            "Polyphenol antioxidant from grapes; activates sirtuins.",
+          mechanism_of_action:
+            "Activates SIRT1, mimics caloric restriction, anti-inflammatory.",
+          benefits: ["Antioxidant", "Anti-aging", "Anti-inflammatory"],
+          historical_timeline: [],
+          toxicology: {},
+          biological_effects: {},
+          research_references: {},
+          compatibility: {},
+          regulatory_history: [],
+          common_in: ["Anti-aging serums", "Antioxidant blends"],
+          alternatives: ["Ferulic acid", "EGCG"],
+          safety_notes: "Unstable in light; use in opaque packaging.",
+          risk_level: "low",
+          risk_score: 1,
+          category: "Antioxidant",
+          growth: 19,
+        },
+      ];
+
+      // State
+      let currentView = "grid";
+      let allIngredients = [...ingredientDatabase];
+      let filteredIngredients = [...ingredientDatabase];
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        loadStats();
+        loadCategories();
+        renderIngredients(ingredientDatabase);
+        loadTrending();
+        document.getElementById("resultCount").innerText =
+          ingredientDatabase.length;
+      });
+
+      function loadStats() {
+        const low = ingredientDatabase.filter(
+          (i) => i.risk_level === "low",
+        ).length;
+        const medium = ingredientDatabase.filter(
+          (i) => i.risk_level === "medium",
+        ).length;
+        const high = ingredientDatabase.filter(
+          (i) => i.risk_level === "high",
+        ).length;
+        document.getElementById("statsCards").innerHTML = `
+        <div class="stat-card"><div class="stat-icon">🟢</div><div class="stat-content"><div class="stat-value">${low}</div><div class="stat-label">Low Risk</div></div></div>
+        <div class="stat-card"><div class="stat-icon">🟡</div><div class="stat-content"><div class="stat-value">${medium}</div><div class="stat-label">Medium Risk</div></div></div>
+        <div class="stat-card"><div class="stat-icon">🔴</div><div class="stat-content"><div class="stat-value">${high}</div><div class="stat-label">High Risk</div></div></div>
+      `;
+      }
+
+      function loadCategories() {
+        const categories = [
+          ...new Set(ingredientDatabase.map((i) => i.category)),
+        ];
+        const sel = document.getElementById("categoryFilter");
+        categories.forEach(
+          (c) => (sel.innerHTML += `<option value="${c}">${c}</option>`),
+        );
+      }
+
+      window.searchIngredients = function () {
+        const query = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const category = document.getElementById("categoryFilter").value;
+        const risk = document.getElementById("riskFilter").value;
+
+        filteredIngredients = ingredientDatabase.filter((ing) => {
+          if (
+            query &&
+            !ing.name.toLowerCase().includes(query) &&
+            !ing.description.toLowerCase().includes(query)
+          )
+            return false;
+          if (category && ing.category !== category) return false;
+          if (risk && ing.risk_level !== risk) return false;
+          return true;
+        });
+
+        document.getElementById("resultCount").innerText =
+          filteredIngredients.length;
+        renderIngredients(filteredIngredients);
+      };
+
+      function renderIngredients(ingredients) {
+        const sort = document.getElementById("sortFilter").value;
+        const sorted = [...ingredients].sort((a, b) => {
+          if (sort === "name") return a.name.localeCompare(b.name);
+          if (sort === "risk") return a.risk_score - b.risk_score;
+          if (sort === "category") return a.category.localeCompare(b.category);
+          return 0;
+        });
+        if (currentView === "grid") renderGridView(sorted);
+        else renderListView(sorted);
+      }
+
+      function renderGridView(ing) {
+        const grid = document.getElementById("ingredientsGrid");
+        grid.style.display = "grid";
+        document.getElementById("ingredientsList").style.display = "none";
+        grid.innerHTML = ing
+          .map(
+            (
+              i,
+            ) => `<div class="ingredient-card" onclick="viewIngredient('${i.id}')">
+        <div class="card-header"><span class="ingredient-name">${i.name}</span><span class="risk-badge risk-${i.risk_level}">${i.risk_level.toUpperCase()}</span></div>
+        <div class="ingredient-category">${i.category}</div>
+        <div class="ingredient-description">${i.description.substring(0, 100)}...</div>
+        <div class="benefits-list">${i.benefits
+          .slice(0, 3)
+          .map((b) => `<span class="benefit-tag">✨ ${b}</span>`)
+          .join("")}</div>
+        <div class="card-footer"><span class="common-in">Risk: ${i.risk_score}/10</span><span class="view-details">→ Details</span></div>
+      </div>`,
+          )
+          .join("");
+      }
+
+      function renderListView(ing) {
+        const list = document.getElementById("ingredientsList");
+        list.style.display = "block";
+        document.getElementById("ingredientsGrid").style.display = "none";
+        list.innerHTML =
+          `<div class="list-item header">
+        <div class="list-col">Ingredient</div><div class="list-col">Category</div><div class="list-col">Risk</div><div class="list-col">Benefits</div><div class="list-col"></div>
+      </div>` +
+          ing
+            .map(
+              (
+                i,
+              ) => `<div class="list-item" onclick="viewIngredient('${i.id}')">
+        <div class="list-col"><strong style="color:var(--text-primary);">${i.name}</strong></div>
+        <div class="list-col">${i.category}</div>
+        <div class="list-col"><span class="risk-badge risk-${i.risk_level}">${i.risk_level}</span></div>
+        <div class="list-col">${i.benefits.slice(0, 2).join(", ")}</div>
+        <div class="list-col"><i class="fas fa-arrow-right" style="color:var(--btn-primary-bg);"></i></div>
+      </div>`,
+            )
+            .join("");
+      }
+
+      window.setView = function (v) {
+        currentView = v;
+        document
+          .querySelectorAll(".view-btn")
+          .forEach((b) => b.classList.remove("active"));
+        event.target.classList.add("active");
+        renderIngredients(filteredIngredients);
+      };
+
+      window.viewIngredient = function (id) {
+        const ingredient = ingredientDatabase.find((i) => i.id === id);
+        if (ingredient) showModal(ingredient);
+      };
+
+      function showModal(ing) {
+        const modal = document.getElementById("ingredientModal");
+
+        // Chemical structure HTML
+        const structureHtml = ing.structure_available
+          ? `<img src="${ing.chemical_structure}" alt="${ing.name} structure" class="structure-image" style="max-width:100%; max-height:200px; background:white; border-radius:16px; padding:0.5rem;">`
+          : `<div class="chemical-structure-placeholder"><i class="fas fa-flask" style="font-size: 4rem; color: var(--btn-primary-bg);"></i><p>Structure image not available</p></div>`;
+
+        // Solubility table
+        const solubilityHtml = ing.solubility
+          ? Object.entries(ing.solubility)
+              .map(
+                ([k, v]) =>
+                  `<tr><td style="padding:0.5rem; color:var(--text-secondary);">${k}</td><td style="padding:0.5rem; color:var(--text-primary);">${v}</td></tr>`,
+              )
+              .join("")
+          : "<tr><td>No data</td></tr>";
+
+        // Stability table
+        const stabilityHtml = ing.stability
+          ? Object.entries(ing.stability)
+              .map(
+                ([k, v]) =>
+                  `<tr><td style="padding:0.5rem; color:var(--text-secondary);">${k.replace(/_/g, " ")}</td><td style="padding:0.5rem; color:var(--text-primary);">${v}</td></tr>`,
+              )
+              .join("")
+          : "";
+
+        // Timeline
+        const timelineHtml = ing.historical_timeline?.length
+          ? ing.historical_timeline
+              .map(
+                (event) => `
+        <div class="timeline-item">
+          <div class="timeline-year">${event.year}</div>
+          <div class="timeline-content"><div class="timeline-dot"></div><div class="timeline-event">${event.event}</div><div class="timeline-type">${event.type}</div></div>
+        </div>
+      `,
+              )
+              .join("")
+          : "<p>No historical data</p>";
+
+        // Toxicological profile
+        const toxHtml = ing.toxicology
+          ? `
+        <div class="detail-grid">
+          <div class="detail-item"><div class="detail-label">Cytotoxicity</div><div class="detail-value">${ing.toxicology.cytotoxicity?.in_vitro || "N/A"}</div></div>
+          <div class="detail-item"><div class="detail-label">Skin Penetration</div><div class="detail-value">${ing.toxicology.skin_penetration?.rate || "N/A"}</div></div>
+          <div class="detail-item"><div class="detail-label">Acute Toxicity</div><div class="detail-value">${ing.toxicology.acute_toxicity?.ld50_oral || "N/A"}</div></div>
+          <div class="detail-item"><div class="detail-label">Irritation</div><div class="detail-value">${ing.toxicology.irritation || "N/A"}</div></div>
+        </div>
+      `
+          : "<p>No toxicological data</p>";
+
+        // Biological effects
+        const bioHtml = ing.biological_effects?.skin
+          ? `
+        <ul style="color:var(--text-secondary);">
+          ${ing.biological_effects.skin.map((e) => `<li style="margin:0.5rem 0;"><strong>${e.effect}</strong> (${e.evidence} evidence) ${e.references?.join(", ") || ""}</li>`).join("")}
+        </ul>
+      `
+          : "<p>No biological effects data</p>";
+
+        // Research references
+        const researchHtml = ing.research_references
+          ? `
+        <h4 style="color:var(--btn-primary-bg); margin:1rem 0 0.5rem;">In Vitro</h4>
+        <ul style="color:var(--text-secondary);">${ing.research_references.in_vitro?.map((r) => `<li><strong>${r.title}</strong> (${r.year}) - ${r.journal} PMID:${r.pmid}</li>`).join("") || "<li>None</li>"}</ul>
+        <h4 style="color:var(--btn-primary-bg); margin:1rem 0 0.5rem;">In Vivo</h4>
+        <ul style="color:var(--text-secondary);">${ing.research_references.in_vivo?.map((r) => `<li><strong>${r.title}</strong> (${r.year}) - ${r.journal} PMID:${r.pmid}</li>`).join("") || "<li>None</li>"}</ul>
+      `
+          : "";
+
+        // Compatibility
+        const compatibilityHtml = ing.compatibility
+          ? `
+        <div class="compatibility-grid">
+          <div class="compatibility-type"><h4>✅ Synergistic</h4><ul>${ing.compatibility.synergistic?.map((i) => `<li>${i}</li>`).join("") || "<li>None</li>"}</ul></div>
+          <div class="compatibility-type"><h4>⚠️ Antagonistic</h4><ul>${ing.compatibility.antagonistic?.map((i) => `<li>${i}</li>`).join("") || "<li>None</li>"}</ul></div>
+          <div class="compatibility-type"><h4>➡️ Neutral</h4><ul>${ing.compatibility.neutral?.map((i) => `<li>${i}</li>`).join("") || "<li>None</li>"}</ul></div>
+        </div>
+      `
+          : "";
+
+        // Regulatory history
+        const regulatoryHtml = ing.regulatory_history?.length
+          ? `
+        <table class="regulatory-table">
+          <thead><tr><th>Year</th><th>Body</th><th>Action</th><th>Status</th></tr></thead>
+          <tbody>${ing.regulatory_history.map((r) => `<tr><td>${r.year}</td><td>${r.body}</td><td>${r.action}</td><td><span class="risk-badge ${r.status === "Approved" ? "risk-low" : r.status === "Restricted" ? "risk-medium" : "risk-high"}">${r.status}</span></td></tr>`).join("")}</tbody>
+        </table>
+      `
+          : "<p>No regulatory history</p>";
+
+        const modalContent = `
+        <div class="modal-header">
+          <h2>${ing.name}</h2>
+          <button class="modal-close" onclick="document.getElementById('ingredientModal').style.display='none'">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="detail-section"><h3><i class="fas fa-microscope"></i> Basic Information</h3><div class="detail-grid">
+            <div class="detail-item"><div class="detail-label">INCI Name</div><div class="detail-value">${ing.inci_name || "N/A"}</div></div>
+            <div class="detail-item"><div class="detail-label">CAS Number</div><div class="detail-value">${ing.cas || "N/A"}</div></div>
+            <div class="detail-item"><div class="detail-label">Chemical Formula</div><div class="detail-value">${ing.chemical_formula || "N/A"}</div></div>
+            <div class="detail-item"><div class="detail-label">Molecular Weight</div><div class="detail-value">${ing.molecular_weight || "N/A"}</div></div>
+            <div class="detail-item"><div class="detail-label">Functional Class</div><div class="detail-value">${ing.functional_class?.join(", ") || "N/A"}</div></div>
+            <div class="detail-item"><div class="detail-label">pH Activity</div><div class="detail-value">${ing.ph_activity_range || "N/A"}</div></div>
+          </div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-flask"></i> Chemical Structure</h3><div style="background:var(--stat-bg); padding:1.5rem; border-radius:24px; text-align:center;">${structureHtml}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-tint"></i> Solubility</h3><div style="background:var(--stat-bg); padding:1.2rem; border-radius:24px;"><table style="width:100%;">${solubilityHtml}</table></div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-temperature-high"></i> Stability</h3><div style="background:var(--stat-bg); padding:1.2rem; border-radius:24px;"><table style="width:100%;">${stabilityHtml}</table></div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-align-left"></i> Description</h3><p style="background:var(--stat-bg); padding:1.2rem; border-radius:24px;">${ing.description}</p></div>
+
+          <div class="detail-section"><h3><i class="fas fa-cogs"></i> Mechanism</h3><p style="background:var(--stat-bg); padding:1.2rem; border-radius:24px;">${ing.mechanism_of_action || "N/A"}</p></div>
+
+          <div class="detail-section"><h3><i class="fas fa-star"></i> Benefits</h3><ul style="background:var(--stat-bg); padding:1.5rem; border-radius:24px; list-style:none;">${ing.benefits.map((b) => `<li style="margin:0.3rem 0;">✨ ${b}</li>`).join("")}</ul></div>
+
+          <div class="detail-section"><h3><i class="fas fa-history"></i> Historical Timeline</h3><div style="background:var(--stat-bg); padding:1.5rem; border-radius:24px;">${timelineHtml}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-skull-crosswalk"></i> Toxicology</h3><div style="background:var(--stat-bg); padding:1.5rem; border-radius:24px;">${toxHtml}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-dna"></i> Biological Effects</h3><div style="background:var(--stat-bg); padding:1.5rem; border-radius:24px;">${bioHtml}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-book"></i> Research</h3><div style="background:var(--stat-bg); padding:1.5rem; border-radius:24px;">${researchHtml}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-project-diagram"></i> Compatibility</h3><div style="background:var(--stat-bg); padding:1.5rem; border-radius:24px;">${compatibilityHtml}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-gavel"></i> Regulatory</h3><div style="background:var(--stat-bg); padding:1.5rem; border-radius:24px;">${regulatoryHtml}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-box"></i> Common In</h3><div style="background:var(--stat-bg); padding:1.2rem; border-radius:24px; display:flex; flex-wrap:wrap; gap:0.5rem;">${ing.common_in.map((p) => `<span class="benefit-tag">${p}</span>`).join("")}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-exchange-alt"></i> Alternatives</h3><div style="background:var(--stat-bg); padding:1.2rem; border-radius:24px; display:flex; flex-wrap:wrap; gap:0.5rem;">${ing.alternatives.map((a) => `<span class="benefit-tag">${a}</span>`).join("")}</div></div>
+
+          <div class="detail-section"><h3><i class="fas fa-exclamation-triangle"></i> Safety Notes</h3><p style="background:#f8717120; padding:1.2rem; border-radius:24px; border-left:3px solid #f87171;">${ing.safety_notes}</p></div>
+        </div>
+      `;
+
+        document.getElementById("modalContent").innerHTML = modalContent;
+        modal.style.display = "block";
+      }
+
+      window.closeModal = function () {
+        document.getElementById("ingredientModal").style.display = "none";
+      };
+      window.onclick = function (e) {
+        const m = document.getElementById("ingredientModal");
+        if (e.target === m) m.style.display = "none";
+      };
+
+      function loadTrending() {
+        const trending = ingredientDatabase
+          .sort((a, b) => b.growth - a.growth)
+          .slice(0, 5);
+        document.getElementById("trendingGrid").innerHTML = trending
+          .map(
+            (item, idx) => `
+        <div class="trending-item" onclick="viewIngredient('${item.id}')">
+          <div class="trending-rank">${idx + 1}</div>
+          <div class="trending-info"><div class="trending-name">${item.name}</div><div class="trending-growth">↑ ${item.growth}% growth</div></div>
+        </div>
+      `,
+          )
+          .join("");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Dataset Explorer</title>
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Merriweather", "Inter", serif;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT / DARK VARIABLES (exactly as provided) ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.75);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.6);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --btn-expert-text: #b45f4b;
+        --btn-expert-hover-bg: #b45f4b;
+        --btn-expert-hover-text: #fff7ec;
+        --shadow: 0 20px 40px -12px rgba(90, 60, 40, 0.25);
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --badge-bg: #b45f4b20;
+        --badge-text: #b45f4b;
+        --panel-bg: rgba(255, 250, 240, 0.5);
+        --trend-up: #4f7a6b;
+        --trend-down: #b65f5f;
+        --chart-primary: #b45f4b;
+        --chart-secondary: #a8745f;
+        --chart-tertiary: #c4927b;
+        --chart-quaternary: #e3b7a0;
+        --chart-soft: #d6a58b;
+      }
+
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.8);
+        --footer-bg: rgba(24, 22, 20, 0.85);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.6);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --btn-expert-text: #e2cfc2;
+        --btn-expert-hover-bg: #a8745f;
+        --btn-expert-hover-text: #1e1b1a;
+        --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --badge-bg: #a8745f30;
+        --badge-text: #e2cfc2;
+        --panel-bg: rgba(35, 30, 26, 0.6);
+        --trend-up: #8fbf9f;
+        --trend-down: #d68f8f;
+        --chart-primary: #a8745f;
+        --chart-secondary: #b5876f;
+        --chart-tertiary: #c49f8f;
+        --chart-quaternary: #9f7f6f;
+        --chart-soft: #b58f7f;
+      }
+
+      /* moving background */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.3;
+        transition: opacity 0.4s;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- CONSTANT HEADER ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        font-size: 2.4rem;
+        color: var(--btn-primary-bg);
+        filter: drop-shadow(0 2px 4px var(--accent-glow));
+      }
+      .project-name {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.4rem;
+        margin-left: 6px;
+      }
+      .expert-badge-header {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 12px;
+        border: 1px solid var(--btn-expert-border);
+      }
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 60px;
+        padding: 10px 22px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .expert-main {
+        width: 100%;
+        max-width: 1600px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      /* Header */
+      .page-header {
+        margin-bottom: 2rem;
+      }
+      .page-header h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .page-header p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-top: 0.3rem;
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .stat-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        padding: 1.5rem;
+        transition: 0.2s;
+      }
+      .stat-card:hover {
+        border-color: var(--btn-primary-bg);
+        transform: translateY(-3px);
+      }
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+        line-height: 1;
+        margin-bottom: 0.3rem;
+      }
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      /* Dataset Grid */
+      .dataset-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+      .dataset-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 36px;
+        padding: 1.8rem;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .dataset-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--btn-primary-bg);
+        box-shadow: var(--shadow);
+      }
+      .dataset-card.selected {
+        border-color: var(--btn-primary-bg);
+        background: var(--panel-bg);
+      }
+      .dataset-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.8rem;
+      }
+      .dataset-name {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .dataset-version {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        padding: 0.2rem 0.8rem;
+        background: var(--stat-bg);
+        border-radius: 40px;
+      }
+      .dataset-description {
+        color: var(--text-secondary);
+        margin-bottom: 1.2rem;
+        line-height: 1.5;
+        font-size: 0.95rem;
+      }
+      .dataset-meta {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+      .dataset-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.2rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--card-border);
+      }
+      .dataset-license {
+        color: var(--trend-up);
+        font-size: 0.8rem;
+      }
+      .dataset-preview-btn {
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        color: var(--text-secondary);
+        padding: 0.4rem 1rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .dataset-preview-btn:hover {
+        border-color: var(--btn-primary-bg);
+        color: var(--btn-primary-bg);
+      }
+
+      /* Preview Section */
+      .preview-section {
+        background: var(--panel-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin: 2rem 0;
+      }
+      .preview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .preview-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .preview-actions {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .action-btn {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        padding: 0.6rem 1.5rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .action-btn i {
+        color: var(--btn-primary-bg);
+      }
+      .action-btn:hover {
+        border-color: var(--btn-primary-bg);
+        background: var(--btn-primary-bg);
+        color: white;
+      }
+      .action-btn:hover i {
+        color: white;
+      }
+      .action-btn.primary {
+        background: var(--btn-gradient);
+        color: white;
+        border: none;
+      }
+
+      /* Query Builder */
+      .query-builder {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+      }
+      .query-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .query-input,
+      .query-select {
+        flex: 1;
+        min-width: 150px;
+        padding: 0.6rem 1rem;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+      }
+
+      /* Column Info */
+      .columns-section {
+        margin: 2rem 0;
+      }
+      .column-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .column-item {
+        background: var(--stat-bg);
+        padding: 1.2rem;
+        border-radius: 24px;
+        border: 1px solid var(--card-border);
+      }
+      .column-name {
+        color: var(--btn-primary-bg);
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        font-size: 1rem;
+      }
+      .column-type {
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        margin-bottom: 0.3rem;
+      }
+      .column-desc {
+        color: var(--text-primary);
+        font-size: 0.85rem;
+      }
+
+      /* Table */
+      .table-container {
+        overflow-x: auto;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        background: var(--card-bg);
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+      .data-table th {
+        background: var(--stat-bg);
+        color: var(--text-secondary);
+        font-weight: 600;
+        padding: 0.8rem;
+        text-align: left;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .data-table td {
+        padding: 0.8rem;
+        border-bottom: 1px dashed var(--card-border);
+        color: var(--text-primary);
+      }
+      .data-table tr:hover td {
+        background: var(--badge-bg);
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-content {
+        background: var(--panel-bg);
+        backdrop-filter: blur(12px);
+        max-width: 500px;
+        width: 90%;
+        border-radius: 48px;
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow);
+      }
+      .modal-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--card-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .modal-header h3 {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+      }
+      .modal-close {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 2rem;
+        cursor: pointer;
+      }
+      .modal-body {
+        padding: 1.5rem;
+      }
+      .modal-footer {
+        padding: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+      }
+
+      .radio-group {
+        margin: 1rem 0;
+      }
+      .radio-option {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin: 0.8rem 0;
+        color: var(--text-primary);
+      }
+
+      /* Loading */
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid var(--card-border);
+        border-top-color: var(--btn-primary-bg);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Footer */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 2.5rem 2rem 1.5rem;
+        margin-top: auto;
+      }
+      .footer-content {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .footer-links-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      .footer-col h4 {
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+      .footer-col a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        margin: 0.5rem 0;
+        font-size: 0.95rem;
+      }
+      .footer-col a:hover {
+        color: var(--btn-primary-bg);
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+      .footer-bottom-links {
+        display: flex;
+        gap: 2rem;
+      }
+      .footer-bottom-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      .footer-bottom-links a:hover {
+        color: var(--btn-primary-bg);
+      }
+
+      @media (max-width: 768px) {
+        .dataset-grid {
+          grid-template-columns: 1fr;
+        }
+        .preview-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .query-row {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="app-wrapper">
+      <!-- HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+          <span class="expert-badge-header"
+            ><i class="fas fa-microscope"></i> EXPERT</span
+          >
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT -->
+      <main class="expert-main">
+        <div class="page-header">
+          <h1>
+            <i
+              class="fas fa-database"
+              style="color: var(--btn-primary-bg); margin-right: 10px"
+            ></i>
+            Dataset Explorer & Export
+          </h1>
+          <p>
+            Browse, query, and export research-ready datasets in multiple
+            formats
+          </p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid" id="statsCards">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+
+        <!-- Dataset Grid -->
+        <h2
+          style="
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+          "
+        >
+          Available Datasets
+        </h2>
+        <div class="dataset-grid" id="datasetGrid">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="preview-section" id="previewSection" style="display: none">
+          <div class="preview-header">
+            <div>
+              <div class="preview-title" id="previewTitle">Dataset Preview</div>
+              <div
+                style="
+                  color: var(--text-secondary);
+                  font-size: 0.9rem;
+                  margin-top: 0.3rem;
+                "
+                id="previewMeta"
+              ></div>
+            </div>
+            <div class="preview-actions">
+              <button class="action-btn" onclick="showExportModal()">
+                <i class="fas fa-download"></i> Export
+              </button>
+              <button
+                class="action-btn primary"
+                onclick="
+                  document.getElementById('queryBuilder').style.display =
+                    'block'
+                "
+              >
+                <i class="fas fa-search"></i> Query
+              </button>
+            </div>
+          </div>
+
+          <!-- Query Builder -->
+          <div class="query-builder" id="queryBuilder" style="display: none">
+            <h4 style="color: var(--text-primary); margin-bottom: 1rem">
+              Custom Query
+            </h4>
+            <div class="query-row">
+              <select class="query-select" id="queryColumn">
+                <option value="">Select column</option>
+              </select>
+              <select class="query-select" id="queryOperator">
+                <option value="equals">Equals</option>
+                <option value="contains">Contains</option>
+                <option value="gt">Greater than</option>
+                <option value="lt">Less than</option>
+              </select>
+              <input
+                type="text"
+                class="query-input"
+                id="queryValue"
+                placeholder="Value"
+              />
+            </div>
+            <div class="query-row">
+              <select class="query-select" id="querySort">
+                <option value="">Sort by</option>
+              </select>
+              <select class="query-select" id="queryOrder">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+              <input
+                type="number"
+                class="query-input"
+                id="queryLimit"
+                placeholder="Limit"
+                value="10"
+                min="1"
+                max="100"
+              />
+            </div>
+            <div style="display: flex; gap: 0.8rem">
+              <button class="action-btn primary" onclick="runQuery()">
+                Apply
+              </button>
+              <button class="action-btn" onclick="resetPreview()">Reset</button>
+            </div>
+          </div>
+
+          <!-- Column Info -->
+          <div class="columns-section" id="columnsSection"></div>
+
+          <!-- Data Table -->
+          <div class="table-container" id="tableContainer">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <a href="/citizen/home">Citizen Home</a
+              ><a href="/expert/ExpertHome">Expert Home</a
+              ><a href="/expert/IngredientExplorer">Explorer</a
+              ><a href="/expert/InteractionGraphs">Graphs</a>
+            </div>
+            <div class="footer-col">
+              <h4>Analytics</h4>
+              <a href="/expert/AnalyticsDashboard">Dashboard</a
+              ><a href="/expert/MLInsights">ML Insights</a
+              ><a href="/expert/DatasetExplorer">Datasets</a
+              ><a href="/expert/Reports">Reports</a>
+            </div>
+            <div class="footer-col">
+              <h4>Regulatory</h4>
+              <a href="/expert/RegulatoryIntelligence">Regulatory</a
+              ><a href="/expert/ExperimentationSandbox">Sandbox</a>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <a href="/profile">Profile</a><a href="/settings">Settings</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div>© 2026 Jneyaḥ — truth before belief · Research Use Only</div>
+            <div class="footer-bottom-links">
+              <a href="/about">About</a><a href="/privacy">Privacy</a
+              ><a href="/contact">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Export Dataset</h3>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem">
+            Select export options
+          </p>
+
+          <div class="radio-group">
+            <div class="radio-option">
+              <input
+                type="radio"
+                name="exportFormat"
+                id="formatJson"
+                value="json"
+                checked
+              />
+              <label for="formatJson"
+                >JSON - Nested structure, preserves all data types</label
+              >
+            </div>
+            <div class="radio-option">
+              <input
+                type="radio"
+                name="exportFormat"
+                id="formatCsv"
+                value="csv"
+              />
+              <label for="formatCsv"
+                >CSV - Flat format, compatible with Excel</label
+              >
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem">
+            <label
+              style="
+                color: var(--text-primary);
+                display: block;
+                margin-bottom: 0.8rem;
+              "
+              >Rows to export</label
+            >
+            <select id="exportLimit" class="query-select" style="width: 100%">
+              <option value="10">10 rows (sample)</option>
+              <option value="100">100 rows</option>
+              <option value="1000">1000 rows</option>
+              <option value="5000">5000 rows</option>
+              <option value="">All rows</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 1.5rem">
+            <label
+              style="
+                color: var(--text-primary);
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+              "
+            >
+              <input type="checkbox" id="exportMultiple" />
+              <span>Include multiple datasets (ZIP file)</span>
+            </label>
+          </div>
+
+          <div id="multipleSelect" style="display: none; margin-top: 1rem">
+            <p style="color: var(--text-secondary); margin-bottom: 0.8rem">
+              Select datasets:
+            </p>
+            <div id="datasetCheckboxes"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="action-btn" onclick="closeModal()">Cancel</button>
+          <button class="action-btn primary" onclick="exportDataset()">
+            Export
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const body = document.body;
+        const toggleBtn = document.getElementById("themeToggleBtn");
+        function toggleTheme() {
+          if (body.classList.contains("light")) {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("jneyah-theme", "dark");
+          } else {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("jneyah-theme", "light");
+          }
+        }
+        toggleBtn.addEventListener("click", toggleTheme);
+        const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+        body.classList.remove("light", "dark");
+        body.classList.add(savedTheme);
+
+        const canvas = document.getElementById("bgCanvas");
+        const ctx = canvas.getContext("2d");
+        let width,
+          height,
+          particles = [];
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 20; i++) {
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: 20 + Math.random() * 50,
+              speedX: (Math.random() - 0.5) * 0.1,
+              speedY: (Math.random() - 0.5) * 0.1,
+              color: `rgba(180, 95, 75, ${0.1 + Math.random() * 0.1})`,
+            });
+          }
+        }
+        function resizeCanvas() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initParticles();
+        }
+        function drawParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(drawParticles);
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        drawParticles();
+      })();
+
+      // State
+      let datasets = [];
+      let currentDataset = null;
+      let previewData = null;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadStats();
+        loadDatasets();
+      });
+
+      async function loadStats() {
+        const statsHtml = `
+        <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Total Datasets</div></div>
+        <div class="stat-card"><div class="stat-value">125K</div><div class="stat-label">Total Records</div></div>
+        <div class="stat-card"><div class="stat-value">6</div><div class="stat-label">Categories</div></div>
+        <div class="stat-card"><div class="stat-value">CSV/JSON</div><div class="stat-label">Export Formats</div></div>
+      `;
+        document.getElementById("statsCards").innerHTML = statsHtml;
+      }
+
+      async function loadDatasets() {
+        const sampleDatasets = [
+          {
+            id: "cosmetics",
+            name: "Cosmetic Ingredients",
+            version: "2.1",
+            description:
+              "Comprehensive database of cosmetic ingredients with safety ratings",
+            record_count: 15420,
+            last_updated: "2026-02-15",
+            columns: 24,
+            license: "CC BY 4.0",
+          },
+          {
+            id: "food",
+            name: "Food Additives",
+            version: "3.0",
+            description:
+              "Food additives, preservatives, and their regulatory status",
+            record_count: 28340,
+            last_updated: "2026-02-10",
+            columns: 18,
+            license: "ODbL",
+          },
+          {
+            id: "interactions",
+            name: "Ingredient Interactions",
+            version: "1.5",
+            description:
+              "Known synergistic and antagonistic ingredient interactions",
+            record_count: 8760,
+            last_updated: "2026-02-01",
+            columns: 12,
+            license: "Research Only",
+          },
+        ];
+        datasets = sampleDatasets;
+        renderDatasetGrid(datasets);
+      }
+
+      function renderDatasetGrid(datasets) {
+        const grid = document.getElementById("datasetGrid");
+        grid.innerHTML = datasets
+          .map(
+            (dataset) => `
+        <div class="dataset-card" onclick="selectDataset('${dataset.id}')">
+          <div class="dataset-header">
+            <span class="dataset-name">${dataset.name}</span>
+            <span class="dataset-version">v${dataset.version}</span>
+          </div>
+          <div class="dataset-description">${dataset.description}</div>
+          <div class="dataset-meta">
+            <span class="meta-item"><i class="fas fa-table"></i> ${dataset.record_count.toLocaleString()} records</span>
+            <span class="meta-item"><i class="far fa-calendar"></i> ${dataset.last_updated}</span>
+            <span class="meta-item"><i class="fas fa-columns"></i> ${dataset.columns} cols</span>
+          </div>
+          <div class="dataset-footer">
+            <span class="dataset-license"><i class="fas fa-scale-balanced"></i> ${dataset.license}</span>
+            <span class="dataset-preview-btn" onclick="event.stopPropagation(); previewDataset('${dataset.id}')">Preview <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+      `,
+          )
+          .join("");
+      }
+
+      function selectDataset(datasetId) {
+        document
+          .querySelectorAll(".dataset-card")
+          .forEach((card) => card.classList.remove("selected"));
+        event.currentTarget.classList.add("selected");
+      }
+
+      function previewDataset(datasetId) {
+        currentDataset = datasetId;
+        const dataset = datasets.find((d) => d.id === datasetId);
+        previewData = {
+          name: dataset.name,
+          preview_count: 10,
+          total_rows: dataset.record_count,
+          columns: [
+            {
+              name: "ingredient",
+              type: "string",
+              description: "Ingredient name",
+            },
+            {
+              name: "risk_score",
+              type: "float",
+              description: "0-10 risk score",
+            },
+            {
+              name: "category",
+              type: "string",
+              description: "Product category",
+            },
+          ],
+          sample_rows: [
+            { ingredient: "Retinol", risk_score: 6.5, category: "Active" },
+            { ingredient: "Niacinamide", risk_score: 2.3, category: "Vitamin" },
+            {
+              ingredient: "Paraben",
+              risk_score: 8.1,
+              category: "Preservative",
+            },
+          ],
+        };
+        renderPreview(previewData);
+        document.getElementById("previewSection").style.display = "block";
+        document
+          .getElementById("previewSection")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function renderPreview(data) {
+        document.getElementById("previewTitle").textContent = data.name;
+        document.getElementById("previewMeta").textContent =
+          `Showing ${data.preview_count} of ${data.total_rows} rows`;
+
+        const columnsHtml = `
+        <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Column Information</h4>
+        <div class="column-grid">
+          ${data.columns
+            .map(
+              (col) => `
+            <div class="column-item">
+              <div class="column-name">${col.name}</div>
+              <div class="column-type">${col.type}</div>
+              <div class="column-desc">${col.description}</div>
+            </div>
+          `,
+            )
+            .join("")}
+        </div>
+      `;
+        document.getElementById("columnsSection").innerHTML = columnsHtml;
+
+        const columnSelect = document.getElementById("queryColumn");
+        const sortSelect = document.getElementById("querySort");
+        columnSelect.innerHTML = '<option value="">Select column</option>';
+        sortSelect.innerHTML = '<option value="">Sort by</option>';
+        data.columns.forEach((col) => {
+          columnSelect.innerHTML += `<option value="${col.name}">${col.name}</option>`;
+          sortSelect.innerHTML += `<option value="${col.name}">${col.name}</option>`;
+        });
+
+        renderTable(data.sample_rows);
+      }
+
+      function renderTable(rows) {
+        if (!rows || rows.length === 0) {
+          document.getElementById("tableContainer").innerHTML =
+            '<p style="padding: 2rem; text-align: center;">No data</p>';
+          return;
+        }
+        const columns = Object.keys(rows[0]);
+        let html =
+          '<table class="data-table"><thead><tr>' +
+          columns.map((col) => `<th>${col}</th>`).join("") +
+          "</tr></thead><tbody>";
+        rows.forEach((row) => {
+          html +=
+            "<tr>" +
+            columns.map((col) => `<td>${row[col] ?? "-"}</td>`).join("") +
+            "</tr>";
+        });
+        html += "</tbody></table>";
+        document.getElementById("tableContainer").innerHTML = html;
+      }
+
+      function runQuery() {
+        alert("Custom query executed - would return filtered results");
+        renderTable(previewData.sample_rows);
+      }
+
+      function resetPreview() {
+        if (currentDataset) previewDataset(currentDataset);
+        document.getElementById("queryBuilder").style.display = "none";
+      }
+
+      function showExportModal() {
+        if (!currentDataset) {
+          alert("Please select a dataset first");
+          return;
+        }
+        const checkboxHtml = datasets
+          .map(
+            (ds) => `
+        <div class="radio-option">
+          <input type="checkbox" id="ds_${ds.id}" value="${ds.id}" ${ds.id === currentDataset ? "checked" : ""}>
+          <label for="ds_${ds.id}">${ds.name}</label>
+        </div>
+      `,
+          )
+          .join("");
+        document.getElementById("datasetCheckboxes").innerHTML = checkboxHtml;
+        document.getElementById("exportModal").style.display = "flex";
+      }
+
+      function closeModal() {
+        document.getElementById("exportModal").style.display = "none";
+      }
+
+      document
+        .getElementById("exportMultiple")
+        .addEventListener("change", (e) => {
+          document.getElementById("multipleSelect").style.display = e.target
+            .checked
+            ? "block"
+            : "none";
+        });
+
+      function exportDataset() {
+        alert("Export started - would download dataset");
+        closeModal();
+      }
+    </script>
+  </body>
+</html>

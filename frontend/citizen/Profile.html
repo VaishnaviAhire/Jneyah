@@ -1,0 +1,2080 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Your Safety Profile</title>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-primary);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Light mode variables */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.7);
+        --card-border: #f0d9c8;
+        --btn-primary: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-secondary: #6b5e55;
+        --badge-bg: #b45f4b15;
+        --badge-text: #b45f4b;
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --accent-glow: #e3b7a0;
+        --header-bg: rgba(255, 255, 240, 0.8);
+        --particle-color: rgba(180, 95, 75, 0.15);
+        --success: #4f7a6b;
+        --warning: #b65f5f;
+        --info: #a8745f;
+        --input-bg: rgba(255, 255, 255, 0.9);
+        --input-border: #f0d9c8;
+        --tag-bg: rgba(250, 235, 220, 0.5);
+        --progress-bg: #e3b7a0;
+        --review-bg: rgba(250, 235, 220, 0.3);
+      }
+
+      /* Dark mode variables */
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.7);
+        --card-border: #534b45;
+        --btn-primary: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-secondary: #6b5e55;
+        --badge-bg: #a8745f25;
+        --badge-text: #e2cfc2;
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --accent-glow: #7f6a5c;
+        --header-bg: rgba(30, 28, 26, 0.9);
+        --particle-color: rgba(168, 116, 95, 0.15);
+        --success: #8fbf9f;
+        --warning: #d68f8f;
+        --info: #b5876f;
+        --input-bg: rgba(45, 40, 37, 0.9);
+        --input-border: #534b45;
+        --tag-bg: rgba(55, 48, 43, 0.6);
+        --progress-bg: #7f6a5c;
+        --review-bg: rgba(55, 48, 43, 0.4);
+      }
+
+      /* Floating Background Circles */
+      .bg-circles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--particle-color);
+        animation: float 20s infinite ease-in-out;
+      }
+
+      .circle-1 {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        right: -100px;
+        animation-delay: 0s;
+      }
+
+      .circle-2 {
+        width: 400px;
+        height: 400px;
+        bottom: -200px;
+        left: -150px;
+        animation-delay: -5s;
+      }
+
+      .circle-3 {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        left: 10%;
+        animation-delay: -10s;
+      }
+
+      .circle-4 {
+        width: 250px;
+        height: 250px;
+        bottom: 20%;
+        right: 5%;
+        animation-delay: -15s;
+      }
+
+      .circle-5 {
+        width: 150px;
+        height: 150px;
+        top: 60%;
+        left: 20%;
+        animation-delay: -7s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(30px, -30px) scale(1.05);
+        }
+        50% {
+          transform: translate(50px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(-20px, 40px) scale(1.02);
+        }
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0.8rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.4rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      .project-name {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        margin-left: 6px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-links a i {
+        color: var(--btn-primary);
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      .nav-links a:hover i,
+      .nav-links a.active i {
+        color: var(--btn-primary);
+      }
+
+      .user-avatar {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      /* Main Container */
+      .expert-main {
+        width: 100%;
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      /* Page Header */
+      .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 0.5rem;
+      }
+
+      .page-header h1 i {
+        color: var(--btn-primary);
+        margin-right: 0.8rem;
+      }
+
+      .page-header p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .privacy-note {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 60px;
+        padding: 0.8rem 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .privacy-note i {
+        color: var(--btn-primary);
+      }
+
+      /* Progress Bar */
+      .progress-container {
+        margin: 2rem 0 3rem;
+      }
+
+      .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-bottom: 1rem;
+      }
+
+      .progress-line-bg {
+        position: absolute;
+        top: 25px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--card-border);
+        z-index: 1;
+        border-radius: 4px;
+      }
+
+      .progress-line-fill {
+        position: absolute;
+        top: 25px;
+        left: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        z-index: 2;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 3;
+        position: relative;
+      }
+
+      .step-number {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--card-bg);
+        border: 2px solid var(--card-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .step-number.active {
+        background: var(--btn-primary);
+        border-color: var(--btn-primary);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .step-number.completed {
+        background: var(--success);
+        border-color: var(--success);
+        color: white;
+      }
+
+      .step-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-align: center;
+      }
+
+      /* Form Card */
+      .form-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Form Section */
+      .form-section {
+        display: none;
+        animation: fadeIn 0.4s ease;
+      }
+
+      .form-section.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--card-border);
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-family: "Merriweather", serif;
+      }
+
+      .section-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(
+          145deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+      }
+
+      .section-description {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin-left: 4rem;
+      }
+
+      /* Question Group */
+      .question-group {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: var(--stat-bg);
+        border-radius: 28px;
+        transition: all 0.3s ease;
+      }
+
+      .question-group:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+      }
+
+      .question-label {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1rem;
+        flex: 1;
+      }
+
+      .required::after {
+        content: " *";
+        color: var(--warning);
+        font-weight: bold;
+      }
+
+      /* Help Tooltip */
+      .help-tooltip {
+        position: relative;
+        margin-left: 0.5rem;
+      }
+
+      .help-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--btn-primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        cursor: help;
+        transition: all 0.3s ease;
+      }
+
+      .help-icon:hover {
+        transform: scale(1.1);
+      }
+
+      .tooltip-content {
+        position: absolute;
+        top: 30px;
+        right: 0;
+        width: 280px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        padding: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        display: none;
+      }
+
+      .tooltip-content::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        right: 10px;
+        width: 16px;
+        height: 16px;
+        background: var(--card-bg);
+        transform: rotate(45deg);
+        border-left: 1px solid var(--card-border);
+        border-top: 1px solid var(--card-border);
+      }
+
+      .help-tooltip:hover .tooltip-content {
+        display: block;
+      }
+
+      .tooltip-title {
+        font-weight: 600;
+        color: var(--btn-primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .tooltip-example {
+        background: var(--stat-bg);
+        padding: 0.5rem;
+        border-radius: 12px;
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      /* Form Inputs */
+      .simple-input {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        background: var(--input-bg);
+        border: 2px solid var(--input-border);
+        border-radius: 40px;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+      }
+
+      .simple-input:focus {
+        outline: none;
+        border-color: var(--btn-primary);
+        box-shadow: 0 0 0 4px var(--badge-bg);
+      }
+
+      select.simple-input {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23b45f4b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1.2rem center;
+        background-size: 12px;
+        padding-right: 3rem;
+      }
+
+      .simple-textarea {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        background: var(--input-bg);
+        border: 2px solid var(--input-border);
+        border-radius: 28px;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        min-height: 100px;
+        resize: vertical;
+        font-family: inherit;
+        transition: all 0.3s ease;
+      }
+
+      .simple-textarea:focus {
+        outline: none;
+        border-color: var(--btn-primary);
+        box-shadow: 0 0 0 4px var(--badge-bg);
+      }
+
+      /* Options Grid */
+      .options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.8rem;
+      }
+
+      .simple-option {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.8rem 1rem;
+        background: var(--input-bg);
+        border: 2px solid var(--input-border);
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .simple-option:hover {
+        border-color: var(--btn-primary);
+        background: var(--badge-bg);
+      }
+
+      .simple-option input[type="radio"],
+      .simple-option input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--btn-primary);
+      }
+
+      .option-text {
+        color: var(--text-primary);
+        font-size: 0.9rem;
+      }
+
+      /* Tags */
+      .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .tag {
+        padding: 0.6rem 1.2rem;
+        background: var(--tag-bg);
+        border: 2px solid var(--input-border);
+        border-radius: 40px;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .tag:hover {
+        border-color: var(--btn-primary);
+        background: var(--badge-bg);
+      }
+
+      .tag.selected {
+        background: var(--btn-primary);
+        color: white;
+        border-color: var(--btn-primary);
+      }
+
+      /* Info Boxes */
+      .info-box {
+        background: rgba(168, 116, 95, 0.1);
+        border-left: 4px solid var(--info);
+        border-radius: 20px;
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .info-box i {
+        color: var(--info);
+        font-size: 1.2rem;
+      }
+
+      .tip-box {
+        background: rgba(79, 122, 107, 0.1);
+        border-left: 4px solid var(--success);
+        border-radius: 20px;
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .tip-box i {
+        color: var(--success);
+        font-size: 1.2rem;
+      }
+
+      /* Review Box */
+      .review-box {
+        background: var(--review-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .review-item {
+        margin-bottom: 1.2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px dashed var(--card-border);
+      }
+
+      .review-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .review-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.3rem;
+      }
+
+      .review-value {
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      /* Success Screen */
+      .success-screen {
+        text-align: center;
+        padding: 2rem;
+        display: none;
+      }
+
+      .success-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(145deg, var(--success), #6b8f7f);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.5rem;
+        margin: 0 auto 1.5rem;
+        animation: bounce 0.5s ease;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+
+      .success-screen h2 {
+        font-size: 2rem;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+
+      .success-screen p {
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      /* Form Navigation */
+      .form-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+      }
+
+      .nav-btn {
+        padding: 1rem 2rem;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-prev {
+        background: var(--card-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--card-border);
+      }
+
+      .btn-prev:hover {
+        background: var(--stat-bg);
+        transform: translateX(-3px);
+      }
+
+      .btn-next {
+        background: linear-gradient(
+          145deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        color: white;
+        box-shadow: 0 8px 20px rgba(180, 95, 75, 0.3);
+      }
+
+      .btn-next:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(180, 95, 75, 0.4);
+      }
+
+      .btn-skip {
+        background: transparent;
+        color: var(--text-secondary);
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        text-decoration: underline;
+        transition: color 0.3s ease;
+      }
+
+      .btn-skip:hover {
+        color: var(--btn-primary);
+      }
+
+      /* Error Messages */
+      .error-message {
+        color: var(--warning);
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        display: none;
+      }
+
+      /* Loading */
+      .loading {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Theme Toggle */
+      .theme-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+      }
+
+      .theme-toggle-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--btn-primary);
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(180, 95, 75, 0.4);
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        transform: scale(1.1);
+      }
+
+      /* Footer */
+      .global-footer {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--card-border);
+        padding: 1.5rem 2rem;
+        margin-top: 2rem;
+      }
+
+      .footer-content {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--btn-primary);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .global-header {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .page-header h1 {
+          font-size: 2rem;
+        }
+
+        .form-card {
+          padding: 1.5rem;
+        }
+
+        .options-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .step-label {
+          display: none;
+        }
+
+        .step-number {
+          width: 40px;
+          height: 40px;
+        }
+
+        .form-nav {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .btn-prev,
+        .btn-next,
+        .btn-skip {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <!-- Floating Background Circles -->
+    <div class="bg-circles">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="circle circle-4"></div>
+      <div class="circle circle-5"></div>
+    </div>
+
+    <div class="app-wrapper">
+      <!-- Header -->
+      <header class="global-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="CitizenHome.html"><i class="fas fa-home"></i> Home</a>
+          <a href="UploadAndKnow.html"><i class="fas fa-camera"></i> Upload</a>
+          <a href="EnterIngredients.html"
+            ><i class="fas fa-keyboard"></i> Enter</a
+          >
+          <a href="IngredientOfTheDay.html"
+            ><i class="fas fa-lightbulb"></i> Daily</a
+          >
+          <a href="Community.html"><i class="fas fa-users"></i> Community</a>
+          <a href="Profile.html" class="active"
+            ><i class="fas fa-user"></i> Profile</a
+          >
+        </div>
+
+        <div class="user-avatar" id="userAvatar">SA</div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="expert-main">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h1><i class="fas fa-shield-alt"></i> Your Safety Profile</h1>
+          <p>
+            Help us understand you better for personalized ingredient safety
+            advice
+          </p>
+          <div class="privacy-note">
+            <i class="fas fa-lock"></i> Your information is private and secure
+          </div>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-container">
+          <div class="progress-steps">
+            <div class="progress-line-bg"></div>
+            <div
+              class="progress-line-fill"
+              id="progressLine"
+              style="width: 0%"
+            ></div>
+
+            <div class="step">
+              <div class="step-number active" id="step1">1</div>
+              <div class="step-label">About You</div>
+            </div>
+            <div class="step">
+              <div class="step-number" id="step2">2</div>
+              <div class="step-label">Your Skin</div>
+            </div>
+            <div class="step">
+              <div class="step-number" id="step3">3</div>
+              <div class="step-label">Allergies</div>
+            </div>
+            <div class="step">
+              <div class="step-number" id="step4">4</div>
+              <div class="step-label">Health</div>
+            </div>
+            <div class="step">
+              <div class="step-number" id="step5">5</div>
+              <div class="step-label">Habits</div>
+            </div>
+            <div class="step">
+              <div class="step-number" id="step6">6</div>
+              <div class="step-label">Review</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card">
+          <!-- Section 1: About You -->
+          <div class="form-section active" id="section1">
+            <div class="section-header">
+              <div class="section-title">
+                <div class="section-icon"><i class="fas fa-user"></i></div>
+                About You
+              </div>
+              <div class="section-description">
+                Basic information to personalize your experience
+              </div>
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label required">How old are you?</label>
+                <div class="help-tooltip">
+                  <span class="help-icon">?</span>
+                  <div class="tooltip-content">
+                    <div class="tooltip-title">Why we ask</div>
+                    <p>
+                      Some ingredients are safer or riskier at different ages.
+                      For example, certain ingredients aren't recommended for
+                      children or during pregnancy.
+                    </p>
+                    <div class="tooltip-example">
+                      Example: Retinol is often avoided during pregnancy.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input
+                type="number"
+                id="age"
+                class="simple-input"
+                min="1"
+                max="120"
+                placeholder="Enter your age"
+                required
+              />
+              <div class="error-message" id="ageError"></div>
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label required"
+                  >What's your gender?</label
+                >
+                <div class="help-tooltip">
+                  <span class="help-icon">?</span>
+                  <div class="tooltip-content">
+                    <div class="tooltip-title">Why we ask</div>
+                    <p>
+                      Some ingredients may affect men and women differently due
+                      to hormonal differences.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="options-grid">
+                <label class="simple-option">
+                  <input type="radio" name="gender" value="female" required />
+                  <span class="option-text">Female</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="gender" value="male" />
+                  <span class="option-text">Male</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="gender" value="other" />
+                  <span class="option-text">Other</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="gender" value="prefer-not-to-say" />
+                  <span class="option-text">Prefer not to say</span>
+                </label>
+              </div>
+              <div class="error-message" id="genderError"></div>
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label"
+                  >Are you pregnant or breastfeeding?</label
+                >
+                <div class="help-tooltip">
+                  <span class="help-icon">?</span>
+                  <div class="tooltip-content">
+                    <div class="tooltip-title">Important for safety</div>
+                    <p>
+                      Many ingredients that are normally safe should be avoided
+                      during pregnancy or breastfeeding.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="options-grid">
+                <label class="simple-option">
+                  <input type="radio" name="pregnancy" value="no" />
+                  <span class="option-text">No</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="pregnancy" value="pregnant" />
+                  <span class="option-text">Yes, pregnant</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="pregnancy" value="breastfeeding" />
+                  <span class="option-text">Yes, breastfeeding</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="pregnancy" value="planning" />
+                  <span class="option-text">Planning pregnancy</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="tip-box">
+              <i class="fas fa-lightbulb"></i>
+              <span
+                >The more accurate your information, the better we can protect
+                you from potentially harmful ingredients.</span
+              >
+            </div>
+          </div>
+
+          <!-- Section 2: Your Skin -->
+          <div class="form-section" id="section2">
+            <div class="section-header">
+              <div class="section-title">
+                <div class="section-icon"><i class="fas fa-spa"></i></div>
+                Your Skin
+              </div>
+              <div class="section-description">
+                Help us understand your skin type and concerns
+              </div>
+            </div>
+
+            <div class="info-box">
+              <i class="fas fa-info-circle"></i>
+              <span
+                >This helps us recommend ingredients that work well with your
+                skin type.</span
+              >
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label required"
+                  >What's your skin type?</label
+                >
+                <div class="help-tooltip">
+                  <span class="help-icon">?</span>
+                  <div class="tooltip-content">
+                    <div class="tooltip-title">How to tell:</div>
+                    <p>
+                      <strong>Oily:</strong> Shiny skin, visible pores<br />
+                      <strong>Dry:</strong> Feels tight, may flake<br />
+                      <strong>Combination:</strong> Oily T-zone, dry
+                      elsewhere<br />
+                      <strong>Sensitive:</strong> Easily gets red or
+                      irritated<br />
+                      <strong>Normal:</strong> Balanced, not too oily or dry
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="options-grid">
+                <label class="simple-option">
+                  <input type="radio" name="skin_type" value="oily" required />
+                  <span class="option-text">Oily</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="skin_type" value="dry" />
+                  <span class="option-text">Dry</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="skin_type" value="combination" />
+                  <span class="option-text">Combination</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="skin_type" value="sensitive" />
+                  <span class="option-text">Sensitive</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="skin_type" value="normal" />
+                  <span class="option-text">Normal</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="skin_type" value="not-sure" />
+                  <span class="option-text">Not sure</span>
+                </label>
+              </div>
+              <div class="error-message" id="skinTypeError"></div>
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label"
+                  >What skin concerns do you have?</label
+                >
+                <div class="help-tooltip">
+                  <span class="help-icon">?</span>
+                  <div class="tooltip-content">
+                    <div class="tooltip-title">
+                      We'll recommend ingredients that help with:
+                    </div>
+                    <p>
+                      Select all that apply. We'll avoid ingredients that might
+                      make them worse.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="tags-container" id="skinConcerns">
+                <span class="tag" data-value="acne">Acne/Pimples</span>
+                <span class="tag" data-value="aging">Aging/Wrinkles</span>
+                <span class="tag" data-value="dark-spots">Dark Spots</span>
+                <span class="tag" data-value="redness">Redness</span>
+                <span class="tag" data-value="dryness">Dryness</span>
+                <span class="tag" data-value="oiliness">Too Oily</span>
+                <span class="tag" data-value="pores">Large Pores</span>
+                <span class="tag" data-value="none">None</span>
+              </div>
+              <input type="hidden" id="skin_concerns" />
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label"
+                  >How does your skin react to sun?</label
+                >
+              </div>
+              <div class="options-grid">
+                <label class="simple-option">
+                  <input
+                    type="radio"
+                    name="sun_sensitivity"
+                    value="burns-easily"
+                  />
+                  <span class="option-text">Burns easily</span>
+                </label>
+                <label class="simple-option">
+                  <input
+                    type="radio"
+                    name="sun_sensitivity"
+                    value="sometimes-burns"
+                  />
+                  <span class="option-text">Sometimes burns</span>
+                </label>
+                <label class="simple-option">
+                  <input
+                    type="radio"
+                    name="sun_sensitivity"
+                    value="tans-easily"
+                  />
+                  <span class="option-text">Tans easily</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="sun_sensitivity" value="not-sure" />
+                  <span class="option-text">Not sure</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Allergies -->
+          <div class="form-section" id="section3">
+            <div class="section-header">
+              <div class="section-title">
+                <div class="section-icon"><i class="fas fa-allergies"></i></div>
+                Allergies & Reactions
+              </div>
+              <div class="section-description">
+                Tell us about any allergic reactions or sensitivities
+              </div>
+            </div>
+
+            <div class="info-box">
+              <i class="fas fa-info-circle"></i>
+              <span
+                >Even if you're not sure about specific allergies, tell us about
+                products that have caused reactions.</span
+              >
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label">Skincare allergies?</label>
+              </div>
+              <div class="tags-container" id="productAllergies">
+                <span class="tag" data-value="fragrance">Fragrance</span>
+                <span class="tag" data-value="preservatives"
+                  >Preservatives</span
+                >
+                <span class="tag" data-value="essential-oils"
+                  >Essential Oils</span
+                >
+                <span class="tag" data-value="latex">Latex</span>
+                <span class="tag" data-value="nickel">Nickel</span>
+                <span class="tag" data-value="none">No allergies</span>
+              </div>
+              <input type="hidden" id="product_allergies" />
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label">Food allergies?</label>
+              </div>
+              <div class="tags-container" id="foodAllergies">
+                <span class="tag" data-value="nuts">Nuts</span>
+                <span class="tag" data-value="dairy">Dairy</span>
+                <span class="tag" data-value="gluten">Gluten</span>
+                <span class="tag" data-value="soy">Soy</span>
+                <span class="tag" data-value="seafood">Seafood</span>
+                <span class="tag" data-value="none">No food allergies</span>
+              </div>
+              <input type="hidden" id="food_allergies" />
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label">Severity of allergies?</label>
+              </div>
+              <div class="options-grid">
+                <label class="simple-option">
+                  <input type="radio" name="allergy_severity" value="mild" />
+                  <span class="option-text">Mild</span>
+                </label>
+                <label class="simple-option">
+                  <input
+                    type="radio"
+                    name="allergy_severity"
+                    value="moderate"
+                  />
+                  <span class="option-text">Moderate</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="allergy_severity" value="severe" />
+                  <span class="option-text">Severe</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="question-group">
+              <label class="question-label"
+                >Specific products or ingredients that cause reactions?</label
+              >
+              <textarea
+                id="specific_allergies"
+                class="simple-textarea"
+                placeholder="E.g., 'Neosporin makes me itch', 'I react to lavender'"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Section 4: Health -->
+          <div class="form-section" id="section4">
+            <div class="section-header">
+              <div class="section-title">
+                <div class="section-icon"><i class="fas fa-heartbeat"></i></div>
+                Health & Medications
+              </div>
+              <div class="section-description">
+                Some ingredients interact with health conditions or medicines
+              </div>
+            </div>
+
+            <div class="info-box">
+              <i class="fas fa-info-circle"></i>
+              <span
+                >This information is confidential and used only to warn about
+                potentially harmful interactions.</span
+              >
+            </div>
+
+            <div class="question-group">
+              <div class="question-header">
+                <label class="question-label">Health conditions?</label>
+              </div>
+              <div class="tags-container" id="healthConditions">
+                <span class="tag" data-value="diabetes">Diabetes</span>
+                <span class="tag" data-value="high-bp"
+                  >High Blood Pressure</span
+                >
+                <span class="tag" data-value="thyroid">Thyroid Issues</span>
+                <span class="tag" data-value="asthma">Asthma</span>
+                <span class="tag" data-value="eczema">Eczema/Psoriasis</span>
+                <span class="tag" data-value="autoimmune">Autoimmune</span>
+                <span class="tag" data-value="none">No conditions</span>
+              </div>
+              <input type="hidden" id="health_conditions" />
+            </div>
+
+            <div class="question-group">
+              <label class="question-label">Current medications?</label>
+              <textarea
+                id="medications"
+                class="simple-textarea"
+                placeholder="List any medicines, supplements, or vitamins you take regularly"
+              ></textarea>
+            </div>
+
+            <div class="tip-box">
+              <i class="fas fa-lightbulb"></i>
+              <span
+                >Always consult your doctor before making changes to medications
+                or treatments.</span
+              >
+            </div>
+          </div>
+
+          <!-- Section 5: Habits -->
+          <div class="form-section" id="section5">
+            <div class="section-header">
+              <div class="section-title">
+                <div class="section-icon"><i class="fas fa-running"></i></div>
+                Daily Habits
+              </div>
+              <div class="section-description">
+                Your daily routine affects how ingredients work
+              </div>
+            </div>
+
+            <div class="question-group">
+              <label class="question-label">Diet preferences?</label>
+              <div class="tags-container" id="diet">
+                <span class="tag" data-value="vegetarian">Vegetarian</span>
+                <span class="tag" data-value="vegan">Vegan</span>
+                <span class="tag" data-value="gluten-free">Gluten-Free</span>
+                <span class="tag" data-value="dairy-free">Dairy-Free</span>
+                <span class="tag" data-value="regular">Regular Diet</span>
+              </div>
+              <input type="hidden" id="diet_preferences" />
+            </div>
+
+            <div class="question-group">
+              <label class="question-label">Exercise frequency?</label>
+              <div class="options-grid">
+                <label class="simple-option">
+                  <input type="radio" name="exercise" value="rarely" />
+                  <span class="option-text">Rarely</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="exercise" value="1-2" />
+                  <span class="option-text">1-2 times/week</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="exercise" value="3-4" />
+                  <span class="option-text">3-4 times/week</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="exercise" value="daily" />
+                  <span class="option-text">Daily</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="question-group">
+              <label class="question-label">Do you smoke?</label>
+              <div class="options-grid">
+                <label class="simple-option">
+                  <input type="radio" name="smoking" value="no" />
+                  <span class="option-text">No, never</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="smoking" value="former" />
+                  <span class="option-text">Used to, quit</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="smoking" value="occasional" />
+                  <span class="option-text">Occasionally</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="smoking" value="regular" />
+                  <span class="option-text">Regularly</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="question-group">
+              <label class="question-label">Stress level?</label>
+              <div class="options-grid">
+                <label class="simple-option">
+                  <input type="radio" name="stress" value="low" />
+                  <span class="option-text">Usually relaxed</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="stress" value="moderate" />
+                  <span class="option-text">Sometimes stressed</span>
+                </label>
+                <label class="simple-option">
+                  <input type="radio" name="stress" value="high" />
+                  <span class="option-text">Often stressed</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 6: Review -->
+          <div class="form-section" id="section6">
+            <div class="section-header">
+              <div class="section-title">
+                <div class="section-icon">
+                  <i class="fas fa-clipboard-check"></i>
+                </div>
+                Review & Submit
+              </div>
+              <div class="section-description">
+                Review your information before saving
+              </div>
+            </div>
+
+            <div class="review-box" id="reviewBox">
+              <div class="review-item">
+                <div class="review-label">Age & Gender</div>
+                <div class="review-value" id="reviewAgeGender">
+                  Not provided
+                </div>
+              </div>
+              <div class="review-item">
+                <div class="review-label">Skin Type</div>
+                <div class="review-value" id="reviewSkin">Not provided</div>
+              </div>
+              <div class="review-item">
+                <div class="review-label">Allergies</div>
+                <div class="review-value" id="reviewAllergies">None noted</div>
+              </div>
+              <div class="review-item">
+                <div class="review-label">Health & Medications</div>
+                <div class="review-value" id="reviewHealth">None provided</div>
+              </div>
+              <div class="review-item">
+                <div class="review-label">Lifestyle</div>
+                <div class="review-value" id="reviewLifestyle">
+                  Not provided
+                </div>
+              </div>
+            </div>
+
+            <div class="question-group">
+              <label
+                class="simple-option"
+                style="display: flex; align-items: flex-start; padding: 1.2rem"
+              >
+                <input
+                  type="checkbox"
+                  id="consent"
+                  required
+                  style="margin-top: 0.2rem"
+                />
+                <span style="margin-left: 1rem">
+                  <strong
+                    >I agree to use Jneyaḥ for personalized safety
+                    advice</strong
+                  ><br />
+                  <small style="color: var(--text-secondary)"
+                    >My information is secure and used only to help me avoid
+                    harmful ingredients.</small
+                  >
+                </span>
+              </label>
+              <div class="error-message" id="consentError"></div>
+            </div>
+
+            <div class="success-screen" id="successScreen">
+              <div class="success-icon">
+                <i class="fas fa-check"></i>
+              </div>
+              <h2>Profile Complete! 🎉</h2>
+              <p>
+                Thank you for sharing your information. We'll now provide
+                personalized ingredient safety advice just for you.
+              </p>
+              <button
+                class="nav-btn btn-next"
+                onclick="goToDashboard()"
+                style="margin: 1rem auto; display: inline-block"
+              >
+                Go to Dashboard <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Form Navigation -->
+          <div class="form-nav">
+            <button
+              class="nav-btn btn-prev"
+              id="prevBtn"
+              onclick="prevSection()"
+              style="display: none"
+            >
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+
+            <button
+              class="btn-skip"
+              id="skipBtn"
+              onclick="skipProfile()"
+              style="display: none"
+            >
+              Skip for now
+            </button>
+
+            <button
+              class="nav-btn btn-next"
+              id="nextBtn"
+              onclick="nextSection()"
+            >
+              Continue <i class="fas fa-arrow-right"></i>
+            </button>
+            <button
+              class="nav-btn btn-next"
+              id="submitBtn"
+              onclick="submitProfile()"
+              style="display: none"
+            >
+              <span
+                class="loading"
+                id="submitSpinner"
+                style="display: none"
+              ></span>
+              Finish & Save
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div>© 2026 Jneyaḥ — truth before belief</div>
+          <div class="footer-links">
+            <a href="/about">About</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <button class="theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-palette"></i>
+      </button>
+    </div>
+
+    <script>
+      // Theme Toggle
+      function toggleTheme() {
+        document.body.classList.toggle("dark");
+        localStorage.setItem(
+          "jneyah-theme",
+          document.body.classList.contains("dark") ? "dark" : "light",
+        );
+      }
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+      document.body.classList.add(savedTheme);
+
+      // Form State
+      let currentSection = 1;
+      const totalSections = 6;
+      const formData = {};
+
+      // Initialize
+      window.addEventListener("DOMContentLoaded", function () {
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+          window.location.href = "/";
+          return;
+        }
+
+        setupTagSelection();
+        updateNavigation();
+        updateProgressBar();
+      });
+
+      // Setup tag selection
+      function setupTagSelection() {
+        document.querySelectorAll(".tags-container").forEach((container) => {
+          const tags = container.querySelectorAll(".tag");
+          const hiddenInput = container.nextElementSibling;
+
+          tags.forEach((tag) => {
+            tag.addEventListener("click", function () {
+              const value = this.dataset.value;
+
+              if (value === "none") {
+                tags.forEach((t) => {
+                  t.classList.remove("selected");
+                  if (t.dataset.value === "none") {
+                    t.classList.add("selected");
+                  }
+                });
+                if (hiddenInput) hiddenInput.value = "none";
+                return;
+              }
+
+              const noneTag = container.querySelector(
+                '.tag[data-value="none"]',
+              );
+              if (noneTag) noneTag.classList.remove("selected");
+
+              this.classList.toggle("selected");
+
+              const selected = Array.from(
+                container.querySelectorAll(".tag.selected"),
+              )
+                .map((t) => t.dataset.value)
+                .filter((v) => v !== "none");
+
+              if (hiddenInput) hiddenInput.value = selected.join(",");
+            });
+          });
+        });
+      }
+
+      // Navigation
+      function nextSection() {
+        if (!validateSection()) return;
+
+        saveSectionData();
+
+        if (currentSection < totalSections) {
+          document
+            .getElementById(`section${currentSection}`)
+            .classList.remove("active");
+          currentSection++;
+          document
+            .getElementById(`section${currentSection}`)
+            .classList.add("active");
+
+          updateProgressBar();
+          updateNavigation();
+
+          if (currentSection === totalSections) {
+            generateReview();
+          }
+        }
+      }
+
+      function prevSection() {
+        if (currentSection > 1) {
+          document
+            .getElementById(`section${currentSection}`)
+            .classList.remove("active");
+          currentSection--;
+          document
+            .getElementById(`section${currentSection}`)
+            .classList.add("active");
+
+          updateProgressBar();
+          updateNavigation();
+        }
+      }
+
+      function updateProgressBar() {
+        const progress = ((currentSection - 1) / (totalSections - 1)) * 100;
+        document.getElementById("progressLine").style.width = `${progress}%`;
+
+        for (let i = 1; i <= totalSections; i++) {
+          const step = document.getElementById(`step${i}`);
+          if (step) {
+            if (i <= currentSection) {
+              step.classList.add("active");
+            } else {
+              step.classList.remove("active");
+            }
+          }
+        }
+      }
+
+      function updateNavigation() {
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const submitBtn = document.getElementById("submitBtn");
+        const skipBtn = document.getElementById("skipBtn");
+
+        prevBtn.style.display = currentSection > 1 ? "flex" : "none";
+
+        if (currentSection < totalSections) {
+          nextBtn.style.display = "flex";
+          submitBtn.style.display = "none";
+        } else {
+          nextBtn.style.display = "none";
+          submitBtn.style.display = "flex";
+        }
+
+        skipBtn.style.display = currentSection === 1 ? "block" : "none";
+      }
+
+      // Validation
+      function validateSection() {
+        let isValid = true;
+
+        document.querySelectorAll(".error-message").forEach((el) => {
+          el.style.display = "none";
+        });
+
+        if (currentSection === 1) {
+          const age = document.getElementById("age").value;
+          const gender = document.querySelector('input[name="gender"]:checked');
+
+          if (!age || age < 1 || age > 120) {
+            document.getElementById("ageError").textContent =
+              "Please enter your age (1-120)";
+            document.getElementById("ageError").style.display = "block";
+            isValid = false;
+          }
+
+          if (!gender) {
+            document.getElementById("genderError").textContent =
+              "Please select a gender";
+            document.getElementById("genderError").style.display = "block";
+            isValid = false;
+          }
+        }
+
+        if (currentSection === 2) {
+          const skinType = document.querySelector(
+            'input[name="skin_type"]:checked',
+          );
+          if (!skinType) {
+            document.getElementById("skinTypeError").textContent =
+              "Please select your skin type";
+            document.getElementById("skinTypeError").style.display = "block";
+            isValid = false;
+          }
+        }
+
+        return isValid;
+      }
+
+      // Save section data
+      function saveSectionData() {
+        if (currentSection === 1) {
+          formData.age = document.getElementById("age").value;
+          formData.gender = document.querySelector(
+            'input[name="gender"]:checked',
+          )?.value;
+          formData.pregnancy = document.querySelector(
+            'input[name="pregnancy"]:checked',
+          )?.value;
+        } else if (currentSection === 2) {
+          formData.skin_type = document.querySelector(
+            'input[name="skin_type"]:checked',
+          )?.value;
+          formData.skin_concerns =
+            document.getElementById("skin_concerns").value;
+          formData.sun_sensitivity = document.querySelector(
+            'input[name="sun_sensitivity"]:checked',
+          )?.value;
+        } else if (currentSection === 3) {
+          formData.product_allergies =
+            document.getElementById("product_allergies").value;
+          formData.food_allergies =
+            document.getElementById("food_allergies").value;
+          formData.allergy_severity = document.querySelector(
+            'input[name="allergy_severity"]:checked',
+          )?.value;
+          formData.specific_allergies =
+            document.getElementById("specific_allergies").value;
+        } else if (currentSection === 4) {
+          formData.health_conditions =
+            document.getElementById("health_conditions").value;
+          formData.medications = document.getElementById("medications").value;
+        } else if (currentSection === 5) {
+          formData.diet = document.getElementById("diet_preferences").value;
+          formData.exercise = document.querySelector(
+            'input[name="exercise"]:checked',
+          )?.value;
+          formData.smoking = document.querySelector(
+            'input[name="smoking"]:checked',
+          )?.value;
+          formData.stress = document.querySelector(
+            'input[name="stress"]:checked',
+          )?.value;
+        }
+      }
+
+      // Generate review
+      function generateReview() {
+        saveSectionData();
+
+        const ageGender = formData.age
+          ? `${formData.age} years`
+          : "Not provided";
+        document.getElementById("reviewAgeGender").textContent = ageGender;
+
+        document.getElementById("reviewSkin").textContent = formData.skin_type
+          ? formData.skin_type.replace("-", " ").toUpperCase()
+          : "Not provided";
+
+        let allergies = "None noted";
+        if (
+          formData.product_allergies &&
+          formData.product_allergies !== "none"
+        ) {
+          allergies = formData.product_allergies.split(",").join(", ");
+        }
+        document.getElementById("reviewAllergies").textContent = allergies;
+
+        let health = "None provided";
+        if (
+          formData.health_conditions &&
+          formData.health_conditions !== "none"
+        ) {
+          health = formData.health_conditions.split(",").join(", ");
+        }
+        if (formData.medications && formData.medications.trim()) {
+          health += " (Medications noted)";
+        }
+        document.getElementById("reviewHealth").textContent = health;
+
+        let lifestyle = [];
+        if (formData.diet) lifestyle.push(formData.diet);
+        if (formData.exercise) lifestyle.push(formData.exercise + " exercise");
+        if (formData.smoking) lifestyle.push(formData.smoking + " smoker");
+        document.getElementById("reviewLifestyle").textContent =
+          lifestyle.join(", ") || "Not provided";
+      }
+
+      // Submit profile
+      async function submitProfile() {
+        if (!document.getElementById("consent").checked) {
+          document.getElementById("consentError").textContent =
+            "Please agree to continue";
+          document.getElementById("consentError").style.display = "block";
+          return;
+        }
+
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+          window.location.href = "/";
+          return;
+        }
+
+        const spinner = document.getElementById("submitSpinner");
+        const submitBtn = document.getElementById("submitBtn");
+        spinner.style.display = "inline-block";
+        submitBtn.disabled = true;
+
+        try {
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          document.getElementById("reviewBox").style.display = "none";
+          document.getElementById("submitBtn").style.display = "none";
+          document.getElementById("prevBtn").style.display = "none";
+          document.getElementById("skipBtn").style.display = "none";
+          document.getElementById("successScreen").style.display = "block";
+
+          localStorage.setItem("user_profile_complete", "true");
+        } catch (error) {
+          console.error("Error:", error);
+          spinner.style.display = "none";
+          submitBtn.disabled = false;
+          alert("Something went wrong. Please try again.");
+        }
+      }
+
+      // Skip profile
+      function skipProfile() {
+        if (
+          confirm(
+            "Skip for now? You can complete your profile later for better safety recommendations.",
+          )
+        ) {
+          window.location.href = "CitizenHome.html";
+        }
+      }
+
+      // Go to dashboard
+      function goToDashboard() {
+        window.location.href = "CitizenHome.html";
+      }
+
+      // Set user avatar
+      document.getElementById("userAvatar").textContent = "SA";
+    </script>
+  </body>
+</html>

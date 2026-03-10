@@ -1,0 +1,1432 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Ingredient of the Day</title>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-primary);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Light mode variables */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.7);
+        --card-border: #f0d9c8;
+        --btn-primary: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-secondary: #6b5e55;
+        --badge-bg: #b45f4b15;
+        --badge-text: #b45f4b;
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --accent-glow: #e3b7a0;
+        --header-bg: rgba(255, 255, 240, 0.8);
+        --particle-color: rgba(180, 95, 75, 0.15);
+        --success: #4f7a6b;
+        --warning: #b65f5f;
+        --info: #a8745f;
+        --joke-bg: rgba(182, 95, 95, 0.1);
+        --benefit-bg: rgba(79, 122, 107, 0.1);
+        --sideeffect-bg: rgba(182, 95, 95, 0.1);
+        --celebrity-bg: rgba(168, 116, 95, 0.1);
+      }
+
+      /* Dark mode variables */
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.7);
+        --card-border: #534b45;
+        --btn-primary: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-secondary: #6b5e55;
+        --badge-bg: #a8745f25;
+        --badge-text: #e2cfc2;
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --accent-glow: #7f6a5c;
+        --header-bg: rgba(30, 28, 26, 0.9);
+        --particle-color: rgba(168, 116, 95, 0.15);
+        --success: #8fbf9f;
+        --warning: #d68f8f;
+        --info: #b5876f;
+        --joke-bg: rgba(182, 95, 95, 0.15);
+        --benefit-bg: rgba(79, 122, 107, 0.15);
+        --sideeffect-bg: rgba(182, 95, 95, 0.15);
+        --celebrity-bg: rgba(168, 116, 95, 0.15);
+      }
+
+      /* Floating Background Circles */
+      .bg-circles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--particle-color);
+        animation: float 20s infinite ease-in-out;
+      }
+
+      .circle-1 {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        right: -100px;
+        animation-delay: 0s;
+      }
+
+      .circle-2 {
+        width: 400px;
+        height: 400px;
+        bottom: -200px;
+        left: -150px;
+        animation-delay: -5s;
+      }
+
+      .circle-3 {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        left: 10%;
+        animation-delay: -10s;
+      }
+
+      .circle-4 {
+        width: 250px;
+        height: 250px;
+        bottom: 20%;
+        right: 5%;
+        animation-delay: -15s;
+      }
+
+      .circle-5 {
+        width: 150px;
+        height: 150px;
+        top: 60%;
+        left: 20%;
+        animation-delay: -7s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(30px, -30px) scale(1.05);
+        }
+        50% {
+          transform: translate(50px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(-20px, 40px) scale(1.02);
+        }
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0.8rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.4rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      .project-name {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        margin-left: 6px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-links a i {
+        color: var(--btn-primary);
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      .nav-links a:hover i,
+      .nav-links a.active i {
+        color: var(--btn-primary);
+      }
+
+      .user-avatar {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      /* Main Container */
+      .expert-main {
+        width: 100%;
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      /* Page Header */
+      .page-header {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .page-header h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 0.5rem;
+      }
+
+      .page-header h1 i {
+        color: var(--btn-primary);
+        margin-right: 0.8rem;
+      }
+
+      .page-header p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+      }
+
+      /* Streak Banner */
+      .streak-banner {
+        background: linear-gradient(
+          145deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 60px;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        font-weight: 500;
+        box-shadow: 0 8px 20px rgba(180, 95, 75, 0.3);
+        animation: gentle-pulse 2s infinite;
+      }
+
+      @keyframes gentle-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      .streak-banner i {
+        font-size: 1.5rem;
+      }
+
+      /* Main Card */
+      .ingredient-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .ingredient-card::before {
+        content: "🔬";
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        font-size: 150px;
+        opacity: 0.1;
+        transform: rotate(15deg);
+        pointer-events: none;
+      }
+
+      .date-badge {
+        background: var(--stat-bg);
+        color: var(--text-secondary);
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border-radius: 60px;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--card-border);
+      }
+
+      .ingredient-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .ingredient-name {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        position: relative;
+        display: inline-block;
+      }
+
+      .ingredient-name::after {
+        content: "✨";
+        font-size: 2rem;
+        position: absolute;
+        top: -10px;
+        right: -40px;
+      }
+
+      .ingredient-index {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 0.5rem 1.5rem;
+        border-radius: 60px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .fun-tagline {
+        font-size: 1.3rem;
+        color: var(--btn-primary);
+        font-style: italic;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px dashed var(--card-border);
+        font-family: "Merriweather", serif;
+      }
+
+      /* Risk Meter */
+      .risk-meter {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .risk-emoji {
+        font-size: 4rem;
+        background: var(--card-bg);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--card-border);
+      }
+
+      .risk-info {
+        flex: 1;
+      }
+
+      .risk-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.3rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .risk-level {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+      }
+
+      .risk-level.high {
+        color: var(--warning);
+      }
+      .risk-level.medium {
+        color: var(--info);
+      }
+      .risk-level.low {
+        color: var(--success);
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 10px;
+        background: var(--card-bg);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        border-radius: 20px;
+        transition: width 0.5s ease;
+      }
+
+      /* Facts Grid */
+      .facts-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .fact-card {
+        background: var(--stat-bg);
+        padding: 1.5rem;
+        border-radius: 28px;
+        border-left: 4px solid var(--btn-primary);
+        transition: all 0.3s ease;
+      }
+
+      .fact-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .fact-emoji {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .fact-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+
+      .fact-text {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      /* Joke Section */
+      .joke-section {
+        background: var(--joke-bg);
+        border-radius: 32px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-left: 4px solid var(--warning);
+      }
+
+      .joke-header {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .joke-emoji {
+        font-size: 2rem;
+      }
+
+      .joke-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--warning);
+      }
+
+      .joke-setup {
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .joke-punchline {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--warning);
+        text-align: right;
+        font-style: italic;
+      }
+
+      /* Lists Container */
+      .lists-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .benefits-list,
+      .side-effects-list {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.8rem;
+      }
+
+      .benefits-list {
+        border-left: 4px solid var(--success);
+      }
+
+      .side-effects-list {
+        border-left: 4px solid var(--warning);
+      }
+
+      .list-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--text-primary);
+      }
+
+      .list-item {
+        background: var(--card-bg);
+        padding: 1rem;
+        border-radius: 20px;
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+      }
+
+      .list-item:hover {
+        transform: translateX(5px);
+        background: var(--badge-bg);
+      }
+
+      /* Celebrity Section */
+      .celebrity-section {
+        background: var(--celebrity-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        border-left: 4px solid var(--info);
+      }
+
+      .celebrity-emoji {
+        font-size: 3rem;
+      }
+
+      .celebrity-text {
+        flex: 1;
+      }
+
+      .celebrity-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.3rem;
+      }
+
+      .celebrity-reason {
+        color: var(--text-secondary);
+        font-style: italic;
+      }
+
+      /* Did You Know */
+      .did-you-know {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-left: 4px solid var(--info);
+      }
+
+      .did-you-know strong {
+        color: var(--info);
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .did-you-know p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* Action Buttons */
+      .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .action-btn {
+        flex: 1;
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        min-width: 140px;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .like-btn {
+        background: var(--warning);
+        color: white;
+      }
+
+      .share-btn {
+        background: var(--info);
+        color: white;
+      }
+
+      .learn-btn {
+        background: var(--btn-primary);
+        color: white;
+      }
+
+      /* Navigation Controls */
+      .nav-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+      }
+
+      .nav-arrow {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        font-size: 1.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-arrow:hover {
+        background: var(--btn-primary);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .nav-dots {
+        display: flex;
+        gap: 0.8rem;
+      }
+
+      .nav-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--card-border);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .nav-dot.active {
+        background: var(--btn-primary);
+        transform: scale(1.2);
+      }
+
+      .nav-dot:hover {
+        background: var(--btn-primary);
+      }
+
+      /* Footer Note */
+      .footer-note {
+        text-align: center;
+        color: var(--text-secondary);
+        margin-top: 2rem;
+        font-size: 0.95rem;
+      }
+
+      /* Theme Toggle */
+      .theme-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+      }
+
+      .theme-toggle-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--btn-primary);
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(180, 95, 75, 0.4);
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        transform: scale(1.1);
+      }
+
+      /* Toast Notification */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--btn-primary);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 60px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        animation: slideUp 0.3s ease;
+        z-index: 1000;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translate(-50%, 100%);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+      }
+
+      /* Footer */
+      .global-footer {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--card-border);
+        padding: 1.5rem 2rem;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--btn-primary);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .global-header {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .ingredient-name {
+          font-size: 2.5rem;
+        }
+
+        .facts-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .lists-container {
+          grid-template-columns: 1fr;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <!-- Floating Background Circles -->
+    <div class="bg-circles">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="circle circle-4"></div>
+      <div class="circle circle-5"></div>
+    </div>
+
+    <div class="app-wrapper">
+      <!-- Header -->
+      <header class="global-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="CitizenHome.html"><i class="fas fa-home"></i> Home</a>
+          <a href="UploadAndKnow.html"><i class="fas fa-camera"></i> Upload</a>
+          <a href="EnterIngredients.html"
+            ><i class="fas fa-keyboard"></i> Enter</a
+          >
+          <a href="IngredientOfTheDay.html" class="active"
+            ><i class="fas fa-lightbulb"></i> Daily</a
+          >
+          <a href="Community.html"><i class="fas fa-users"></i> Community</a>
+          <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
+        </div>
+
+        <div class="user-avatar" id="userAvatar">SA</div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="expert-main">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h1><i class="fas fa-lightbulb"></i> Ingredient of the Day</h1>
+          <p>Learn something new every day with fun facts and humor</p>
+        </div>
+
+        <!-- Streak Banner -->
+        <div class="streak-banner" id="streakNotification">
+          <i class="fas fa-fire"></i>
+          <span>You're on a 5-day learning streak! Keep it up!</span>
+          <i class="fas fa-fire"></i>
+        </div>
+
+        <!-- Main Card -->
+        <div class="ingredient-card" id="ingredientCard">
+          <div class="date-badge" id="dateBadge">
+            📅 Tuesday, February 19, 2026
+          </div>
+
+          <div class="ingredient-header">
+            <h1 class="ingredient-name" id="ingredientName">Retinol</h1>
+            <span class="ingredient-index" id="ingredientIndex">1/4</span>
+          </div>
+
+          <div class="fun-tagline" id="funTagline">
+            "The Benjamin Button of skincare - ages backwards, but drama
+            follows!"
+          </div>
+
+          <!-- Risk Meter -->
+          <div class="risk-meter">
+            <div class="risk-emoji" id="riskEmoji">😅</div>
+            <div class="risk-info">
+              <div class="risk-label">Risk Level</div>
+              <div class="risk-level medium" id="riskLevel">
+                MEDIUM - Handle with care! 🧤
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  id="riskProgress"
+                  style="width: 55%; background-color: #ffc107"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fun Facts Grid -->
+          <div class="facts-grid">
+            <div class="fact-card">
+              <div class="fact-emoji">🎭</div>
+              <div class="fact-title">Dual Personality</div>
+              <div class="fact-text" id="fact1">
+                By day: Vitamin A. By night: Cell turnover superhero.
+              </div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-emoji">⏰</div>
+              <div class="fact-title">Drama Queen Alert</div>
+              <div class="fact-text" id="fact2">
+                Makes you peel before giving you glass skin. Trust the process!
+              </div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-emoji">🌞</div>
+              <div class="fact-title">Vampire Hours</div>
+              <div class="fact-text" id="fact3">
+                Hates sunlight more than a vampire. Use at night!
+              </div>
+            </div>
+            <div class="fact-card">
+              <div class="fact-emoji">🤰</div>
+              <div class="fact-title">Baby on Board?</div>
+              <div class="fact-text" id="fact4">
+                Pregnant? Not safe for baby baking.
+              </div>
+            </div>
+          </div>
+
+          <!-- Joke Section -->
+          <div class="joke-section">
+            <div class="joke-header">
+              <span class="joke-emoji">😂</span>
+              <span class="joke-title">Knock Knock! Who's there?</span>
+            </div>
+            <div class="joke-setup" id="jokeSetup">
+              "Why did Retinol break up with Sunscreen?"
+            </div>
+            <div class="joke-punchline" id="jokePunchline">
+              "Because it needed some space! (SPF? Space? Get it?) 🌞🚀"
+            </div>
+          </div>
+
+          <!-- Benefits & Side Effects -->
+          <div class="lists-container">
+            <div class="benefits-list">
+              <div class="list-title">
+                <i
+                  class="fas fa-check-circle"
+                  style="color: var(--success)"
+                ></i>
+                The Good Stuff
+              </div>
+              <div id="benefits"></div>
+            </div>
+
+            <div class="side-effects-list">
+              <div class="list-title">
+                <i
+                  class="fas fa-exclamation-triangle"
+                  style="color: var(--warning)"
+                ></i>
+                The Drama
+              </div>
+              <div id="sideEffects"></div>
+            </div>
+          </div>
+
+          <!-- Celebrity Look-alike -->
+          <div class="celebrity-section">
+            <div class="celebrity-emoji">🌟</div>
+            <div class="celebrity-text">
+              <div class="celebrity-name" id="celebrityName">
+                Celebrity Look-alike: Ross Geller
+              </div>
+              <div class="celebrity-reason" id="celebrityReason">
+                "WE WERE ON A BREAK!" - Retinol to your skin cells.
+              </div>
+            </div>
+          </div>
+
+          <!-- Did You Know -->
+          <div class="did-you-know" id="didYouKnow">
+            <strong>🤓 Nerdy Corner:</strong>
+            <p>
+              Retinol was discovered in 1931. It's part of the retinoid family -
+              the Kardashians of skincare.
+            </p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button class="action-btn like-btn" onclick="likeIngredient()">
+              <i class="fas fa-heart"></i> Like (<span id="likeCount">127</span
+              >)
+            </button>
+            <button class="action-btn share-btn" onclick="shareIngredient()">
+              <i class="fas fa-share-alt"></i> Share
+            </button>
+            <button class="action-btn learn-btn" onclick="learnMore()">
+              <i class="fas fa-flask"></i> Deep Dive
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+          <button class="nav-arrow" onclick="previousIngredient()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="nav-dots" id="navDots"></div>
+          <button class="nav-arrow" onclick="nextIngredient()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="footer-note">
+          <i class="fas fa-smile"></i> New ingredient every day! Learn, laugh,
+          and level up your skincare game.
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div>© 2026 Jneyaḥ — truth before belief</div>
+          <div class="footer-links">
+            <a href="/about">About</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <button class="theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-palette"></i>
+      </button>
+    </div>
+
+    <script>
+      // Theme Toggle
+      function toggleTheme() {
+        document.body.classList.toggle("dark");
+        localStorage.setItem(
+          "jneyah-theme",
+          document.body.classList.contains("dark") ? "dark" : "light",
+        );
+      }
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+      document.body.classList.add(savedTheme);
+
+      // Ingredient database with humor
+      const ingredients = [
+        {
+          name: "Retinol",
+          tagline:
+            "The Benjamin Button of skincare - ages backwards, but drama follows!",
+          riskLevel: "MEDIUM - Handle with care! 🧤",
+          riskScore: 55,
+          riskColor: "#ffc107",
+          riskEmoji: "😅",
+          fact1: "By day: Vitamin A. By night: Cell turnover superhero.",
+          fact2:
+            "Makes you peel before giving you glass skin. Trust the process!",
+          fact3: "Hates sunlight more than a vampire. Use at night!",
+          fact4: "Pregnant? Not safe for baby baking.",
+          jokeSetup: "Why did Retinol break up with Sunscreen?",
+          jokePunchline:
+            "Because it needed some space! (SPF? Space? Get it?) 🌞🚀",
+          benefits: [
+            "✨ Erases wrinkles like a digital photo editor",
+            "🚀 Speeds up cell turnover faster than your ex's rebound",
+            "🌟 Makes collagen like it's going out of style",
+            "🎯 Unclogs pores better than a plunger",
+          ],
+          sideEffects: [
+            "😱 Makes you peel like a snake (temporary, we promise!)",
+            "🔥 Redness so real, people ask if you're okay",
+            "☀️ Sun sensitivity - you'll feel the sun in your soul",
+            "💀 The 'retinol uglies' - it gets worse before it gets better",
+          ],
+          celebrityName: "Celebrity Look-alike: Ross Geller",
+          celebrityReason:
+            "'WE WERE ON A BREAK!' - Retinol to your skin cells.",
+          didYouKnow:
+            "Retinol was discovered in 1931. It's part of the retinoid family - the Kardashians of skincare.",
+          likes: 127,
+        },
+        {
+          name: "Hyaluronic Acid",
+          tagline: "The overachiever that can hold 1000x its weight in water.",
+          riskLevel: "LOW - Chill as a cucumber 🥒",
+          riskScore: 5,
+          riskColor: "#28a745",
+          riskEmoji: "💧",
+          fact1: "Holds 1000x its weight in water - the camel of skincare!",
+          fact2: "Found naturally in your body, but decreases with age.",
+          fact3: "Works best on damp skin. Dry skin + HA = sad panda.",
+          fact4: "Comes in different molecular sizes - it's complicated!",
+          jokeSetup: "What did Hyaluronic Acid say to the dry skin?",
+          jokePunchline: "'Quit being so thirsty, I got you!' 💧😎",
+          benefits: [
+            "💦 Holds more water than your emotional support water bottle",
+            "🎈 Plumps skin like a balloon animal",
+            "✨ Reduces fine lines (temporarily, but we'll take it!)",
+            "🌍 Works for ALL skin types - the people's champion",
+          ],
+          sideEffects: [
+            "💸 Can be expensive for the good stuff",
+            "🏜️ In dry climates, might draw moisture FROM your skin",
+            "🤷‍♀️ Pills with some products - skincare drama",
+            "😌 Too gentle? Sometimes you want the drama!",
+          ],
+          celebrityName: "Celebrity Look-alike: Elle Woods",
+          celebrityReason:
+            "Bend and snap! Works hard, stays hydrated, always looks fabulous.",
+          didYouKnow:
+            "Hyaluronic Acid is like that friend who always has a water bottle - holds 1000x its weight in water.",
+          likes: 342,
+        },
+        {
+          name: "Niacinamide",
+          tagline:
+            "The friend who solves all your problems and looks good doing it.",
+          riskLevel: "LOW - Sweet angel baby 😇",
+          riskScore: 10,
+          riskColor: "#28a745",
+          riskEmoji: "😇",
+          fact1: "Also known as Vitamin B3 - the office MVP!",
+          fact2: "Plays well with others - unlike that one coworker.",
+          fact3: "Reduces redness so well, your face forgets how to blush.",
+          fact4: "Controls oil better than blotting papers.",
+          jokeSetup: "Why did Niacinamide get invited to every party?",
+          jokePunchline:
+            "Because it gets along with EVERYONE! No drama, just results. 🎉",
+          benefits: [
+            "🎭 Reduces redness like a Photoshop blur tool",
+            "⚡ Controls oil better than your high school math teacher",
+            "🧱 Strengthens skin barrier - builds walls (the good kind!)",
+            "✨ Minimizes pores (okay, makes them LOOK smaller)",
+          ],
+          sideEffects: [
+            "😬 Might tingle if you use too much",
+            "🧪 Can cause flushing in high doses",
+            "🤔 Works slowly - patience, young grasshopper",
+            "💊 Smells slightly like vitamins (because it is one)",
+          ],
+          celebrityName: "Celebrity Look-alike: Keanu Reeves",
+          celebrityReason: "Wholesome, good for everyone, secretly powerful.",
+          didYouKnow:
+            "Niacinamide is the Switzerland of skincare - neutral, peaceful, and friends with everyone.",
+          likes: 256,
+        },
+        {
+          name: "Vitamin C",
+          tagline:
+            "The morning sunshine your face deserves (without the UV rays).",
+          riskLevel: "LOW-MEDIUM - High maintenance but worth it 💅",
+          riskScore: 25,
+          riskColor: "#fd7e14",
+          riskEmoji: "🍊",
+          fact1: "Oxidizes faster than your milk left out overnight.",
+          fact2: "L-ascorbic acid sounds like a Harry Potter spell.",
+          fact3: "Works best in the morning because it's an overachiever.",
+          fact4: "Brightens skin so much, you'll need sunglasses indoors.",
+          jokeSetup: "Why did Vitamin C break up with sunlight?",
+          jokePunchline:
+            "Because it needed a stable relationship! (Oxidation? Get it?) 🌞💔",
+          benefits: [
+            "✨ Brightens skin like you got 8 hours of sleep",
+            "🛡️ Protects from pollution - skin's personal bodyguard",
+            "🌟 Boosts collagen - the scaffolding of your face",
+            "🎯 Fades dark spots like Photoshop for real life",
+          ],
+          sideEffects: [
+            "😬 Can sting like that one friend's honest opinion",
+            "🧪 Oxidizes and turns orange - not the glow you wanted",
+            "💸 Good ones are expensive (because of course they are)",
+            "🤷‍♀️ Picky about pH - the diva of skincare",
+          ],
+          celebrityName: "Celebrity Look-alike: Cher",
+          celebrityReason:
+            "Timeless, bright, been around forever but still relevant.",
+          didYouKnow:
+            "Vitamin C is like that friend who's always positive in the morning - annoying but good for you.",
+          likes: 189,
+        },
+      ];
+
+      let currentIndex = 0;
+
+      // DOM Elements
+      const dateBadge = document.getElementById("dateBadge");
+      const ingredientName = document.getElementById("ingredientName");
+      const ingredientIndex = document.getElementById("ingredientIndex");
+      const funTagline = document.getElementById("funTagline");
+      const riskEmoji = document.getElementById("riskEmoji");
+      const riskLevel = document.getElementById("riskLevel");
+      const riskProgress = document.getElementById("riskProgress");
+      const fact1 = document.getElementById("fact1");
+      const fact2 = document.getElementById("fact2");
+      const fact3 = document.getElementById("fact3");
+      const fact4 = document.getElementById("fact4");
+      const jokeSetup = document.getElementById("jokeSetup");
+      const jokePunchline = document.getElementById("jokePunchline");
+      const benefits = document.getElementById("benefits");
+      const sideEffects = document.getElementById("sideEffects");
+      const celebrityName = document.getElementById("celebrityName");
+      const celebrityReason = document.getElementById("celebrityReason");
+      const didYouKnow = document.getElementById("didYouKnow");
+      const likeCount = document.getElementById("likeCount");
+      const navDots = document.getElementById("navDots");
+
+      // Initialize
+      function init() {
+        updateDate();
+        renderNavDots();
+        loadIngredient(0);
+      }
+
+      function updateDate() {
+        const now = new Date();
+        const options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+        dateBadge.textContent = `📅 ${now.toLocaleDateString("en-US", options)}`;
+      }
+
+      function renderNavDots() {
+        navDots.innerHTML = ingredients
+          .map(
+            (_, i) =>
+              `<div class="nav-dot ${i === currentIndex ? "active" : ""}" onclick="goToIngredient(${i})"></div>`,
+          )
+          .join("");
+      }
+
+      function loadIngredient(index) {
+        currentIndex = index;
+        const ing = ingredients[index];
+
+        ingredientName.textContent = ing.name;
+        ingredientIndex.textContent = `${index + 1}/${ingredients.length}`;
+        funTagline.textContent = ing.tagline;
+        riskEmoji.textContent = ing.riskEmoji;
+        riskLevel.textContent = ing.riskLevel;
+        riskLevel.className = `risk-level ${ing.riskLevel.split(" ")[0].toLowerCase()}`;
+        riskProgress.style.width = `${ing.riskScore}%`;
+        riskProgress.style.backgroundColor = ing.riskColor;
+
+        fact1.textContent = ing.fact1;
+        fact2.textContent = ing.fact2;
+        fact3.textContent = ing.fact3;
+        fact4.textContent = ing.fact4;
+
+        jokeSetup.textContent = ing.jokeSetup;
+        jokePunchline.textContent = ing.jokePunchline;
+
+        benefits.innerHTML = ing.benefits
+          .map((b) => `<div class="list-item">${b}</div>`)
+          .join("");
+
+        sideEffects.innerHTML = ing.sideEffects
+          .map((s) => `<div class="list-item">${s}</div>`)
+          .join("");
+
+        celebrityName.textContent = ing.celebrityName;
+        celebrityReason.textContent = ing.celebrityReason;
+        didYouKnow.innerHTML = `<strong>🤓 Nerdy Corner:</strong><p>${ing.didYouKnow}</p>`;
+
+        likeCount.textContent = ing.likes;
+
+        // Update active dot
+        document.querySelectorAll(".nav-dot").forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+      }
+
+      // Navigation functions
+      window.previousIngredient = function () {
+        currentIndex =
+          (currentIndex - 1 + ingredients.length) % ingredients.length;
+        loadIngredient(currentIndex);
+        showToast(`✨ Now showing: ${ingredients[currentIndex].name}`);
+      };
+
+      window.nextIngredient = function () {
+        currentIndex = (currentIndex + 1) % ingredients.length;
+        loadIngredient(currentIndex);
+        showToast(`✨ Now showing: ${ingredients[currentIndex].name}`);
+      };
+
+      window.goToIngredient = function (index) {
+        currentIndex = index;
+        loadIngredient(currentIndex);
+        showToast(`✨ Now showing: ${ingredients[currentIndex].name}`);
+      };
+
+      window.likeIngredient = function () {
+        const ing = ingredients[currentIndex];
+        ing.likes++;
+        likeCount.textContent = ing.likes;
+        showToast(`❤️ You liked ${ing.name}!`);
+      };
+
+      window.shareIngredient = function () {
+        const ing = ingredients[currentIndex];
+        if (navigator.share) {
+          navigator.share({
+            title: `Ingredient of the Day: ${ing.name}`,
+            text: `${ing.tagline} - Check it out on Jneyaḥ!`,
+            url: window.location.href,
+          });
+        } else {
+          navigator.clipboard.writeText(
+            `${ing.name}: ${ing.tagline} ${window.location.href}`,
+          );
+          showToast("📋 Copied to clipboard!");
+        }
+      };
+
+      window.learnMore = function () {
+        window.location.href = `EnterIngredients.html?ingredient=${ingredients[currentIndex].name}`;
+      };
+
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      // Set user avatar
+      document.getElementById("userAvatar").textContent = "SA";
+
+      // Initialize on load
+      init();
+    </script>
+  </body>
+</html>

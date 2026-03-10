@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · ML Insights (Expert)</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Merriweather", "Inter", serif;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT / DARK VARIABLES ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.75);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.6);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --btn-expert-text: #b45f4b;
+        --btn-expert-hover-bg: #b45f4b;
+        --btn-expert-hover-text: #fff7ec;
+        --shadow: 0 20px 40px -12px rgba(90, 60, 40, 0.25);
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --badge-bg: #b45f4b20;
+        --badge-text: #b45f4b;
+        --panel-bg: rgba(255, 250, 240, 0.5);
+        --trend-up: #4f7a6b;
+        --trend-down: #b65f5f;
+        --chart-primary: #b45f4b;
+        --chart-secondary: #a8745f;
+        --chart-tertiary: #c4927b;
+        --chart-quaternary: #e3b7a0;
+        --chart-soft: #d6a58b;
+        --legend-syn: #4f7a6b;
+        --legend-ant: #b65f5f;
+        --legend-risk: #b45f4b;
+        --legend-neutral: #a8745f;
+      }
+
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.8);
+        --footer-bg: rgba(24, 22, 20, 0.85);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.6);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --btn-expert-text: #e2cfc2;
+        --btn-expert-hover-bg: #a8745f;
+        --btn-expert-hover-text: #1e1b1a;
+        --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --badge-bg: #a8745f30;
+        --badge-text: #e2cfc2;
+        --panel-bg: rgba(35, 30, 26, 0.6);
+        --trend-up: #8fbf9f;
+        --trend-down: #d68f8f;
+        --chart-primary: #a8745f;
+        --chart-secondary: #b5876f;
+        --chart-tertiary: #c49f8f;
+        --chart-quaternary: #9f7f6f;
+        --chart-soft: #b58f7f;
+        --legend-syn: #8fbf9f;
+        --legend-ant: #d68f8f;
+        --legend-risk: #c49f8f;
+        --legend-neutral: #b5876f;
+      }
+
+      /* moving background */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- HEADER ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        font-size: 2.4rem;
+        color: var(--btn-primary-bg);
+        filter: drop-shadow(0 2px 4px var(--accent-glow));
+      }
+      .project-name {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.4rem;
+        margin-left: 6px;
+      }
+      .expert-badge-header {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 12px;
+        border: 1px solid var(--btn-expert-border);
+      }
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 60px;
+        padding: 10px 22px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .expert-main {
+        width: 100%;
+        max-width: 1600px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .header-title h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .header-title p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-top: 0.3rem;
+      }
+
+      /* Status bar */
+      .status-bar {
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--card-border);
+        border-radius: 60px;
+        padding: 1.2rem 2rem;
+        margin-bottom: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .status-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .status-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .indicator-active {
+        background: var(--legend-syn);
+      }
+      .indicator-inactive {
+        background: var(--card-border);
+      }
+      .indicator-warning {
+        background: var(--legend-ant);
+      }
+
+      /* Tabs */
+      .tab-nav {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--card-border);
+        padding-bottom: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        padding: 0.6rem 1.8rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 40px;
+        transition: 0.2s;
+      }
+      .tab-btn.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      /* Cards */
+      .content-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .card-actions {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .action-btn {
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        padding: 0.5rem 1.5rem;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .action-btn:hover {
+        border-color: var(--btn-primary-bg);
+        color: var(--btn-primary-bg);
+      }
+      .action-btn.primary {
+        background: var(--btn-gradient);
+        color: white;
+        border: none;
+      }
+      .action-btn.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      /* Metrics grid */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .metric-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        text-align: center;
+      }
+      .metric-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+        margin-bottom: 0.2rem;
+      }
+      .metric-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .chart-container {
+        height: 300px;
+        margin-top: 1rem;
+      }
+
+      /* Feature importance */
+      .feature-list {
+        margin-top: 1rem;
+      }
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.8rem;
+      }
+      .feature-name {
+        width: 200px;
+        color: var(--text-primary);
+      }
+      .feature-bar {
+        flex: 1;
+        height: 24px;
+        background: var(--stat-bg);
+        border-radius: 40px;
+        overflow: hidden;
+      }
+      .feature-fill {
+        height: 100%;
+        background: var(--btn-gradient);
+        border-radius: 40px;
+      }
+      .feature-value {
+        width: 60px;
+        color: var(--text-secondary);
+      }
+
+      /* SHAP */
+      .shap-container {
+        margin-top: 1rem;
+      }
+      .shap-ingredient {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .shap-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .shap-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .shap-score {
+        padding: 0.3rem 1.2rem;
+        border-radius: 40px;
+      }
+      .score-high {
+        background: #d68f8f;
+        color: #2a1a1a;
+      }
+      .score-medium {
+        background: #bfb57f;
+        color: #2a241a;
+      }
+      .score-low {
+        background: #8fb59f;
+        color: #1a2a24;
+      }
+
+      .shap-contributions {
+        display: grid;
+        gap: 0.8rem;
+      }
+      .shap-contribution {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .contribution-label {
+        width: 150px;
+        color: var(--text-secondary);
+      }
+      .contribution-bar {
+        flex: 1;
+        height: 20px;
+        background: var(--card-bg);
+        border-radius: 40px;
+        overflow: hidden;
+      }
+      .contribution-fill {
+        height: 100%;
+      }
+      .fill-positive {
+        background: var(--legend-ant);
+      }
+      .fill-negative {
+        background: var(--legend-syn);
+      }
+      .contribution-value {
+        width: 70px;
+        color: var(--text-primary);
+      }
+
+      /* Model selector */
+      .model-selector {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
+      .model-option {
+        background: var(--stat-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        padding: 1.2rem 1.5rem;
+        cursor: pointer;
+        transition: 0.2s;
+        flex: 1;
+        min-width: 150px;
+      }
+      .model-option:hover,
+      .model-option.selected {
+        border-color: var(--btn-primary-bg);
+      }
+      .model-option-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.3rem;
+      }
+      .model-option-desc {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      /* Confusion matrix */
+      .confusion-matrix {
+        display: grid;
+        grid-template-columns: repeat(2, 120px);
+        gap: 2px;
+        background: var(--card-border);
+        padding: 2px;
+        border-radius: 16px;
+        width: fit-content;
+        margin: 1.5rem auto;
+      }
+      .matrix-cell {
+        background: var(--stat-bg);
+        padding: 1.5rem;
+        text-align: center;
+        border-radius: 14px;
+      }
+      .matrix-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+      }
+      .matrix-label {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      /* Conclusion Section */
+      .conclusion-section {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2rem;
+        margin: 2.5rem 0 1.5rem;
+      }
+      .conclusion-section h2 {
+        font-size: 2rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .conclusion-section h2 i {
+        color: var(--btn-primary-bg);
+      }
+      .obs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      .obs-card {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+      }
+      .obs-card .stat {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--btn-primary-bg);
+      }
+      .obs-card .label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .insight-text {
+        background: var(--stat-bg);
+        padding: 1.5rem 2rem;
+        border-radius: 40px;
+        color: var(--text-primary);
+        line-height: 1.7;
+        font-size: 1.05rem;
+        border-left: 6px solid var(--btn-primary-bg);
+      }
+      .insight-text strong {
+        color: var(--btn-primary-bg);
+      }
+
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid var(--card-border);
+        border-top-color: var(--btn-primary-bg);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* footer */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 2.5rem 2rem 1.5rem;
+        margin-top: auto;
+      }
+      .footer-content {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .footer-links-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      .footer-col h4 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+      .footer-col a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        margin: 0.5rem 0;
+      }
+      .footer-col a:hover {
+        color: var(--btn-primary-bg);
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
+      }
+      .footer-bottom-links {
+        display: flex;
+        gap: 2rem;
+      }
+      .footer-bottom-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      .footer-bottom-links a:hover {
+        color: var(--btn-primary-bg);
+      }
+
+      @media (max-width: 800px) {
+        .obs-grid {
+          grid-template-columns: 1fr;
+        }
+        .feature-item {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="app-wrapper">
+      <!-- HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+          <span class="expert-badge-header"
+            ><i class="fas fa-microscope"></i> EXPERT</span
+          >
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <main class="expert-main">
+        <!-- Header -->
+        <div class="page-header">
+          <div class="header-title">
+            <h1>
+              <i class="fas fa-brain" style="color: var(--btn-primary-bg)"></i>
+              ML Insights
+            </h1>
+            <p>
+              Research-grade machine learning with explainable AI (XAI) – no
+              black boxes
+            </p>
+          </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+          <button class="tab-btn active" onclick="switchTab('predict', this)">
+            Risk Prediction
+          </button>
+          <button class="tab-btn" onclick="switchTab('explain', this)">
+            Explainable AI (SHAP)
+          </button>
+          <button class="tab-btn" onclick="switchTab('train', this)">
+            Model Training
+          </button>
+          <button class="tab-btn" onclick="switchTab('evaluate', this)">
+            Evaluation Metrics
+          </button>
+        </div>
+
+        <!-- Dynamic Content -->
+        <div id="tabContent">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+
+        <!-- CONCLUSION SECTION (updates per tab) -->
+        <div class="conclusion-section" id="conclusionSection">
+          <h2>
+            <i class="fas fa-clipboard-check"></i> Conclusion & Observations
+          </h2>
+          <div id="conclusionContent"></div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <a href="/citizen/home">Citizen Home</a
+              ><a href="/expert/ExpertHome">Expert Home</a
+              ><a href="/expert/IngredientExplorer">Explorer</a
+              ><a href="/expert/InteractionGraphs">Graphs</a>
+            </div>
+            <div class="footer-col">
+              <h4>Analytics</h4>
+              <a href="/expert/AnalyticsDashboard">Dashboard</a
+              ><a href="/expert/MLInsights">ML Insights</a
+              ><a href="/expert/DatasetExplorer">Datasets</a
+              ><a href="/expert/Reports">Reports</a>
+            </div>
+            <div class="footer-col">
+              <h4>Regulatory</h4>
+              <a href="/expert/RegulatoryIntelligence">Regulatory</a
+              ><a href="/expert/ExperimentationSandbox">Sandbox</a>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <a href="/profile">Profile</a><a href="/settings">Settings</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div>© 2026 Jneyaḥ — truth before belief · Research Use Only</div>
+            <div class="footer-bottom-links">
+              <a href="/about">About</a><a href="/privacy">Privacy</a
+              ><a href="/contact">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        const body = document.body,
+          toggleBtn = document.getElementById("themeToggleBtn");
+        function toggleTheme() {
+          if (body.classList.contains("light")) {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("jneyah-theme", "dark");
+          } else {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("jneyah-theme", "light");
+          }
+        }
+        toggleBtn.addEventListener("click", toggleTheme);
+        const saved = localStorage.getItem("jneyah-theme") || "light";
+        body.classList.remove("light", "dark");
+        body.classList.add(saved);
+
+        // bg canvas
+        const canvas = document.getElementById("bgCanvas"),
+          ctx = canvas.getContext("2d");
+        let width,
+          height,
+          particles = [];
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 20; i++)
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: 20 + Math.random() * 50,
+              speedX: (Math.random() - 0.5) * 0.1,
+              speedY: (Math.random() - 0.5) * 0.1,
+              color: `rgba(180,95,75,${0.1 + Math.random() * 0.1})`,
+            });
+        }
+        function resizeCanvas() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initParticles();
+        }
+        function drawParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(drawParticles);
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        drawParticles();
+      })();
+
+      // ---------- ML Insights Mock Data & Logic ----------
+      let currentTab = "predict";
+      let currentPredictions = null;
+      let currentExplanations = null;
+      let currentModel = "xgboost";
+
+      // Mock data
+      const mockIngredients = [
+        "Retinol",
+        "Niacinamide",
+        "Vitamin C",
+        "Hyaluronic Acid",
+        "AHAs",
+        "Benzoyl Peroxide",
+      ];
+      const mockPredictions = {
+        risk_scores: [0.82, 0.21, 0.45, 0.12, 0.67, 0.58],
+        irritation_probability: [0.91, 0.15, 0.38, 0.08, 0.72, 0.49],
+        chronic_risk: [0.77, 0.18, 0.41, 0.1, 0.63, 0.52],
+        sensitivity_risk: [0.68, 0.25, 0.39, 0.09, 0.58, 0.44],
+      };
+
+      const mockShap = [
+        {
+          ingredient: "Retinol",
+          base_value: 0.5,
+          shap_values: [
+            {
+              feature: "molecular_weight",
+              shap_value: 0.15,
+              impact: "positive",
+            },
+            { feature: "logP", shap_value: 0.12, impact: "positive" },
+            {
+              feature: "irritation_potential",
+              shap_value: 0.08,
+              impact: "positive",
+            },
+            {
+              feature: "stability_score",
+              shap_value: -0.03,
+              impact: "negative",
+            },
+          ],
+          top_contributors: [
+            {
+              feature: "molecular_weight (log scale)",
+              shap_value: 0.15,
+              impact: "positive",
+            },
+            {
+              feature: "lipophilicity (logP)",
+              shap_value: 0.12,
+              impact: "positive",
+            },
+            {
+              feature: "irritation potential",
+              shap_value: 0.08,
+              impact: "positive",
+            },
+            {
+              feature: "stability score",
+              shap_value: -0.03,
+              impact: "negative",
+            },
+          ],
+        },
+        {
+          ingredient: "Niacinamide",
+          base_value: 0.5,
+          shap_values: [
+            { feature: "solubility", shap_value: -0.18, impact: "negative" },
+            {
+              feature: "functional_group",
+              shap_value: -0.1,
+              impact: "negative",
+            },
+          ],
+          top_contributors: [
+            {
+              feature: "water solubility",
+              shap_value: -0.18,
+              impact: "negative",
+            },
+            {
+              feature: "amide group stability",
+              shap_value: -0.1,
+              impact: "negative",
+            },
+          ],
+        },
+      ];
+
+      const mockFeatureImportance = [
+        { feature: "molecular_weight", importance: 0.28 },
+        { feature: "logP (lipophilicity)", importance: 0.22 },
+        { feature: "irritation_potential", importance: 0.18 },
+        { feature: "solubility", importance: 0.14 },
+        { feature: "stability_score", importance: 0.1 },
+        { feature: "functional_group_risk", importance: 0.08 },
+      ];
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadStatus();
+        loadTabContent("predict");
+      });
+
+      function loadStatus() {
+        document.getElementById("statusBar").innerHTML = `
+        <div class="status-item"><span class="status-indicator indicator-active"></span> XGBoost (trained)</div>
+        <div class="status-item"><span class="status-indicator indicator-inactive"></span> Gradient Boosting</div>
+        <div class="status-item"><span class="status-indicator indicator-inactive"></span> Random Forest</div>
+        <div class="status-item"><span class="status-indicator indicator-warning"></span> GNN (coming soon)</div>
+        <div class="status-item"><span>📊 24 training runs</span></div>
+      `;
+      }
+
+      function switchTab(tab, el) {
+        currentTab = tab;
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        el.classList.add("active");
+        loadTabContent(tab);
+      }
+
+      function loadTabContent(tab) {
+        const contentDiv = document.getElementById("tabContent");
+        contentDiv.innerHTML = `<div class="loading"><div class="spinner"></div></div>`;
+        setTimeout(() => {
+          if (tab === "predict") renderPredictionTab();
+          else if (tab === "explain") renderExplainTab();
+          else if (tab === "train") renderTrainingTab();
+          else if (tab === "evaluate") renderEvaluationTab();
+          updateConclusion(tab);
+        }, 300);
+      }
+
+      // ========== PREDICTION TAB ==========
+      function renderPredictionTab() {
+        const contentDiv = document.getElementById("tabContent");
+        let cards = "";
+        mockIngredients.forEach((ing, i) => {
+          cards += `
+          <div class="metric-card">
+            <div style="font-size:1.2rem; color:var(--text-primary); margin-bottom:0.5rem;">${ing}</div>
+            <div class="metric-value">${(mockPredictions.risk_scores[i] * 100).toFixed(1)}%</div>
+            <div class="metric-label">Overall Risk</div>
+            <div style="margin-top:1rem; display:flex; justify-content:space-around;">
+              <div><span style="color:var(--legend-ant);">Irritation</span> ${(mockPredictions.irritation_probability[i] * 100).toFixed(1)}%</div>
+              <div><span style="color:var(--legend-risk);">Chronic</span> ${(mockPredictions.chronic_risk[i] * 100).toFixed(1)}%</div>
+            </div>
+          </div>
+        `;
+        });
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header">
+            <div class="card-title">Ingredient Risk Predictions (XGBoost)</div>
+            <div class="card-actions">
+              <button class="action-btn" onclick="refreshPredictions()">↻ Refresh</button>
+              <button class="action-btn" onclick="exportPredictions()">Export</button>
+            </div>
+          </div>
+          <div class="metrics-grid">${cards}</div>
+        </div>
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Risk Distribution Radar</div></div>
+          <div class="chart-container"><canvas id="riskChart"></canvas></div>
+        </div>
+      `;
+        setTimeout(() => {
+          const ctx = document.getElementById("riskChart")?.getContext("2d");
+          if (!ctx) return;
+          new Chart(ctx, {
+            type: "radar",
+            data: {
+              labels: mockIngredients,
+              datasets: [
+                {
+                  label: "Overall Risk",
+                  data: mockPredictions.risk_scores.map((v) => v * 100),
+                  borderColor: "#b45f4b",
+                  backgroundColor: "rgba(180,95,75,0.2)",
+                },
+                {
+                  label: "Irritation",
+                  data: mockPredictions.irritation_probability.map(
+                    (v) => v * 100,
+                  ),
+                  borderColor: "#d68f8f",
+                  backgroundColor: "rgba(214,143,143,0.2)",
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: { r: { beginAtZero: true, max: 100 } },
+            },
+          });
+        }, 100);
+      }
+
+      // ========== EXPLAIN TAB (SHAP) ==========
+      function renderExplainTab() {
+        const contentDiv = document.getElementById("tabContent");
+        let shapHtml = "";
+        mockShap.forEach((exp) => {
+          const total =
+            exp.base_value +
+            exp.shap_values.reduce((a, b) => a + b.shap_value, 0);
+          const riskClass =
+            total > 0.6
+              ? "score-high"
+              : total > 0.3
+                ? "score-medium"
+                : "score-low";
+          let contribs = "";
+          exp.top_contributors.forEach((c) => {
+            contribs += `
+            <div class="shap-contribution">
+              <span class="contribution-label">${c.feature}</span>
+              <div class="contribution-bar"><div class="contribution-fill ${c.impact === "positive" ? "fill-positive" : "fill-negative"}" style="width: ${Math.abs(c.shap_value * 200)}%;"></div></div>
+              <span class="contribution-value">${c.shap_value > 0 ? "+" : ""}${c.shap_value.toFixed(3)}</span>
+            </div>
+          `;
+          });
+          shapHtml += `
+          <div class="shap-ingredient">
+            <div class="shap-header">
+              <span class="shap-name">${exp.ingredient}</span>
+              <span class="shap-score ${riskClass}">Base: ${exp.base_value.toFixed(2)}</span>
+            </div>
+            <div class="shap-contributions">${contribs}</div>
+          </div>
+        `;
+        });
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header">
+            <div class="card-title">SHAP Feature Attribution (Explainable AI)</div>
+            <div class="card-actions"><button class="action-btn" onclick="refreshExplanations()">↻ Refresh</button><button class="action-btn">Export SHAP</button></div>
+          </div>
+          <div class="shap-container">${shapHtml}</div>
+        </div>
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Global Feature Importance</div></div>
+          <div class="feature-list">
+            ${mockFeatureImportance
+              .map(
+                (f) => `
+              <div class="feature-item">
+                <span class="feature-name">${f.feature}</span>
+                <div class="feature-bar"><div class="feature-fill" style="width: ${f.importance * 100}%;"></div></div>
+                <span class="feature-value">${(f.importance * 100).toFixed(1)}%</span>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+      }
+
+      // ========== TRAINING TAB ==========
+      function renderTrainingTab() {
+        const contentDiv = document.getElementById("tabContent");
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Model Training Panel</div></div>
+          <h3 style="color:var(--text-primary); margin-bottom:1rem;">Select Model</h3>
+          <div class="model-selector">
+            <div class="model-option selected" onclick="selectModel('xgboost', this)"><div class="model-option-name">XGBoost</div><div class="model-option-desc">Gradient boosting with regularization</div></div>
+            <div class="model-option" onclick="selectModel('gradient_boosting', this)"><div class="model-option-name">Gradient Boosting</div><div class="model-option-desc">Classical GBM</div></div>
+            <div class="model-option" onclick="selectModel('random_forest', this)"><div class="model-option-name">Random Forest</div><div class="model-option-desc">Ensemble of trees</div></div>
+          </div>
+          <h3 style="color:var(--text-primary); margin:1.5rem 0 1rem;">Hyperparameters</h3>
+          <div class="param-slider"><div class="param-label"><span>Validation Split</span><span id="valSplitValue">0.2</span></div><input type="range" min="0.1" max="0.4" step="0.05" value="0.2" oninput="document.getElementById('valSplitValue').innerText=this.value"></div>
+          <div class="param-slider"><div class="param-label"><span>Number of Estimators</span><span id="nEstimatorsValue">100</span></div><input type="range" min="50" max="300" step="50" value="100" oninput="document.getElementById('nEstimatorsValue').innerText=this.value"></div>
+          <div class="param-slider"><div class="param-label"><span>Max Depth</span><span id="maxDepthValue">6</span></div><input type="range" min="3" max="12" step="1" value="6" oninput="document.getElementById('maxDepthValue').innerText=this.value"></div>
+          <button class="action-btn primary" onclick="trainModel()" style="width:100%; margin-top:1.5rem;">🚀 Train Model</button>
+        </div>
+        <div id="trainingResults" style="display:none;"></div>
+      `;
+      }
+
+      function selectModel(model, el) {
+        document
+          .querySelectorAll(".model-option")
+          .forEach((o) => o.classList.remove("selected"));
+        el.classList.add("selected");
+        currentModel = model;
+      }
+
+      function trainModel() {
+        const resultsDiv = document.getElementById("trainingResults");
+        resultsDiv.style.display = "block";
+        resultsDiv.innerHTML = `<div class="loading"><div class="spinner"></div></div>`;
+        setTimeout(() => {
+          resultsDiv.innerHTML = `
+          <div class="content-card">
+            <div class="card-header"><div class="card-title">Training Results - XGBoost</div></div>
+            <div class="metrics-grid">
+              <div class="metric-card"><div class="metric-value">89.2%</div><div class="metric-label">Accuracy</div></div>
+              <div class="metric-card"><div class="metric-value">87.5%</div><div class="metric-label">Precision</div></div>
+              <div class="metric-card"><div class="metric-value">91.3%</div><div class="metric-label">Recall</div></div>
+              <div class="metric-card"><div class="metric-value">89.4%</div><div class="metric-label">F1 Score</div></div>
+              <div class="metric-card"><div class="metric-value">94.1%</div><div class="metric-label">ROC-AUC</div></div>
+            </div>
+            <h3 style="color:var(--text-primary); margin:1.5rem 0;">Confusion Matrix</h3>
+            <div class="confusion-matrix">
+              <div class="matrix-cell"><span class="matrix-value">42</span><span class="matrix-label">True Neg</span></div>
+              <div class="matrix-cell"><span class="matrix-value">5</span><span class="matrix-label">False Pos</span></div>
+              <div class="matrix-cell"><span class="matrix-value">4</span><span class="matrix-label">False Neg</span></div>
+              <div class="matrix-cell"><span class="matrix-value">38</span><span class="matrix-label">True Pos</span></div>
+            </div>
+            <p style="color:var(--text-secondary); margin-top:1rem;">Model saved: xgboost_v2 trained on 89 samples</p>
+          </div>
+        `;
+        }, 800);
+      }
+
+      // ========== EVALUATION TAB ==========
+      function renderEvaluationTab() {
+        const contentDiv = document.getElementById("tabContent");
+        contentDiv.innerHTML = `
+        <div class="content-card">
+          <div class="card-header"><div class="card-title">Cross-Validation Results (5-fold)</div><div class="card-actions"><button class="action-btn" onclick="refreshEvaluation()">↻ Refresh</button></div></div>
+          <div class="metrics-grid">
+            <div class="metric-card"><div class="metric-value">87.3%</div><div class="metric-label">Accuracy</div></div>
+            <div class="metric-card"><div class="metric-value">86.1%</div><div class="metric-label">Precision</div></div>
+            <div class="metric-card"><div class="metric-value">89.5%</div><div class="metric-label">Recall</div></div>
+            <div class="metric-card"><div class="metric-value">87.8%</div><div class="metric-label">F1 Score</div></div>
+            <div class="metric-card"><div class="metric-value">92.7%</div><div class="metric-label">ROC-AUC</div></div>
+          </div>
+          <h3 style="color:var(--text-primary); margin:1.5rem 0;">Confusion Matrix (Aggregated)</h3>
+          <div class="confusion-matrix">
+            <div class="matrix-cell"><span class="matrix-value">205</span><span class="matrix-label">True Neg</span></div>
+            <div class="matrix-cell"><span class="matrix-value">28</span><span class="matrix-label">False Pos</span></div>
+            <div class="matrix-cell"><span class="matrix-value">22</span><span class="matrix-label">False Neg</span></div>
+            <div class="matrix-cell"><span class="matrix-value">190</span><span class="matrix-label">True Pos</span></div>
+          </div>
+          <pre style="background:var(--stat-bg); padding:1rem; border-radius:24px; margin-top:1.5rem; color:var(--text-secondary);">Classification Report:
+  precision    recall  f1-score
+  low risk       0.88     0.91     0.89
+  high risk      0.86     0.83     0.84</pre>
+        </div>
+      `;
+      }
+
+      // ========== CONCLUSION SECTION ==========
+      function updateConclusion(tab) {
+        const conDiv = document.getElementById("conclusionContent");
+        let html = "";
+        if (tab === "predict") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">Retinol</span><div class="label">highest risk (82%)</div></div>
+            <div class="obs-card"><span class="stat">Hyaluronic Acid</span><div class="label">lowest risk (12%)</div></div>
+            <div class="obs-card"><span class="stat">2.3x</span><div class="label">irritation vs chronic</div></div>
+          </div>
+          <div class="insight-text"><strong>🔍 Observation:</strong> Retinol shows highest risk driven by irritation potential (91%). Hyaluronic Acid and Niacinamide are safest. The model suggests irritation is the dominant risk factor across all actives.</div>
+        `;
+        } else if (tab === "explain") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">molecular weight</span><div class="label">top feature (28%)</div></div>
+            <div class="obs-card"><span class="stat">logP</span><div class="label">22% importance</div></div>
+            <div class="obs-card"><span class="stat">SHAP</span><div class="label">retinol +0.15 from logP</div></div>
+          </div>
+          <div class="insight-text"><strong>📊 Observation:</strong> SHAP reveals molecular weight and lipophilicity as key risk drivers. For retinol, high logP increases predicted risk; for niacinamide, high solubility reduces risk. Model is not a black box – these attributions match chemical intuition.</div>
+        `;
+        } else if (tab === "train") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">89.2%</span><div class="label">accuracy</div></div>
+            <div class="obs-card"><span class="stat">94.1%</span><div class="label">ROC-AUC</div></div>
+            <div class="obs-card"><span class="stat">5</span><div class="label">false positives</div></div>
+          </div>
+          <div class="insight-text"><strong>⚙️ Observation:</strong> XGBoost achieves excellent discrimination (AUC 0.94). Low false positive rate indicates reliable safety flagging. Model benefits from regularization – minimal overfitting.</div>
+        `;
+        } else if (tab === "evaluate") {
+          html = `
+          <div class="obs-grid">
+            <div class="obs-card"><span class="stat">87.3%</span><div class="label">CV accuracy</div></div>
+            <div class="obs-card"><span class="stat">0.03</span><div class="label">std dev</div></div>
+            <div class="obs-card"><span class="stat">92.7%</span><div class="label">AUC</div></div>
+          </div>
+          <div class="insight-text"><strong>📈 Observation:</strong> Cross-validation confirms model stability (low variance). Precision/recall tradeoff is acceptable for safety screening. The model generalizes well to unseen data.</div>
+        `;
+        }
+        conDiv.innerHTML = html;
+      }
+
+      // Helpers
+      window.refreshPredictions = () => renderPredictionTab();
+      window.refreshExplanations = () => renderExplainTab();
+      window.refreshEvaluation = () => renderEvaluationTab();
+      window.exportPredictions = () => alert("Export predictions (JSON)");
+      window.selectModel = selectModel;
+      window.trainModel = trainModel;
+    </script>
+  </body>
+</html>

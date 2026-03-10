@@ -1,0 +1,1876 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Upload & Know</title>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-primary);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Light mode variables */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.7);
+        --card-border: #f0d9c8;
+        --btn-primary: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-secondary: #6b5e55;
+        --badge-bg: #b45f4b15;
+        --badge-text: #b45f4b;
+        --stat-bg: rgba(250, 235, 220, 0.5);
+        --accent-glow: #e3b7a0;
+        --header-bg: rgba(255, 255, 240, 0.8);
+        --particle-color: rgba(180, 95, 75, 0.15);
+        --success: #4f7a6b;
+        --warning: #b65f5f;
+        --info: #a8745f;
+        --upload-border: #b45f4b;
+        --upload-bg: rgba(180, 95, 75, 0.05);
+      }
+
+      /* Dark mode variables */
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.7);
+        --card-border: #534b45;
+        --btn-primary: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-secondary: #6b5e55;
+        --badge-bg: #a8745f25;
+        --badge-text: #e2cfc2;
+        --stat-bg: rgba(55, 48, 43, 0.6);
+        --accent-glow: #7f6a5c;
+        --header-bg: rgba(30, 28, 26, 0.9);
+        --particle-color: rgba(168, 116, 95, 0.15);
+        --success: #8fbf9f;
+        --warning: #d68f8f;
+        --info: #b5876f;
+        --upload-border: #a8745f;
+        --upload-bg: rgba(168, 116, 95, 0.1);
+      }
+
+      /* Floating Background Circles */
+      .bg-circles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--particle-color);
+        animation: float 20s infinite ease-in-out;
+      }
+
+      .circle-1 {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        right: -100px;
+        animation-delay: 0s;
+      }
+
+      .circle-2 {
+        width: 400px;
+        height: 400px;
+        bottom: -200px;
+        left: -150px;
+        animation-delay: -5s;
+      }
+
+      .circle-3 {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        left: 10%;
+        animation-delay: -10s;
+      }
+
+      .circle-4 {
+        width: 250px;
+        height: 250px;
+        bottom: 20%;
+        right: 5%;
+        animation-delay: -15s;
+      }
+
+      .circle-5 {
+        width: 150px;
+        height: 150px;
+        top: 60%;
+        left: 20%;
+        animation-delay: -7s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(30px, -30px) scale(1.05);
+        }
+        50% {
+          transform: translate(50px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(-20px, 40px) scale(1.02);
+        }
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0.8rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.4rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      .project-name {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        margin-left: 6px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-links a i {
+        color: var(--btn-primary);
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+      }
+
+      .nav-links a:hover i,
+      .nav-links a.active i {
+        color: var(--btn-primary);
+      }
+
+      .user-avatar {
+        width: 44px;
+        height: 44px;
+        background: var(--btn-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.3);
+      }
+
+      /* Main Container */
+      .expert-main {
+        width: 100%;
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      /* Page Header */
+      .page-header {
+        margin-bottom: 2.5rem;
+        text-align: center;
+      }
+
+      .page-header h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 0.8rem;
+      }
+
+      .page-header h1 i {
+        color: var(--btn-primary);
+        margin-right: 0.8rem;
+      }
+
+      .page-header p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* Upload Card */
+      .upload-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+      }
+
+      .upload-area {
+        border: 3px dashed var(--upload-border);
+        border-radius: 32px;
+        padding: 3rem;
+        text-align: center;
+        background: var(--upload-bg);
+        cursor: pointer;
+        transition: all 0.4s ease;
+        margin-bottom: 1.5rem;
+      }
+
+      .upload-area:hover {
+        background: var(--badge-bg);
+        border-color: var(--btn-primary-hover);
+        transform: translateY(-2px);
+      }
+
+      .upload-area.dragover {
+        background: var(--badge-bg);
+        border-color: var(--btn-primary);
+        transform: scale(1.02);
+      }
+
+      .upload-icon {
+        font-size: 5rem;
+        color: var(--btn-primary);
+        margin-bottom: 1rem;
+        animation: gentle-float 3s ease-in-out infinite;
+      }
+
+      @keyframes gentle-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .upload-text {
+        font-size: 1.4rem;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .upload-hint {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      /* Preview */
+      .preview-container {
+        margin: 1.5rem 0;
+        display: none;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        background: var(--stat-bg);
+      }
+
+      .preview-image {
+        max-width: 100%;
+        max-height: 300px;
+        display: block;
+        margin: 0 auto;
+      }
+
+      /* Extracted Text */
+      .extracted-section {
+        background: var(--stat-bg);
+        border-radius: 24px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        display: none;
+      }
+
+      .extracted-section h3 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 1.2rem;
+      }
+
+      .extracted-section h3 i {
+        color: var(--btn-primary);
+      }
+
+      .extracted-text {
+        max-height: 150px;
+        overflow-y: auto;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background: var(--card-bg);
+        padding: 1rem;
+        border-radius: 16px;
+        border: 1px solid var(--card-border);
+      }
+
+      /* Ingredients Tags */
+      .ingredients-section {
+        margin: 1.5rem 0;
+      }
+
+      .ingredients-section h3 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 1.2rem;
+      }
+
+      .ingredients-section h3 i {
+        color: var(--btn-primary);
+      }
+
+      .ingredient-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        padding: 1rem;
+        background: var(--stat-bg);
+        border-radius: 24px;
+        min-height: 100px;
+      }
+
+      .ingredient-tag {
+        background: linear-gradient(
+          135deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        color: white;
+        padding: 0.5rem 1.2rem;
+        border-radius: 40px;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        box-shadow: 0 4px 12px rgba(180, 95, 75, 0.2);
+        transition: all 0.3s ease;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .ingredient-tag:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(180, 95, 75, 0.3);
+      }
+
+      .ingredient-tag button {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .ingredient-tag button:hover {
+        background: rgba(255, 255, 255, 0.4);
+        transform: scale(1.1);
+      }
+
+      /* Analyze Button */
+      .analyze-btn {
+        background: linear-gradient(
+          145deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        color: white;
+        border: none;
+        padding: 1.2rem 2rem;
+        border-radius: 60px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin: 1.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        box-shadow: 0 8px 20px rgba(180, 95, 75, 0.3);
+      }
+
+      .analyze-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(180, 95, 75, 0.4);
+      }
+
+      .analyze-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .analyze-btn i {
+        font-size: 1.2rem;
+      }
+
+      /* Manual Entry Link */
+      .manual-link {
+        text-align: center;
+        margin: 1rem 0;
+      }
+
+      .manual-link a {
+        color: var(--btn-primary);
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        transition: all 0.3s ease;
+      }
+
+      .manual-link a:hover {
+        background: var(--badge-bg);
+        gap: 0.8rem;
+      }
+
+      /* Loading */
+      .loading-overlay {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border-radius: 48px;
+        padding: 3rem;
+        text-align: center;
+        margin: 2rem 0;
+      }
+
+      .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--badge-bg);
+        border-top-color: var(--btn-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1.5rem;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        color: var(--text-primary);
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .loading-subtext {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      /* Result Card */
+      .result-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 2.5rem;
+        margin-top: 2rem;
+        animation: slideUp 0.5s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid var(--card-border);
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .product-name {
+        font-size: 2rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+
+      .overall-risk {
+        padding: 0.8rem 2rem;
+        border-radius: 60px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .overall-risk.safe {
+        background: linear-gradient(135deg, var(--success), #6b8f7f);
+        color: white;
+      }
+
+      .overall-risk.moderate {
+        background: linear-gradient(135deg, var(--warning), #c48b8b);
+        color: white;
+      }
+
+      .overall-risk.high {
+        background: linear-gradient(135deg, #b45f4b, #9e4d3a);
+        color: white;
+      }
+
+      .profile-summary {
+        background: var(--stat-bg);
+        border-radius: 32px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .profile-avatar {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(
+          135deg,
+          var(--btn-primary),
+          var(--btn-primary-hover)
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        box-shadow: 0 8px 20px rgba(180, 95, 75, 0.3);
+      }
+
+      .profile-details {
+        flex: 1;
+      }
+
+      .profile-details h3 {
+        color: var(--text-primary);
+        margin-bottom: 0.8rem;
+        font-size: 1.2rem;
+      }
+
+      .profile-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .profile-badge {
+        padding: 0.4rem 1rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        background: var(--card-bg);
+        color: var(--text-secondary);
+        border: 1px solid var(--card-border);
+      }
+
+      .compatibility-meter {
+        background: var(--stat-bg);
+        border-radius: 24px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .meter-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .meter-bar {
+        height: 12px;
+        background: var(--card-bg);
+        border-radius: 30px;
+        overflow: hidden;
+      }
+
+      .meter-fill {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--success),
+          var(--warning),
+          var(--btn-primary)
+        );
+        border-radius: 30px;
+        transition: width 1s ease-in-out;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: var(--stat-bg);
+        border-radius: 24px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--btn-primary);
+        margin-bottom: 0.3rem;
+      }
+
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+
+      .concerns-section {
+        background: rgba(182, 95, 95, 0.1);
+        border-left: 4px solid var(--warning);
+        border-radius: 24px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .concerns-section h3 {
+        color: var(--warning);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .concern-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.8rem;
+        background: var(--card-bg);
+        border-radius: 16px;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+      }
+
+      .ingredient-list {
+        margin-bottom: 2rem;
+      }
+
+      .ingredient-list h3 {
+        color: var(--text-primary);
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .ingredient-item {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 1rem;
+        background: var(--stat-bg);
+        border-radius: 16px;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .ingredient-item:hover {
+        transform: translateX(5px);
+        background: var(--badge-bg);
+      }
+
+      .ingredient-info {
+        flex: 1;
+      }
+
+      .ingredient-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+
+      .ingredient-risk-badge {
+        display: inline-block;
+        padding: 0.2rem 1rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+
+      .risk-high {
+        background: rgba(182, 95, 95, 0.2);
+        color: var(--warning);
+      }
+
+      .risk-medium {
+        background: rgba(168, 116, 95, 0.2);
+        color: var(--info);
+      }
+
+      .risk-low {
+        background: rgba(79, 122, 107, 0.2);
+        color: var(--success);
+      }
+
+      .personal-warning,
+      .personal-benefit {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.2rem 1rem;
+        border-radius: 40px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        margin-top: 0.3rem;
+        margin-right: 0.3rem;
+      }
+
+      .personal-warning {
+        background: rgba(182, 95, 95, 0.1);
+        color: var(--warning);
+      }
+
+      .personal-benefit {
+        background: rgba(79, 122, 107, 0.1);
+        color: var(--success);
+      }
+
+      .recommendations-box {
+        background: linear-gradient(135deg, var(--badge-bg), transparent);
+        border-radius: 32px;
+        padding: 1.8rem;
+        margin-bottom: 2rem;
+      }
+
+      .recommendations-box h3 {
+        color: var(--btn-primary);
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .recommendation-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: var(--card-bg);
+        border-radius: 20px;
+        margin-bottom: 0.8rem;
+        color: var(--text-primary);
+      }
+
+      .rec-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--btn-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+      }
+
+      .action-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .action-btn {
+        padding: 1rem;
+        border: none;
+        border-radius: 40px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: var(--card-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--card-border);
+      }
+
+      .action-btn:hover {
+        background: var(--btn-primary);
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .print-btn {
+        background: var(--success);
+        color: white;
+        border: none;
+      }
+      .share-btn {
+        background: var(--info);
+        color: white;
+        border: none;
+      }
+      .save-btn {
+        background: var(--btn-secondary);
+        color: white;
+        border: none;
+      }
+
+      .timestamp {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        text-align: center;
+        margin-top: 1.5rem;
+        font-style: italic;
+      }
+
+      /* Theme Toggle Button */
+      .theme-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+      }
+
+      .theme-toggle-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--btn-primary);
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(180, 95, 75, 0.4);
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        transform: scale(1.1);
+      }
+
+      /* Footer */
+      .global-footer {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--card-border);
+        padding: 1.5rem 2rem;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--btn-primary);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .global-header {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .page-header h1 {
+          font-size: 2.2rem;
+        }
+
+        .upload-area {
+          padding: 2rem;
+        }
+
+        .result-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .profile-summary {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <!-- Floating Background Circles -->
+    <div class="bg-circles">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="circle circle-4"></div>
+      <div class="circle circle-5"></div>
+    </div>
+
+    <div class="app-wrapper">
+      <!-- Header -->
+      <header class="global-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="CitizenHome.html"><i class="fas fa-home"></i> Home</a>
+          <a href="UploadAndKnow.html" class="active"
+            ><i class="fas fa-camera"></i> Upload</a
+          >
+          <a href="EnterIngredients.html"
+            ><i class="fas fa-keyboard"></i> Enter</a
+          >
+          <a href="IngredientOfTheDay.html"
+            ><i class="fas fa-lightbulb"></i> Daily</a
+          >
+          <a href="Community.html"><i class="fas fa-users"></i> Community</a>
+          <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
+        </div>
+
+        <div class="user-avatar" id="userAvatar">SA</div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="expert-main">
+        <div class="page-header">
+          <h1><i class="fas fa-camera"></i> Upload & Know</h1>
+          <p>
+            Simply snap a photo of your product's ingredient list. We'll extract
+            and analyze it based on your personal profile.
+          </p>
+        </div>
+
+        <!-- Upload Card -->
+        <div class="upload-card">
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📷</div>
+            <div class="upload-text">Click to upload or drag and drop</div>
+            <div class="upload-hint">Supports: JPG, PNG, GIF (Max 10MB)</div>
+            <input
+              type="file"
+              id="fileInput"
+              class="file-input"
+              accept="image/*"
+            />
+          </div>
+
+          <div class="preview-container" id="previewContainer">
+            <img
+              id="previewImage"
+              class="preview-image"
+              src="#"
+              alt="Preview"
+            />
+          </div>
+
+          <div class="extracted-section" id="extractedSection">
+            <h3><i class="fas fa-file-lines"></i> Extracted Text</h3>
+            <div class="extracted-text" id="extractedText"></div>
+          </div>
+
+          <div
+            class="ingredients-section"
+            id="ingredientsSection"
+            style="display: none"
+          >
+            <h3><i class="fas fa-tags"></i> Detected Ingredients</h3>
+            <div id="ingredientTags" class="ingredient-tags"></div>
+            <button
+              class="analyze-btn"
+              id="analyzeBtn"
+              onclick="analyzeProduct()"
+            >
+              <i class="fas fa-flask"></i> Analyze Product Safety
+            </button>
+          </div>
+
+          <div class="manual-link">
+            <a href="EnterIngredients.html"
+              ><i class="fas fa-arrow-right"></i> Or enter ingredients
+              manually</a
+            >
+          </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading-overlay" style="display: none">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Processing your image...</div>
+          <div class="loading-subtext">This may take a few moments</div>
+        </div>
+
+        <!-- Result -->
+        <div id="result" class="result-card" style="display: none"></div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div>© 2026 Jneyaḥ — truth before belief</div>
+          <div class="footer-links">
+            <a href="/about">About</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <button class="theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-palette"></i>
+      </button>
+    </div>
+
+    <script>
+      // Theme Toggle
+      function toggleTheme() {
+        document.body.classList.toggle("dark");
+        localStorage.setItem(
+          "jneyah-theme",
+          document.body.classList.contains("dark") ? "dark" : "light",
+        );
+      }
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+      document.body.classList.add(savedTheme);
+
+      // COMPREHENSIVE INGREDIENT DATABASE (your existing database)
+      const INGREDIENT_DATABASE = {
+        "sodium lauryl sulfate": {
+          name: "Sodium Lauryl Sulfate",
+          risk: "high",
+          category: "surfactant",
+          warnings: ["Can be harsh on skin", "May cause irritation"],
+          alternatives: ["Sodium Cocoyl Isethionate", "Decyl Glucoside"],
+        },
+        "sodium laureth sulfate": {
+          name: "Sodium Laureth Sulfate",
+          risk: "medium",
+          category: "surfactant",
+          warnings: ["May cause irritation for sensitive skin"],
+        },
+        "disodium lauryl sulfosuccinate": {
+          name: "Disodium Lauryl Sulfosuccinate",
+          risk: "low",
+          category: "surfactant",
+          benefits: ["Gentle cleanser", "Good for sensitive skin"],
+        },
+        "sodium cocoyl isethionate": {
+          name: "Sodium Cocoyl Isethionate",
+          risk: "low",
+          category: "surfactant",
+          benefits: ["Gentle", "Derived from coconut"],
+        },
+        "cocamidopropyl betaine": {
+          name: "Cocamidopropyl Betaine",
+          risk: "low",
+          category: "surfactant",
+          benefits: ["Gentle cleanser", "Foam booster"],
+        },
+        "decyl glucoside": {
+          name: "Decyl Glucoside",
+          risk: "low",
+          category: "surfactant",
+          benefits: ["Very gentle", "Plant-derived"],
+        },
+        "lauryl glucoside": {
+          name: "Lauryl Glucoside",
+          risk: "low",
+          category: "surfactant",
+          benefits: ["Gentle", "Biodegradable"],
+        },
+        "stearic acid": {
+          name: "Stearic Acid",
+          risk: "low",
+          category: "emollient",
+          benefits: ["Helps skin barrier", "Texture enhancer"],
+        },
+        "cetearyl alcohol": {
+          name: "Cetearyl Alcohol",
+          risk: "low",
+          category: "emollient",
+          benefits: ["Moisturizing", "Not drying like regular alcohol"],
+        },
+        "cetyl alcohol": {
+          name: "Cetyl Alcohol",
+          risk: "low",
+          category: "emollient",
+          benefits: ["Moisturizing", "Stabilizer"],
+        },
+        "stearyl alcohol": {
+          name: "Stearyl Alcohol",
+          risk: "low",
+          category: "emollient",
+          benefits: ["Moisturizing"],
+        },
+        "prunus amygdalus dulcis oil": {
+          name: "Sweet Almond Oil",
+          risk: "low",
+          category: "oil",
+          benefits: ["Nourishing", "Vitamin E rich"],
+        },
+        "cocos nucifera oil": {
+          name: "Coconut Oil",
+          risk: "low",
+          category: "oil",
+          benefits: ["Moisturizing"],
+          warnings: ["May clog pores for some"],
+        },
+        "butyrospermum parkii": {
+          name: "Shea Butter",
+          risk: "low",
+          category: "butter",
+          benefits: ["Deep moisturizing", "Anti-inflammatory"],
+        },
+        glycerin: {
+          name: "Glycerin",
+          risk: "low",
+          category: "humectant",
+          benefits: ["Hydrating", "Safe for all skin"],
+        },
+        "hyaluronic acid": {
+          name: "Hyaluronic Acid",
+          risk: "low",
+          category: "humectant",
+          benefits: ["Deep hydration", "Plumping"],
+        },
+        niacinamide: {
+          name: "Niacinamide",
+          risk: "low",
+          category: "vitamin",
+          benefits: ["Brightening", "Reduces redness", "Anti-aging"],
+        },
+        retinol: {
+          name: "Retinol",
+          risk: "medium",
+          category: "active",
+          warnings: ["May cause irritation", "Use sunscreen"],
+          benefits: ["Anti-aging"],
+        },
+        "salicylic acid": {
+          name: "Salicylic Acid",
+          risk: "medium",
+          category: "active",
+          warnings: ["May cause dryness"],
+          benefits: ["Exfoliating", "Acne-fighting"],
+        },
+        phenoxyethanol: {
+          name: "Phenoxyethanol",
+          risk: "medium",
+          category: "preservative",
+          warnings: ["Common preservative, safe in small amounts"],
+        },
+        parfum: {
+          name: "Fragrance",
+          risk: "medium",
+          category: "fragrance",
+          warnings: ["May contain allergens", "Can irritate sensitive skin"],
+        },
+        dimethicone: {
+          name: "Dimethicone",
+          risk: "low",
+          category: "silicone",
+          benefits: ["Smoothing", "Protective barrier"],
+        },
+        water: {
+          name: "Water",
+          risk: "low",
+          category: "solvent",
+          benefits: ["Base ingredient"],
+        },
+        aqua: {
+          name: "Water",
+          risk: "low",
+          category: "solvent",
+          benefits: ["Base ingredient"],
+        },
+      };
+
+      // Mock user profile
+      const USER_PROFILE = {
+        id: "user_123",
+        name: "Sarah Johnson",
+        skin_type: "sensitive",
+        skin_concerns: ["redness", "dryness", "acne"],
+        allergies: ["fragrance", "parabens"],
+        preferences: {
+          avoid: ["sulfates", "alcohol", "essential oils"],
+          prefer: ["natural", "organic", "hypoallergenic"],
+        },
+        age: 28,
+        skin_goals: ["anti-aging", "hydration"],
+      };
+
+      // DOM Elements
+      const uploadArea = document.getElementById("uploadArea");
+      const fileInput = document.getElementById("fileInput");
+      const previewContainer = document.getElementById("previewContainer");
+      const previewImage = document.getElementById("previewImage");
+      const extractedSection = document.getElementById("extractedSection");
+      const extractedTextDiv = document.getElementById("extractedText");
+      const ingredientsSection = document.getElementById("ingredientsSection");
+      const ingredientTags = document.getElementById("ingredientTags");
+      const analyzeBtn = document.getElementById("analyzeBtn");
+      const loading = document.getElementById("loading");
+      const resultDiv = document.getElementById("result");
+
+      let extractedIngredients = [];
+      let currentImageFile = null;
+
+      // Event Listeners
+      uploadArea.addEventListener("click", () => fileInput.click());
+
+      uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+      });
+
+      uploadArea.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("dragover");
+      });
+
+      uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) {
+          handleFile(file);
+        }
+      });
+
+      fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          handleFile(file);
+        }
+      });
+
+      async function handleFile(file) {
+        currentImageFile = file;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImage.src = e.target.result;
+          previewContainer.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+
+        loading.style.display = "block";
+        extractedSection.style.display = "none";
+        ingredientsSection.style.display = "none";
+
+        try {
+          const {
+            data: { text },
+          } = await Tesseract.recognize(file, "eng", {
+            logger: (m) => console.log(m),
+            tessedit_char_whitelist:
+              "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ,.;:()",
+            tessedit_pageseg_mode: "6",
+          });
+
+          extractedTextDiv.textContent = text;
+          extractedSection.style.display = "block";
+
+          const ingredients = extractIngredientsFromText(text);
+          displayIngredients(ingredients);
+        } catch (error) {
+          console.error("OCR Error:", error);
+          extractedTextDiv.innerHTML = `<p style="color: var(--warning);">Error processing image: ${error.message}</p>`;
+          extractedSection.style.display = "block";
+          displayIngredients([]);
+        } finally {
+          loading.style.display = "none";
+        }
+      }
+
+      function extractIngredientsFromText(text) {
+        if (!text) return [];
+
+        const foundIngredients = new Set();
+        const textLower = text.toLowerCase();
+
+        const cleanText = textLower
+          .replace(/[\\\/_\[\]{}|~^`<>]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        const potentialIngredients = cleanText.split(/[,;.•∙·\n\r]+/);
+
+        for (const potential of potentialIngredients) {
+          const trimmed = potential.trim();
+          if (trimmed.length < 3) continue;
+
+          for (const [key, details] of Object.entries(INGREDIENT_DATABASE)) {
+            if (trimmed.includes(key)) {
+              foundIngredients.add(details.name);
+              break;
+            }
+          }
+
+          for (const [key, details] of Object.entries(INGREDIENT_DATABASE)) {
+            const keyWords = key.split(" ");
+            let matchCount = 0;
+
+            for (const word of keyWords) {
+              if (word.length > 3 && trimmed.includes(word)) {
+                matchCount++;
+              }
+            }
+
+            if (matchCount >= Math.ceil(keyWords.length / 2)) {
+              foundIngredients.add(details.name);
+              break;
+            }
+          }
+        }
+
+        for (const [key, details] of Object.entries(INGREDIENT_DATABASE)) {
+          if (key.length > 10 && cleanText.includes(key)) {
+            foundIngredients.add(details.name);
+          }
+        }
+
+        return Array.from(foundIngredients).sort();
+      }
+
+      function displayIngredients(ingredients) {
+        extractedIngredients = ingredients;
+
+        if (ingredients.length === 0) {
+          ingredientTags.innerHTML = `
+                    <p style="color: var(--text-secondary); width: 100%; text-align: center; padding: 20px;">
+                        No ingredients detected. Please try:
+                        <br/>• Clearer image with better lighting
+                    </p>
+                `;
+        } else {
+          ingredientTags.innerHTML = ingredients
+            .map(
+              (ing) => `
+                        <span class="ingredient-tag">
+                            ${ing}
+                            <button onclick="removeIngredient('${ing.replace(/'/g, "\\'")}')">&times;</button>
+                        </span>
+                    `,
+            )
+            .join("");
+        }
+
+        ingredientsSection.style.display = "block";
+      }
+
+      function removeIngredient(ingredient) {
+        extractedIngredients = extractedIngredients.filter(
+          (i) => i !== ingredient,
+        );
+        displayIngredients(extractedIngredients);
+      }
+
+      function getIngredientDetails(name) {
+        const nameLower = name.toLowerCase();
+
+        for (const [key, details] of Object.entries(INGREDIENT_DATABASE)) {
+          if (
+            nameLower.includes(key) ||
+            key.includes(nameLower) ||
+            details.name.toLowerCase().includes(nameLower)
+          ) {
+            return details;
+          }
+        }
+
+        return {
+          name: name,
+          risk: "low",
+          category: "unknown",
+          benefits: [],
+          warnings: [],
+        };
+      }
+
+      function calculateIngredientRisk(ingredientName) {
+        const details = getIngredientDetails(ingredientName);
+        const name = ingredientName.toLowerCase();
+
+        if (
+          USER_PROFILE.allergies.some((allergy) =>
+            name.includes(allergy.toLowerCase()),
+          )
+        ) {
+          return {
+            level: "high",
+            score: 90,
+            warning: `⚠️ You are allergic to ${USER_PROFILE.allergies.find((a) => name.includes(a.toLowerCase()))}!`,
+            benefits: details.benefits || [],
+          };
+        }
+
+        if (
+          USER_PROFILE.preferences.avoid.some((avoid) =>
+            name.includes(avoid.toLowerCase()),
+          )
+        ) {
+          return {
+            level: "medium",
+            score: 60,
+            warning: `You prefer to avoid ${USER_PROFILE.preferences.avoid.find((a) => name.includes(a.toLowerCase()))}`,
+            benefits: details.benefits || [],
+          };
+        }
+
+        const riskLevel = details.risk || "low";
+
+        if (riskLevel === "high") {
+          return {
+            level: "high",
+            score: 80,
+            warning: details.warnings
+              ? details.warnings[0]
+              : "High risk ingredient",
+            benefits: details.benefits || [],
+          };
+        } else if (riskLevel === "medium") {
+          return {
+            level: "medium",
+            score: 45,
+            warning: details.warnings
+              ? details.warnings[0]
+              : "Use with caution",
+            benefits: details.benefits || [],
+          };
+        } else {
+          return {
+            level: "low",
+            score: 10,
+            warning: null,
+            benefits: details.benefits || [],
+          };
+        }
+      }
+
+      function calculateOverallRisk(ingredients) {
+        let totalScore = 0;
+        let highCount = 0,
+          mediumCount = 0,
+          lowCount = 0;
+        let concerns = [];
+
+        ingredients.forEach((ing) => {
+          const risk = calculateIngredientRisk(ing.name);
+          totalScore += risk.score;
+
+          if (risk.level === "high") {
+            highCount++;
+            if (risk.warning) concerns.push(`${ing.name}: ${risk.warning}`);
+          } else if (risk.level === "medium") {
+            mediumCount++;
+            if (risk.warning) concerns.push(`${ing.name}: ${risk.warning}`);
+          } else {
+            lowCount++;
+          }
+        });
+
+        const avgScore =
+          ingredients.length > 0 ? totalScore / ingredients.length : 0;
+
+        let overallLevel = "low";
+        if (avgScore > 60 || highCount > 0) overallLevel = "high";
+        else if (avgScore > 30 || mediumCount > 1) overallLevel = "medium";
+
+        let recommendation = "";
+        if (overallLevel === "high") {
+          recommendation =
+            "🚫 Not recommended for your skin type - contains ingredients that may cause reactions";
+        } else if (overallLevel === "medium") {
+          recommendation =
+            "⚠️ Use with caution - patch test recommended before full application";
+        } else {
+          recommendation =
+            "✅ Good match for your profile - should be safe to use";
+        }
+
+        return {
+          overall_level: overallLevel,
+          overall_score: Math.round(avgScore),
+          high_risk_count: highCount,
+          medium_risk_count: mediumCount,
+          low_risk_count: lowCount,
+          total_ingredients: ingredients.length,
+          concerns: [...new Set(concerns)],
+          recommendation: recommendation,
+        };
+      }
+
+      async function analyzeProduct() {
+        if (extractedIngredients.length === 0) {
+          alert("Please upload an image with ingredients first");
+          return;
+        }
+
+        resultDiv.style.display = "none";
+        loading.style.display = "block";
+
+        setTimeout(() => {
+          try {
+            const ingredientsData = extractedIngredients.map((name) => ({
+              name: name,
+              ...calculateIngredientRisk(name),
+            }));
+
+            const analysis = calculateOverallRisk(ingredientsData);
+
+            displayAnalysisReport({
+              analysis: analysis,
+              ingredients: ingredientsData,
+              user_profile: USER_PROFILE,
+            });
+          } catch (error) {
+            console.error("Error:", error);
+            resultDiv.innerHTML = `
+                        <div class="concerns-section">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Analysis Error</h3>
+                            <p>${error.message}</p>
+                            <p>Please try again.</p>
+                        </div>
+                    `;
+            resultDiv.style.display = "block";
+          } finally {
+            loading.style.display = "none";
+          }
+        }, 1500);
+      }
+
+      function displayAnalysisReport(data) {
+        const analysis = data.analysis;
+        const ingredients = data.ingredients;
+        const profile = data.user_profile;
+
+        const compatibilityScore = 100 - analysis.overall_score;
+
+        const html = `
+                <div class="result-header">
+                    <h2 class="product-name">Your Analysis</h2>
+                    <span class="overall-risk ${analysis.overall_level === "high" ? "high" : analysis.overall_level === "medium" ? "moderate" : "safe"}">
+                        ${analysis.overall_level.toUpperCase()} RISK
+                    </span>
+                </div>
+
+                <div class="profile-summary">
+                    <div class="profile-avatar">👤</div>
+                    <div class="profile-details">
+                        <h3>${profile.name}'s Profile</h3>
+                        <div class="profile-badges">
+                            <span class="profile-badge">🧴 ${profile.skin_type} skin</span>
+                            ${profile.skin_concerns.map((concern) => `<span class="profile-badge">⚠️ ${concern}</span>`).join("")}
+                            ${profile.allergies.map((allergy) => `<span class="profile-badge">🚫 ${allergy}</span>`).join("")}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="compatibility-meter">
+                    <div class="meter-label">
+                        <span>💚 Compatibility</span>
+                        <span style="color: ${compatibilityScore > 70 ? "var(--success)" : compatibilityScore > 40 ? "var(--warning)" : "var(--btn-primary)"}">
+                            ${compatibilityScore}% Match
+                        </span>
+                    </div>
+                    <div class="meter-bar">
+                        <div class="meter-fill" style="width: ${compatibilityScore}%"></div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-icon">🔴</div><div class="stat-value">${analysis.high_risk_count}</div><div class="stat-label">High Risk</div></div>
+                    <div class="stat-card"><div class="stat-icon">🟡</div><div class="stat-value">${analysis.medium_risk_count}</div><div class="stat-label">Medium Risk</div></div>
+                    <div class="stat-card"><div class="stat-icon">🟢</div><div class="stat-value">${analysis.low_risk_count}</div><div class="stat-label">Low Risk</div></div>
+                    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value">${analysis.overall_score}</div><div class="stat-label">Risk Score</div></div>
+                </div>
+
+                ${
+                  analysis.concerns.length > 0
+                    ? `
+                    <div class="concerns-section">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Personal Concerns</h3>
+                        ${analysis.concerns.map((concern) => `<div class="concern-item"><span>🔴</span> ${concern}</div>`).join("")}
+                    </div>
+                `
+                    : ""
+                }
+
+                <div class="ingredient-list">
+                    <h3><i class="fas fa-flask"></i> Detailed Analysis</h3>
+                    ${ingredients
+                      .map((ing) => {
+                        const details = getIngredientDetails(ing.name);
+                        return `
+                            <div class="ingredient-item">
+                                <div class="ingredient-info">
+                                    <div class="ingredient-name">
+                                        ${ing.name}
+                                        <span class="ingredient-risk-badge risk-${ing.level}">${ing.level.toUpperCase()}</span>
+                                    </div>
+                                    ${ing.warning ? `<div><span class="personal-warning"><span>⚠️</span> ${ing.warning}</span></div>` : ""}
+                                    ${ing.benefits?.length > 0 ? `<div><span class="personal-benefit"><span>✨</span> ${ing.benefits.join(", ")}</span></div>` : ""}
+                                    ${details.category && details.category !== "unknown" ? `<div style="margin-top: 5px; color: var(--text-secondary); font-size: 12px;">Category: ${details.category}</div>` : ""}
+                                </div>
+                            </div>
+                        `;
+                      })
+                      .join("")}
+                </div>
+
+                <div class="recommendations-box">
+                    <h3><i class="fas fa-lightbulb"></i> Recommendations</h3>
+                    <div class="recommendation-item">
+                        <div class="rec-icon">${analysis.overall_level === "high" ? "🚫" : analysis.overall_level === "medium" ? "⚠️" : "✅"}</div>
+                        <div>${analysis.recommendation}</div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="rec-icon">🧪</div>
+                        <div>Always do a patch test before full application</div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+                    <button class="action-btn share-btn" onclick="shareReport()"><i class="fas fa-share-alt"></i> Share</button>
+                    <button class="action-btn save-btn" onclick="saveToProfile()"><i class="fas fa-bookmark"></i> Save</button>
+                </div>
+
+                <div class="timestamp">
+                    <em>Analysis for ${profile.name} · ${new Date().toLocaleDateString()}</em>
+                </div>
+            `;
+
+        resultDiv.innerHTML = html;
+        resultDiv.style.display = "block";
+        resultDiv.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function shareReport() {
+        alert("Share feature coming soon!");
+      }
+
+      function saveToProfile() {
+        alert("Analysis saved to your profile!");
+      }
+
+      // Make functions global
+      window.analyzeProduct = analyzeProduct;
+      window.removeIngredient = removeIngredient;
+      window.shareReport = shareReport;
+      window.saveToProfile = saveToProfile;
+    </script>
+  </body>
+</html>

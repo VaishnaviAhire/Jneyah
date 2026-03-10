@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ - truth before belief</title>
+    <!-- Font Awesome 6 (free) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather for fun, readable serif + Inter as fallback -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ----- RESET & GLOBAL ----- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Merriweather", "Inter", serif; /* Merriweather primary */
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT THEME (aesthetic & moving) ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.75);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.7);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --btn-expert-text: #b45f4b;
+        --btn-expert-hover-bg: #b45f4b;
+        --btn-expert-hover-text: #fff7ec;
+        --shadow: 0 20px 40px -12px rgba(90, 60, 40, 0.25);
+        --modal-bg: #fffaf2;
+        --input-bg: #fffefc;
+        --border-light: #eedbcb;
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+        --btn-expert-gradient: linear-gradient(
+          145deg,
+          transparent,
+          transparent
+        );
+        --btn-border-light: rgba(180, 95, 75, 0.4);
+      }
+
+      /* ----- DARK THEME (sleek) ----- */
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.8);
+        --footer-bg: rgba(24, 22, 20, 0.85);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.7);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --btn-expert-text: #e2cfc2;
+        --btn-expert-hover-bg: #a8745f;
+        --btn-expert-hover-text: #1e1b1a;
+        --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        --modal-bg: #2d2825;
+        --input-bg: #3b3531;
+        --border-light: #5e554d;
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+        --btn-expert-gradient: linear-gradient(145deg, #3a322e, #2f2824);
+        --btn-border-light: #7f6a5c;
+      }
+
+      /* moving background canvas — bigger & visible */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.6;
+        transition: opacity 0.4s;
+      }
+      body.dark #bgCanvas {
+        opacity: 0.3;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- CONSTANT HEADER (glass, theme toggle) ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        font-size: 2.4rem; /* increased */
+        color: var(--btn-primary-bg);
+        filter: drop-shadow(0 2px 4px var(--accent-glow));
+      }
+
+      .project-name {
+        font-size: 2rem; /* increased */
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.4rem; /* increased */
+        margin-left: 6px;
+      }
+
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 60px;
+        padding: 10px 22px; /* larger */
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: 0.2s;
+      }
+      .theme-toggle button i {
+        color: var(--btn-primary-bg);
+        font-size: 1.3rem;
+      }
+
+      /* ----- BUTTONS (glassy, gradient, modern) ----- */
+      .btn {
+        display: inline-block;
+        padding: 16px 38px; /* larger */
+        border: none;
+        border-radius: 60px;
+        font-size: 1.2rem; /* increased */
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        background: var(--btn-gradient);
+        color: white;
+        box-shadow:
+          0 10px 20px -8px var(--btn-primary-bg),
+          0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+        letter-spacing: 0.3px;
+        backdrop-filter: blur(4px);
+        position: relative;
+        overflow: hidden;
+      }
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.6s;
+      }
+      .btn:hover::before {
+        left: 100%;
+      }
+      .btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow:
+          0 18px 30px -8px var(--btn-primary-bg),
+          0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+      }
+      .btn:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      /* expert mode button – different style (glassy outline) */
+      .btn-expert {
+        background: transparent;
+        color: var(--btn-expert-text);
+        border: 2px solid var(--btn-expert-border);
+        box-shadow: none;
+        backdrop-filter: blur(8px);
+      }
+      .btn-expert::before {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(180, 95, 75, 0.15),
+          transparent
+        );
+      }
+      .btn-expert:hover {
+        background: var(--btn-expert-hover-bg);
+        color: var(--btn-expert-hover-text);
+        border-color: transparent;
+        box-shadow: 0 18px 30px -8px var(--btn-primary-bg);
+      }
+
+      .btn-small {
+        padding: 14px 32px; /* adjusted */
+        font-size: 1.1rem;
+      }
+
+      /* ----- HERO SECTION (fun, friendly, big) ----- */
+      .hero-section {
+        width: 100%;
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .hero-container {
+        max-width: 1300px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3rem;
+        background: var(--card-bg);
+        backdrop-filter: blur(16px);
+        border: 1px solid var(--card-border);
+        border-radius: 64px;
+        padding: 4.5rem 4.5rem; /* more padding */
+        box-shadow: var(--shadow);
+        transform: translateY(0);
+        animation: floatIn 1s ease-out;
+      }
+
+      @keyframes floatIn {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-text {
+        flex: 2 1 400px;
+      }
+
+      .hero-text .hero-mini {
+        font-size: 1.6rem; /* increased */
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--hero-accent);
+        margin-bottom: 0.5rem;
+        font-weight: 300;
+      }
+
+      .hero-text .hero-title {
+        font-size: 5rem; /* much bigger */
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        font-family: "Merriweather", serif;
+      }
+      .hero-title i {
+        color: var(--hero-accent);
+        margin-right: 10px;
+      }
+
+      .hero-text .hero-sub {
+        color: var(--text-secondary);
+        font-size: 1.6rem; /* increased */
+        line-height: 1.5;
+        max-width: 650px;
+        margin-bottom: 2.5rem;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 1.8rem;
+        flex-wrap: wrap;
+      }
+      .hero-cta .btn {
+        padding: 18px 44px; /* heroic size */
+        font-size: 1.4rem;
+      }
+
+      .hero-visual {
+        flex: 1 1 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12rem; /* bigger */
+        color: var(--hero-accent);
+        background: radial-gradient(
+          circle,
+          var(--accent-glow) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        animation: pulseGlow 4s infinite alternate;
+      }
+
+      @keyframes pulseGlow {
+        0% {
+          opacity: 0.7;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.05);
+          text-shadow: 0 0 20px var(--accent-glow);
+        }
+      }
+
+      /* ----- EXPLORE MODES SECTION (with friendly descriptions) ----- */
+      .explore-section {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto 5rem auto;
+        padding: 2rem 2rem;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+      .section-title h2 {
+        font-size: 4rem; /* bigger */
+        color: var(--text-primary);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        font-family: "Merriweather", serif;
+      }
+      .section-title p {
+        color: var(--text-secondary);
+        font-size: 1.8rem; /* bigger */
+        margin-top: 0.8rem;
+      }
+
+      .mode-showcase {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+        justify-content: center;
+      }
+
+      /* cards with feature lists and friendly descriptions */
+      .mode-card-detailed {
+        flex: 1 1 450px; /* wider */
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 56px;
+        padding: 3.5rem 3rem; /* more padding */
+        transition: all 0.4s cubic-bezier(0.2, 0.85, 0.4, 1.1);
+        box-shadow: 0 20px 30px -15px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        animation: cardReveal 0.8s ease backwards;
+      }
+
+      .mode-card-detailed:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .mode-card-detailed:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes cardReveal {
+        0% {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .mode-card-detailed:hover {
+        transform: translateY(-16px) scale(1.01);
+        border-color: var(--btn-primary-bg);
+        box-shadow: 0 35px 50px -20px var(--accent-glow);
+      }
+
+      .card-icon {
+        font-size: 4.5rem; /* bigger */
+        color: var(--btn-primary-bg);
+        margin-bottom: 1.8rem;
+      }
+
+      .mode-card-detailed h3 {
+        font-size: 3.2rem; /* bigger */
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1.2rem;
+        font-family: "Merriweather", serif;
+      }
+
+      /* fun, friendly description for each mode */
+      .mode-friendly-desc {
+        font-size: 1.4rem; /* big */
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        line-height: 1.4;
+        font-style: italic;
+        border-left: 4px solid var(--btn-primary-bg);
+        padding-left: 1.2rem;
+      }
+
+      .feature-list {
+        list-style: none;
+        margin-bottom: 2.8rem;
+      }
+      .feature-list li {
+        color: var(--text-secondary);
+        font-size: 1.3rem; /* increased */
+        padding: 0.8rem 0;
+        border-bottom: 1px dashed var(--card-border);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .feature-list li i {
+        color: var(--btn-primary-bg);
+        width: 28px;
+        font-size: 1.5rem;
+      }
+
+      .mode-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      .mode-footer .btn {
+        width: 100%;
+        text-align: center;
+        font-size: 1.3rem; /* bigger */
+      }
+      .footnote {
+        color: var(--text-secondary);
+        font-size: 1.1rem; /* increased */
+      }
+
+      /* CONSTANT FOOTER */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 1.5rem 2.5rem; /* bigger */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        color: var(--text-secondary);
+        font-size: 1.1rem; /* increased */
+        margin-top: auto;
+      }
+      .footer-links {
+        display: flex;
+        gap: 2.5rem;
+      }
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-bottom: 1px dotted transparent;
+        transition: 0.2s;
+        font-size: 1.1rem;
+      }
+      .footer-links a:hover {
+        color: var(--btn-primary-bg);
+        border-bottom: 1px dotted var(--btn-primary-bg);
+      }
+
+      /* Auth Modal (bigger fonts) */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(6px);
+        justify-content: center;
+        align-items: center;
+        z-index: 1100;
+      }
+      .modal-content {
+        background: var(--modal-bg);
+        border-radius: 48px;
+        padding: 3rem;
+        max-width: 500px;
+        width: 90%;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+      .modal-title {
+        font-size: 2.5rem; /* bigger */
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 2.5rem;
+        cursor: pointer;
+        color: var(--text-secondary);
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 16px 22px;
+        background: var(--input-bg);
+        border: 2px solid var(--border-light);
+        border-radius: 50px;
+        font-size: 1.2rem;
+        color: var(--text-primary);
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--btn-primary-bg);
+      }
+      .error {
+        color: #d8795f;
+        font-size: 1rem;
+        margin: 4px 0 0 12px;
+        display: none;
+      }
+      .form-switch {
+        text-align: center;
+        margin-top: 25px;
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+      }
+      .form-switch a {
+        color: var(--btn-primary-bg);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      @media (max-width: 800px) {
+        .hero-container {
+          padding: 2.5rem;
+          text-align: center;
+        }
+        .hero-text .hero-title {
+          font-size: 3.5rem;
+        }
+        .hero-text .hero-sub {
+          font-size: 1.4rem;
+        }
+        .hero-cta {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="app-wrapper">
+      <!-- CONSTANT HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <!-- HERO SECTION (bold, first view, fun) -->
+      <section class="hero-section">
+        <div class="hero-container">
+          <div class="hero-text">
+            <div class="hero-mini">अहिंसा परमो धर्मः</div>
+            <h1 class="hero-title">
+              <i class="fas fa-feather"></i> discern before <br />you believe
+            </h1>
+            <p class="hero-sub">
+              Where truth is identified before belief — AI-powered ingredient
+              intelligence for skin & food.
+            </p>
+            <div class="hero-cta">
+              <button
+                class="btn"
+                onclick="
+                  document
+                    .getElementById('explore')
+                    .scrollIntoView({ behavior: 'smooth' })
+                "
+              >
+                <i class="fas fa-arrow-down"></i> explore modes
+              </button>
+              <button class="btn btn-expert" onclick="showAuthModal('login')">
+                <i class="fas fa-user"></i> sign in
+              </button>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <i class="fas fa-seedling"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPLORE MODES SECTION with friendly, fun descriptions -->
+      <section id="explore" class="explore-section">
+        <div class="section-title">
+          <h2>explore modes</h2>
+          <p>choose your path — what kind of learner are you?</p>
+        </div>
+
+        <div class="mode-showcase">
+          <!-- Citizen Mode: for the curious who want simple answers -->
+          <div class="mode-card-detailed" onclick="showAuthModal('signup')">
+            <div class="card-icon"><i class="fas fa-user-friends"></i></div>
+            <h3>Citizen Mode</h3>
+            <div class="mode-friendly-desc">
+              <i class="fas fa-smile"></i> just want to learn & know — quick,
+              clear, and friendly.
+            </div>
+            <ul class="feature-list">
+              <li>
+                <i class="fas fa-check-circle"></i> personalized safety checks
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i> daily product scanning
+              </li>
+              <li><i class="fas fa-check-circle"></i> interaction alerts</li>
+              <li>
+                <i class="fas fa-check-circle"></i> habit building insights
+              </li>
+            </ul>
+            <div class="mode-footer">
+              <button
+                class="btn btn-small"
+                onclick="
+                  event.stopPropagation();
+                  showAuthModal('signup');
+                "
+              >
+                <i class="fas fa-user-plus"></i> enter citizen mode
+              </button>
+              <span class="footnote">free for personal use</span>
+            </div>
+          </div>
+
+          <!-- Expert Mode: for the curious who love reasons -->
+          <div
+            class="mode-card-detailed"
+            onclick="window.location.href = '/expert/ExpertHome.html'"
+          >
+            <div class="card-icon"><i class="fas fa-microscope"></i></div>
+            <h3>Expert Mode</h3>
+            <div class="mode-friendly-desc">
+              <i class="fas fa-brain"></i> love to know the reason behind it —
+              dive deep, analyze, understand.
+            </div>
+            <ul class="feature-list">
+              <li><i class="fas fa-flask"></i> advanced analytics</li>
+              <li><i class="fas fa-flask"></i> batch ingredient profiling</li>
+              <li><i class="fas fa-flask"></i> research-grade tools</li>
+              <li><i class="fas fa-flask"></i> export & collaboration</li>
+            </ul>
+            <div class="mode-footer">
+              <button
+                class="btn btn-expert btn-small"
+                onclick="
+                  event.stopPropagation();
+                  window.location.href = '/expert/ExpertHome.html';
+                "
+              >
+                <i class="fas fa-arrow-right"></i> enter expert mode
+              </button>
+              <span class="footnote">no account required</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONSTANT FOOTER -->
+      <footer class="global-footer">
+        <div>© 2025 Jneyaḥ — truth identified before belief</div>
+        <div class="footer-links">
+          <a href="#"><i class="fa-regular fa-circle-question"></i> About</a>
+          <a href="#"><i class="fa-regular fa-envelope"></i> Contact</a>
+          <a href="#"><i class="fa-regular fa-heart"></i> Privacy</a>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Auth Modal (functionality unchanged) -->
+    <div class="modal" id="authModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">Create Account</h2>
+          <button class="close-btn" onclick="closeAuthModal()">&times;</button>
+        </div>
+        <!-- Signup Form -->
+        <form
+          id="signupForm"
+          onsubmit="handleSignup(event)"
+          style="display: none"
+        >
+          <div class="form-group">
+            <input type="text" id="fullName" placeholder="Full Name" required />
+            <div class="error" id="nameError"></div>
+          </div>
+          <div class="form-group">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email Address"
+              required
+            />
+            <div class="error" id="emailError"></div>
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              id="password"
+              placeholder="Password (min 6 characters)"
+              required
+            />
+            <div class="error" id="passwordError"></div>
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              required
+            />
+            <div class="error" id="confirmError"></div>
+          </div>
+          <button type="submit" class="btn" style="width: 100%">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+          <div class="form-switch">
+            Already have an account?
+            <a href="#" onclick="showLoginForm()">Login here</a>
+          </div>
+        </form>
+        <!-- Login Form -->
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="Email Address"
+              required
+            />
+            <div class="error" id="loginEmailError"></div>
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Password"
+              required
+            />
+            <div class="error" id="loginPasswordError"></div>
+          </div>
+          <button type="submit" class="btn" style="width: 100%">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+          <div class="form-switch">
+            New user? <a href="#" onclick="showSignupForm()">Create account</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // ---------- THEME TOGGLE ----------
+      const body = document.body;
+      const toggleBtn = document.getElementById("themeToggleBtn");
+      function toggleTheme() {
+        if (body.classList.contains("light")) {
+          body.classList.remove("light");
+          body.classList.add("dark");
+          localStorage.setItem("jneyah-theme", "dark");
+        } else {
+          body.classList.remove("dark");
+          body.classList.add("light");
+          localStorage.setItem("jneyah-theme", "light");
+        }
+      }
+      toggleBtn.addEventListener("click", toggleTheme);
+      const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+      body.classList.remove("light", "dark");
+      body.classList.add(savedTheme);
+
+      // ---------- MOVING BACKGROUND (bigger & visible) ----------
+      const canvas = document.getElementById("bgCanvas");
+      const ctx = canvas.getContext("2d");
+      let width, height;
+      let particles = [];
+
+      function initParticles() {
+        const particleCount = 80; // more
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: 10 + Math.random() * 30, // even bigger
+            speedX: (Math.random() - 0.5) * 0.3,
+            speedY: (Math.random() - 0.5) * 0.2,
+            color: `rgba(180, 95, 75, ${0.15 + Math.random() * 0.25})`,
+          });
+        }
+      }
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        initParticles();
+      }
+      function drawParticles() {
+        ctx.clearRect(0, 0, width, height);
+        for (let p of particles) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+          p.x += p.speedX;
+          p.y += p.speedY;
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height;
+          if (p.y > height) p.y = 0;
+        }
+        requestAnimationFrame(drawParticles);
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+      drawParticles();
+
+      // ---------- AUTH MODAL (same functionality) ----------
+      const API_BASE = "http://localhost:8000/api";
+      function showAuthModal(formType) {
+        const modal = document.getElementById("authModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const signupForm = document.getElementById("signupForm");
+        const loginForm = document.getElementById("loginForm");
+        modal.style.display = "flex";
+        if (formType === "signup") {
+          modalTitle.textContent = "Create Account";
+          signupForm.style.display = "block";
+          loginForm.style.display = "none";
+        } else {
+          modalTitle.textContent = "Login";
+          signupForm.style.display = "none";
+          loginForm.style.display = "block";
+        }
+      }
+      function closeAuthModal() {
+        document.getElementById("authModal").style.display = "none";
+        clearErrors();
+      }
+      function showLoginForm() {
+        document.getElementById("modalTitle").textContent = "Login";
+        document.getElementById("signupForm").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
+        clearErrors();
+      }
+      function showSignupForm() {
+        document.getElementById("modalTitle").textContent = "Create Account";
+        document.getElementById("signupForm").style.display = "block";
+        document.getElementById("loginForm").style.display = "none";
+        clearErrors();
+      }
+      function clearErrors() {
+        document.querySelectorAll(".error").forEach((el) => {
+          el.style.display = "none";
+          el.textContent = "";
+        });
+      }
+      function showError(elementId, message) {
+        const errorEl = document.getElementById(elementId);
+        if (errorEl) {
+          errorEl.textContent = message;
+          errorEl.style.display = "block";
+        }
+      }
+      async function handleSignup(event) {
+        event.preventDefault();
+        clearErrors();
+        const fullName = document.getElementById("fullName").value,
+          email = document.getElementById("email").value,
+          password = document.getElementById("password").value,
+          confirmPassword = document.getElementById("confirmPassword").value;
+        let isValid = true;
+        if (!fullName.trim()) {
+          showError("nameError", "Full name required");
+          isValid = false;
+        }
+        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+          showError("emailError", "Valid email required");
+          isValid = false;
+        }
+        if (password.length < 6) {
+          showError("passwordError", "Min 6 characters");
+          isValid = false;
+        }
+        if (password !== confirmPassword) {
+          showError("confirmError", "Passwords do not match");
+          isValid = false;
+        }
+        if (!isValid) return;
+        try {
+          const response = await fetch(`${API_BASE}/auth/form/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+              full_name: fullName,
+              email,
+              password,
+              confirm_password: confirmPassword,
+            }),
+          });
+          const result = await response.json();
+          if (response.ok) {
+            localStorage.setItem("access_token", result.access_token);
+            localStorage.setItem("refresh_token", result.refresh_token);
+            window.location.href = result.redirect;
+          } else {
+            showError("emailError", result.message || "Registration failed");
+          }
+        } catch {
+          showError("emailError", "An error occurred during signup");
+        }
+      }
+      async function handleLogin(event) {
+        event.preventDefault();
+        clearErrors();
+        const email = document.getElementById("loginEmail").value,
+          password = document.getElementById("loginPassword").value;
+        if (!email || !password) {
+          showError("loginEmailError", "Fill all fields");
+          return;
+        }
+        try {
+          const response = await fetch(`${API_BASE}/auth/form/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ email, password }),
+          });
+          const result = await response.json();
+          if (response.ok) {
+            localStorage.setItem("access_token", result.access_token);
+            localStorage.setItem("refresh_token", result.refresh_token);
+            window.location.href = result.redirect;
+          } else {
+            showError("loginEmailError", result.message || "Login failed");
+          }
+        } catch {
+          showError("loginEmailError", "An error occurred during login");
+        }
+      }
+      document
+        .getElementById("authModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeAuthModal();
+        });
+      window.showAuthModal = showAuthModal;
+      window.closeAuthModal = closeAuthModal;
+      window.showLoginForm = showLoginForm;
+      window.showSignupForm = showSignupForm;
+      window.handleSignup = handleSignup;
+      window.handleLogin = handleLogin;
+    </script>
+  </body>
+</html>

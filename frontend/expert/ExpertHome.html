@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jneyaḥ · Expert Dashboard</title>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Merriweather + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        transition:
+          background 0.4s ease,
+          color 0.2s;
+        scroll-behavior: smooth;
+      }
+
+      /* ----- LIGHT / DARK VARIABLES ----- */
+      body.light {
+        --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
+        --header-bg: rgba(255, 255, 240, 0.8);
+        --footer-bg: rgba(245, 235, 220, 0.8);
+        --text-primary: #2e2a28;
+        --text-secondary: #4f4a44;
+        --card-bg: rgba(255, 255, 245, 0.7);
+        --card-border: #f0d9c8;
+        --btn-primary-bg: #b45f4b;
+        --btn-primary-hover: #9e4d3a;
+        --btn-expert-border: #b45f4b;
+        --badge-bg: #b45f4b15;
+        --badge-text: #b45f4b;
+        --panel-bg: rgba(255, 250, 240, 0.6);
+        --shadow: 0 10px 30px -10px rgba(90, 60, 40, 0.2);
+        --accent-glow: #e3b7a0;
+        --hero-accent: #b45f4b;
+        --btn-gradient: linear-gradient(145deg, #b8735e, #a45540);
+      }
+
+      body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
+        --header-bg: rgba(30, 28, 26, 0.9);
+        --footer-bg: rgba(24, 22, 20, 0.9);
+        --text-primary: #eee9e5;
+        --text-secondary: #bcb2a8;
+        --card-bg: rgba(45, 40, 37, 0.7);
+        --card-border: #534b45;
+        --btn-primary-bg: #a8745f;
+        --btn-primary-hover: #c4927b;
+        --btn-expert-border: #a8745f;
+        --badge-bg: #a8745f25;
+        --badge-text: #e2cfc2;
+        --panel-bg: rgba(35, 30, 26, 0.7);
+        --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        --accent-glow: #7f6a5c;
+        --hero-accent: #c89f8a;
+        --btn-gradient: linear-gradient(145deg, #9b7b6a, #7a5f51);
+      }
+
+      /* moving background */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.25;
+      }
+
+      .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* ----- HEADER ----- */
+      .global-header {
+        width: 100%;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0.8rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        font-size: 2rem;
+        color: var(--btn-primary-bg);
+      }
+      .project-name {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+      }
+      .project-name span {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        margin-left: 6px;
+      }
+      .expert-badge-header {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 1px solid var(--btn-expert-border);
+      }
+      .theme-toggle button {
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 40px;
+        padding: 8px 20px;
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .expert-main {
+        width: 100%;
+        max-width: 1300px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        flex: 1;
+      }
+
+      /* HERO SECTION - NEW */
+      .hero-section {
+        background: var(--panel-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border);
+        border-radius: 48px;
+        padding: 3.5rem 3rem;
+        margin-bottom: 3rem;
+        text-align: center;
+      }
+      .hero-icon {
+        font-size: 4rem;
+        color: var(--btn-primary-bg);
+        margin-bottom: 1.5rem;
+      }
+      .hero-section h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 1rem;
+      }
+      .hero-section .highlight {
+        color: var(--btn-primary-bg);
+        font-style: italic;
+      }
+      .hero-section p {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        max-width: 700px;
+        margin: 0 auto 2rem;
+        line-height: 1.6;
+      }
+      .hero-features {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+      }
+      .hero-feature {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--text-primary);
+      }
+      .hero-feature i {
+        color: var(--btn-primary-bg);
+        font-size: 1.2rem;
+      }
+
+      /* Section Title */
+      .section-title {
+        font-size: 1.8rem;
+        color: var(--text-primary);
+        font-family: "Merriweather", serif;
+        margin-bottom: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .section-title i {
+        color: var(--btn-primary-bg);
+        font-size: 1.6rem;
+      }
+
+      /* Modules Grid */
+      .modules-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+      }
+      .module-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--card-border);
+        border-radius: 28px;
+        padding: 2rem 1.5rem;
+        transition: 0.25s;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+      }
+      .module-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--btn-primary-bg);
+        box-shadow: var(--shadow);
+      }
+      .module-icon {
+        font-size: 2.2rem;
+        color: var(--btn-primary-bg);
+        margin-bottom: 1.2rem;
+      }
+      .module-card h3 {
+        font-size: 1.3rem;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+      .module-card p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1.2rem;
+        flex: 1;
+      }
+      .module-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .module-tags span {
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        padding: 0.3rem 1rem;
+        border-radius: 40px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      /* Quick Actions */
+      .quick-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2.5rem 0;
+      }
+      .quick-action-btn {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 40px;
+        padding: 0.8rem 2rem;
+        color: var(--text-primary);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.95rem;
+        transition: 0.2s;
+      }
+      .quick-action-btn:hover {
+        background: var(--btn-primary-bg);
+        color: white;
+        border-color: var(--btn-primary-bg);
+      }
+      .quick-action-btn:hover i {
+        color: white;
+      }
+
+      /* Footer */
+      .global-footer {
+        width: 100%;
+        background: var(--footer-bg);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--card-border);
+        padding: 1.5rem 2rem;
+        margin-top: auto;
+      }
+      .footer-content {
+        max-width: 1300px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+      }
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      .footer-links a:hover {
+        color: var(--btn-primary-bg);
+      }
+
+      @media (max-width: 900px) {
+        .modules-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .hero-section h1 {
+          font-size: 2.5rem;
+        }
+        .hero-section {
+          padding: 2.5rem 1.5rem;
+        }
+      }
+      @media (max-width: 600px) {
+        .modules-grid {
+          grid-template-columns: 1fr;
+        }
+        .quick-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .quick-action-btn {
+          justify-content: center;
+        }
+        .footer-content {
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .hero-features {
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="app-wrapper">
+      <!-- HEADER -->
+      <header class="global-header">
+        <div class="logo-area">
+          <i class="fas fa-feather-alt logo-icon"></i>
+          <div class="project-name">
+            Jneyaḥ <span>· truth before belief</span>
+          </div>
+          <span class="expert-badge-header"
+            ><i class="fas fa-microscope"></i> EXPERT</span
+          >
+        </div>
+        <div class="theme-toggle">
+          <button id="themeToggleBtn">
+            <i class="fas fa-palette"></i> Light / Dark
+          </button>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT -->
+      <main class="expert-main">
+        <!-- HERO SECTION - REPLACES ALL STATS -->
+        <div class="hero-section">
+          <div class="hero-icon">
+            <i class="fas fa-microscope"></i>
+          </div>
+          <h1>Expert <span class="highlight">Intelligence</span> Platform</h1>
+          <p>
+            Advanced analytics, predictive modeling, and comprehensive
+            ingredient intelligence for researchers, regulators, and industry
+            professionals.
+          </p>
+          <div class="hero-features">
+            <div class="hero-feature">
+              <i class="fas fa-chart-line"></i>
+              <span>Market Analysis</span>
+            </div>
+            <div class="hero-feature">
+              <i class="fas fa-project-diagram"></i>
+              <span>Interaction Networks</span>
+            </div>
+            <div class="hero-feature">
+              <i class="fas fa-brain"></i>
+              <span>ML Predictions</span>
+            </div>
+            <div class="hero-feature">
+              <i class="fas fa-balance-scale"></i>
+              <span>Regulatory Intel</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Core Modules Section -->
+        <div class="section-title">
+          <i class="fas fa-cubes"></i> Core Analysis Modules
+        </div>
+
+        <div class="modules-grid">
+          <!-- Analytics Dashboard -->
+          <div
+            class="module-card"
+            onclick="location.href = '/expert/AnalyticsDashboard'"
+          >
+            <i class="fas fa-chart-pie module-icon"></i>
+            <h3>Analytics Dashboard</h3>
+            <p>
+              Market composition, risk distribution, exposure analysis and
+              geographic trends with interactive visualizations.
+            </p>
+            <div class="module-tags">
+              <span>charts</span><span>trends</span><span>kpis</span>
+            </div>
+          </div>
+
+          <!-- Ingredient Explorer -->
+          <div
+            class="module-card"
+            onclick="location.href = '/expert/IngredientExplorer'"
+          >
+            <i class="fas fa-search module-icon"></i>
+            <h3>Ingredient Explorer</h3>
+            <p>
+              Comprehensive ingredient database with safety profiles, chemical
+              structures, and regulatory history.
+            </p>
+            <div class="module-tags">
+              <span>search</span><span>profiles</span><span>safety</span>
+            </div>
+          </div>
+
+          <!-- Interaction Networks -->
+          <div
+            class="module-card"
+            onclick="location.href = '/expert/InteractionGraphs'"
+          >
+            <i class="fas fa-project-diagram module-icon"></i>
+            <h3>Interaction Networks</h3>
+            <p>
+              Visualize synergistic and antagonistic ingredient relationships
+              with network graphs and matrices.
+            </p>
+            <div class="module-tags">
+              <span>networks</span><span>pairs</span><span>compatibility</span>
+            </div>
+          </div>
+
+          <!-- ML Insights -->
+          <div
+            class="module-card"
+            onclick="location.href = '/expert/MLInsights'"
+          >
+            <i class="fas fa-brain module-icon"></i>
+            <h3>ML Insights</h3>
+            <p>
+              Risk prediction models with SHAP explanations and feature
+              importance analysis.
+            </p>
+            <div class="module-tags">
+              <span>predictions</span><span>shap</span
+              ><span>explainable ai</span>
+            </div>
+          </div>
+
+          <!-- Regulatory Intelligence -->
+          <div
+            class="module-card"
+            onclick="location.href = '/expert/RegulatoryIntelligence'"
+          >
+            <i class="fas fa-balance-scale module-icon"></i>
+            <h3>Regulatory Intelligence</h3>
+            <p>
+              Track regulations, adverse events, and recall incidents across
+              global jurisdictions.
+            </p>
+            <div class="module-tags">
+              <span>compliance</span><span>recalls</span><span>events</span>
+            </div>
+          </div>
+
+          <!-- Experimentation Sandbox -->
+          <div
+            class="module-card"
+            onclick="location.href = '/expert/ExperimentationSandbox'"
+          >
+            <i class="fas fa-flask module-icon"></i>
+            <h3>Experimentation Sandbox</h3>
+            <p>
+              Test "what-if" scenarios, simulate alternatives, and optimize
+              formulations.
+            </p>
+            <div class="module-tags">
+              <span>simulation</span><span>optimization</span
+              ><span>scenarios</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <a href="/expert/AnalyticsDashboard" class="quick-action-btn"
+            ><i class="fas fa-chart-pie"></i> Analytics</a
+          >
+          <a href="/expert/IngredientExplorer" class="quick-action-btn"
+            ><i class="fas fa-search"></i> Explorer</a
+          >
+          <a href="/expert/InteractionGraphs" class="quick-action-btn"
+            ><i class="fas fa-project-diagram"></i> Networks</a
+          >
+          <a href="/expert/MLInsights" class="quick-action-btn"
+            ><i class="fas fa-brain"></i> ML Insights</a
+          >
+          <a href="/expert/RegulatoryIntelligence" class="quick-action-btn"
+            ><i class="fas fa-balance-scale"></i> Regulatory</a
+          >
+          <a href="/expert/ExperimentationSandbox" class="quick-action-btn"
+            ><i class="fas fa-flask"></i> Sandbox</a
+          >
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="global-footer">
+        <div class="footer-content">
+          <div>© 2026 Jneyaḥ — truth before belief · Research Use Only</div>
+          <div class="footer-links">
+            <a href="/about">About</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Background Canvas & Theme Toggle -->
+    <script>
+      (function () {
+        const body = document.body;
+        const toggleBtn = document.getElementById("themeToggleBtn");
+
+        toggleBtn.addEventListener("click", () => {
+          if (body.classList.contains("light")) {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("jneyah-theme", "dark");
+          } else {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("jneyah-theme", "light");
+          }
+        });
+
+        const savedTheme = localStorage.getItem("jneyah-theme") || "light";
+        body.classList.remove("light", "dark");
+        body.classList.add(savedTheme);
+
+        // Background canvas
+        const canvas = document.getElementById("bgCanvas");
+        const ctx = canvas.getContext("2d");
+        let width, height;
+        let particles = [];
+
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 25; i++) {
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: 15 + Math.random() * 35,
+              speedX: (Math.random() - 0.5) * 0.12,
+              speedY: (Math.random() - 0.5) * 0.08,
+              color: `rgba(180, 95, 75, ${0.1 + Math.random() * 0.15})`,
+            });
+          }
+        }
+
+        function resizeCanvas() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initParticles();
+        }
+
+        function drawParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        drawParticles();
+      })();
+    </script>
+  </body>
+</html>
