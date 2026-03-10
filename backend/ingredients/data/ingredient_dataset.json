@@ -1,0 +1,4502 @@
+[
+  {
+    "name": "Niacinamide Variant 1",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 56,
+    "description": "Niacinamide Variant 1 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Benzene Variant 2",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 76,
+    "description": "Benzene Variant 2 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Niacinamide Variant 3",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Niacinamide Variant 3 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 4",
+    "category": "Colorant",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Vitamin E Variant 4 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Citric Acid Variant 5",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 71,
+    "description": "Citric Acid Variant 5 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 6",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 83,
+    "description": "Salicylic Acid Variant 6 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 7",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Formaldehyde Variant 7 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Citric Acid Variant 8",
+    "category": "Emulsifier",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Citric Acid Variant 8 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 9",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 11,
+    "description": "Hydrochloric Acid Variant 9 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Triclosan Variant 10",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 12,
+    "description": "Triclosan Variant 10 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Zinc Oxide Variant 11",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 78,
+    "description": "Zinc Oxide Variant 11 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Turmeric Extract Variant 12",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Turmeric Extract Variant 12 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Propylene Glycol Variant 13",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 11,
+    "description": "Propylene Glycol Variant 13 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Vitamin E Variant 14",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Vitamin E Variant 14 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 15",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 57,
+    "description": "Hydrochloric Acid Variant 15 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Triclosan Variant 16",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 65,
+    "description": "Triclosan Variant 16 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin E Variant 17",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 62,
+    "description": "Vitamin E Variant 17 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 18",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 62,
+    "description": "Zinc Oxide Variant 18 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 19",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 33,
+    "description": "Formaldehyde Variant 19 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Citric Acid Variant 20",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Citric Acid Variant 20 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Alcohol Variant 21",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 7,
+    "description": "Alcohol Variant 21 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Vitamin C Variant 22",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 61,
+    "description": "Vitamin C Variant 22 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Retinol Variant 23",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Retinol Variant 23 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Benzene Variant 24",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 50,
+    "description": "Benzene Variant 24 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Petrol Variant 25",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 56,
+    "description": "Petrol Variant 25 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Paraben Variant 26",
+    "category": "Industrial Chemical",
+    "risk_level": "Low",
+    "risk_score": 6,
+    "description": "Paraben Variant 26 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Titanium Dioxide Variant 27",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 51,
+    "description": "Titanium Dioxide Variant 27 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Turmeric Extract Variant 28",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Turmeric Extract Variant 28 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Zinc Oxide Variant 29",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 60,
+    "description": "Zinc Oxide Variant 29 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin C Variant 30",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Vitamin C Variant 30 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Niacinamide Variant 31",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 85,
+    "description": "Niacinamide Variant 31 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Propylene Glycol Variant 32",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 99,
+    "description": "Propylene Glycol Variant 32 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Petrol Variant 33",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Petrol Variant 33 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Niacinamide Variant 34",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 46,
+    "description": "Niacinamide Variant 34 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 35",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Sulfuric Acid Variant 35 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Arsenic Variant 36",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Arsenic Variant 36 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 37",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Sodium Lauryl Sulfate Variant 37 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 38",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 50,
+    "description": "Vitamin E Variant 38 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 39",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 34,
+    "description": "Hydrochloric Acid Variant 39 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Phenoxyethanol Variant 40",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Phenoxyethanol Variant 40 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 41",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 14,
+    "description": "Titanium Dioxide Variant 41 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Turmeric Extract Variant 42",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 55,
+    "description": "Turmeric Extract Variant 42 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Propylene Glycol Variant 43",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 96,
+    "description": "Propylene Glycol Variant 43 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 44",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 32,
+    "description": "Hydrochloric Acid Variant 44 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 45",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 55,
+    "description": "Mineral Oil Variant 45 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin C Variant 46",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 72,
+    "description": "Vitamin C Variant 46 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 47",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Butylated Hydroxytoluene Variant 47 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Triclosan Variant 48",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Triclosan Variant 48 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Citric Acid Variant 49",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 41,
+    "description": "Citric Acid Variant 49 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin E Variant 50",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 87,
+    "description": "Vitamin E Variant 50 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 51",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 58,
+    "description": "Sulfuric Acid Variant 51 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin E Variant 52",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 5,
+    "description": "Vitamin E Variant 52 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Titanium Dioxide Variant 53",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 42,
+    "description": "Titanium Dioxide Variant 53 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 54",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 31,
+    "description": "Butylated Hydroxytoluene Variant 54 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Lead Variant 55",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Lead Variant 55 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lactic Acid Variant 56",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 18,
+    "description": "Lactic Acid Variant 56 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Citric Acid Variant 57",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 52,
+    "description": "Citric Acid Variant 57 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 58",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 96,
+    "description": "Mineral Oil Variant 58 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Aloe Vera Variant 59",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 49,
+    "description": "Aloe Vera Variant 59 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Petrol Variant 60",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 66,
+    "description": "Petrol Variant 60 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Fragrance Variant 61",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 99,
+    "description": "Fragrance Variant 61 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 62",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 52,
+    "description": "Vitamin E Variant 62 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Turmeric Extract Variant 63",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Turmeric Extract Variant 63 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Mercury Variant 64",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Mercury Variant 64 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 65",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 11,
+    "description": "Phenoxyethanol Variant 65 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Lactic Acid Variant 66",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Lactic Acid Variant 66 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 67",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 83,
+    "description": "Sodium Lauryl Sulfate Variant 67 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Fragrance Variant 68",
+    "category": "Industrial Chemical",
+    "risk_level": "High",
+    "risk_score": 82,
+    "description": "Fragrance Variant 68 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Citric Acid Variant 69",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 44,
+    "description": "Citric Acid Variant 69 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 70",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 82,
+    "description": "Phenoxyethanol Variant 70 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 71",
+    "category": "Solvent",
+    "risk_level": "High",
+    "risk_score": 72,
+    "description": "Butylated Hydroxytoluene Variant 71 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 72",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 59,
+    "description": "Formaldehyde Variant 72 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Paraben Variant 73",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Paraben Variant 73 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Fragrance Variant 74",
+    "category": "Surfactant",
+    "risk_level": "Medium",
+    "risk_score": 68,
+    "description": "Fragrance Variant 74 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Aloe Vera Variant 75",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 17,
+    "description": "Aloe Vera Variant 75 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 76",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Butylated Hydroxytoluene Variant 76 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 77",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 32,
+    "description": "Mineral Oil Variant 77 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Zinc Oxide Variant 78",
+    "category": "Colorant",
+    "risk_level": "Extreme",
+    "risk_score": 90,
+    "description": "Zinc Oxide Variant 78 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Glycerin Variant 79",
+    "category": "Active Compound",
+    "risk_level": "Low",
+    "risk_score": 25,
+    "description": "Glycerin Variant 79 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mercury Variant 80",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Mercury Variant 80 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Retinol Variant 81",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Retinol Variant 81 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 82",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 66,
+    "description": "Formaldehyde Variant 82 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Fragrance Variant 83",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 34,
+    "description": "Fragrance Variant 83 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Formaldehyde Variant 84",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Formaldehyde Variant 84 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Glycerin Variant 85",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 59,
+    "description": "Glycerin Variant 85 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 86",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Hydrochloric Acid Variant 86 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Alcohol Variant 87",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Alcohol Variant 87 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Niacinamide Variant 88",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 88,
+    "description": "Niacinamide Variant 88 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 89",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 88,
+    "description": "Zinc Oxide Variant 89 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 90",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 6,
+    "description": "Titanium Dioxide Variant 90 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Fragrance Variant 91",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 56,
+    "description": "Fragrance Variant 91 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 92",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 97,
+    "description": "Mineral Oil Variant 92 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Niacinamide Variant 93",
+    "category": "Surfactant",
+    "risk_level": "Medium",
+    "risk_score": 41,
+    "description": "Niacinamide Variant 93 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 94",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Mineral Oil Variant 94 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 95",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 61,
+    "description": "Salicylic Acid Variant 95 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin C Variant 96",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 11,
+    "description": "Vitamin C Variant 96 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Alcohol Variant 97",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Alcohol Variant 97 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Petrol Variant 98",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 76,
+    "description": "Petrol Variant 98 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Vitamin E Variant 99",
+    "category": "Active Compound",
+    "risk_level": "Low",
+    "risk_score": 35,
+    "description": "Vitamin E Variant 99 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Benzene Variant 100",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 79,
+    "description": "Benzene Variant 100 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Arsenic Variant 101",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Arsenic Variant 101 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Alcohol Variant 102",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 68,
+    "description": "Alcohol Variant 102 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phthalate Variant 103",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 27,
+    "description": "Phthalate Variant 103 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Retinol Variant 104",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 89,
+    "description": "Retinol Variant 104 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Glycerin Variant 105",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 22,
+    "description": "Glycerin Variant 105 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Titanium Dioxide Variant 106",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Titanium Dioxide Variant 106 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Fragrance Variant 107",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 39,
+    "description": "Fragrance Variant 107 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Citric Acid Variant 108",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 29,
+    "description": "Citric Acid Variant 108 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Paraben Variant 109",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Paraben Variant 109 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin C Variant 110",
+    "category": "Industrial Chemical",
+    "risk_level": "High",
+    "risk_score": 86,
+    "description": "Vitamin C Variant 110 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 111",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Salicylic Acid Variant 111 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 112",
+    "category": "Preservative",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Titanium Dioxide Variant 112 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 113",
+    "category": "Industrial Chemical",
+    "risk_level": "Low",
+    "risk_score": 11,
+    "description": "Sodium Lauryl Sulfate Variant 113 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Salicylic Acid Variant 114",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Salicylic Acid Variant 114 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Salicylic Acid Variant 115",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Salicylic Acid Variant 115 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 116",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 62,
+    "description": "Hydrochloric Acid Variant 116 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 117",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 67,
+    "description": "Sulfuric Acid Variant 117 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Mercury Variant 118",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 36,
+    "description": "Mercury Variant 118 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Alcohol Variant 119",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 60,
+    "description": "Alcohol Variant 119 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Paraben Variant 120",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 96,
+    "description": "Paraben Variant 120 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Zinc Oxide Variant 121",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Zinc Oxide Variant 121 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Citric Acid Variant 122",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Citric Acid Variant 122 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Mineral Oil Variant 123",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Mineral Oil Variant 123 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Propylene Glycol Variant 124",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 78,
+    "description": "Propylene Glycol Variant 124 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 125",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 83,
+    "description": "Salicylic Acid Variant 125 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Vitamin C Variant 126",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 83,
+    "description": "Vitamin C Variant 126 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Arsenic Variant 127",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 12,
+    "description": "Arsenic Variant 127 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 128",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Mineral Oil Variant 128 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Salicylic Acid Variant 129",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Salicylic Acid Variant 129 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Lead Variant 130",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 67,
+    "description": "Lead Variant 130 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Alcohol Variant 131",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Alcohol Variant 131 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Fragrance Variant 132",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 85,
+    "description": "Fragrance Variant 132 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 133",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 28,
+    "description": "Hydrochloric Acid Variant 133 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Paraben Variant 134",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 96,
+    "description": "Paraben Variant 134 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lead Variant 135",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 9,
+    "description": "Lead Variant 135 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Phthalate Variant 136",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Phthalate Variant 136 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 137",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 55,
+    "description": "Vitamin E Variant 137 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 138",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Phenoxyethanol Variant 138 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 139",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 22,
+    "description": "Salicylic Acid Variant 139 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Paraben Variant 140",
+    "category": "Preservative",
+    "risk_level": "Medium",
+    "risk_score": 57,
+    "description": "Paraben Variant 140 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 141",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 57,
+    "description": "Mineral Oil Variant 141 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Citric Acid Variant 142",
+    "category": "Active Compound",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Citric Acid Variant 142 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 143",
+    "category": "Surfactant",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Sodium Lauryl Sulfate Variant 143 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Glycerin Variant 144",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Glycerin Variant 144 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Mercury Variant 145",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 54,
+    "description": "Mercury Variant 145 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 146",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 45,
+    "description": "Salicylic Acid Variant 146 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 147",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Salicylic Acid Variant 147 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 148",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 67,
+    "description": "Titanium Dioxide Variant 148 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Niacinamide Variant 149",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Niacinamide Variant 149 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 150",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 14,
+    "description": "Butylated Hydroxytoluene Variant 150 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Hydrochloric Acid Variant 151",
+    "category": "Preservative",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Hydrochloric Acid Variant 151 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Formaldehyde Variant 152",
+    "category": "Solvent",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Formaldehyde Variant 152 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mercury Variant 153",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 38,
+    "description": "Mercury Variant 153 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mercury Variant 154",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 82,
+    "description": "Mercury Variant 154 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Propylene Glycol Variant 155",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 39,
+    "description": "Propylene Glycol Variant 155 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Phthalate Variant 156",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 40,
+    "description": "Phthalate Variant 156 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Niacinamide Variant 157",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 34,
+    "description": "Niacinamide Variant 157 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Lead Variant 158",
+    "category": "Active Compound",
+    "risk_level": "Low",
+    "risk_score": 11,
+    "description": "Lead Variant 158 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Lactic Acid Variant 159",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Lactic Acid Variant 159 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 160",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 24,
+    "description": "Hydrochloric Acid Variant 160 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Alcohol Variant 161",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 31,
+    "description": "Alcohol Variant 161 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Phthalate Variant 162",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 29,
+    "description": "Phthalate Variant 162 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Phenoxyethanol Variant 163",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 37,
+    "description": "Phenoxyethanol Variant 163 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Paraben Variant 164",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 58,
+    "description": "Paraben Variant 164 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Paraben Variant 165",
+    "category": "Emulsifier",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Paraben Variant 165 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Vitamin E Variant 166",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 36,
+    "description": "Vitamin E Variant 166 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Vitamin E Variant 167",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 34,
+    "description": "Vitamin E Variant 167 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Salicylic Acid Variant 168",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 27,
+    "description": "Salicylic Acid Variant 168 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Propylene Glycol Variant 169",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Propylene Glycol Variant 169 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Glycerin Variant 170",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 9,
+    "description": "Glycerin Variant 170 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 171",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 49,
+    "description": "Sodium Lauryl Sulfate Variant 171 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 172",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 16,
+    "description": "Salicylic Acid Variant 172 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Lactic Acid Variant 173",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Lactic Acid Variant 173 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 174",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 58,
+    "description": "Phenoxyethanol Variant 174 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 175",
+    "category": "Surfactant",
+    "risk_level": "Medium",
+    "risk_score": 44,
+    "description": "Mineral Oil Variant 175 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Lactic Acid Variant 176",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 13,
+    "description": "Lactic Acid Variant 176 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Benzene Variant 177",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 32,
+    "description": "Benzene Variant 177 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Niacinamide Variant 178",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 24,
+    "description": "Niacinamide Variant 178 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mercury Variant 179",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 90,
+    "description": "Mercury Variant 179 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 180",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Titanium Dioxide Variant 180 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lead Variant 181",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Lead Variant 181 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Lactic Acid Variant 182",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Lactic Acid Variant 182 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 183",
+    "category": "Industrial Chemical",
+    "risk_level": "Low",
+    "risk_score": 35,
+    "description": "Salicylic Acid Variant 183 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Turmeric Extract Variant 184",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 25,
+    "description": "Turmeric Extract Variant 184 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Alcohol Variant 185",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 36,
+    "description": "Alcohol Variant 185 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Formaldehyde Variant 186",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 16,
+    "description": "Formaldehyde Variant 186 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Triclosan Variant 187",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Triclosan Variant 187 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 188",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 55,
+    "description": "Formaldehyde Variant 188 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 189",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 21,
+    "description": "Formaldehyde Variant 189 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 190",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Sodium Lauryl Sulfate Variant 190 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin C Variant 191",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 53,
+    "description": "Vitamin C Variant 191 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Benzene Variant 192",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Benzene Variant 192 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Benzene Variant 193",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 59,
+    "description": "Benzene Variant 193 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 194",
+    "category": "Surfactant",
+    "risk_level": "Medium",
+    "risk_score": 68,
+    "description": "Titanium Dioxide Variant 194 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Turmeric Extract Variant 195",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 48,
+    "description": "Turmeric Extract Variant 195 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 196",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 19,
+    "description": "Butylated Hydroxytoluene Variant 196 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mercury Variant 197",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 62,
+    "description": "Mercury Variant 197 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin C Variant 198",
+    "category": "Emulsifier",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Vitamin C Variant 198 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mercury Variant 199",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Mercury Variant 199 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mercury Variant 200",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Mercury Variant 200 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 201",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 75,
+    "description": "Vitamin E Variant 201 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Phthalate Variant 202",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 56,
+    "description": "Phthalate Variant 202 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Glycerin Variant 203",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 84,
+    "description": "Glycerin Variant 203 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 204",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Phenoxyethanol Variant 204 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 205",
+    "category": "Preservative",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Hydrochloric Acid Variant 205 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 206",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 96,
+    "description": "Hydrochloric Acid Variant 206 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Glycerin Variant 207",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Glycerin Variant 207 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Citric Acid Variant 208",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 86,
+    "description": "Citric Acid Variant 208 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 209",
+    "category": "Active Compound",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Butylated Hydroxytoluene Variant 209 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 210",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 15,
+    "description": "Vitamin E Variant 210 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 211",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Mineral Oil Variant 211 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Salicylic Acid Variant 212",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 71,
+    "description": "Salicylic Acid Variant 212 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 213",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 44,
+    "description": "Hydrochloric Acid Variant 213 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 214",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 40,
+    "description": "Zinc Oxide Variant 214 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 215",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 31,
+    "description": "Formaldehyde Variant 215 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 216",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 12,
+    "description": "Mineral Oil Variant 216 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Retinol Variant 217",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 19,
+    "description": "Retinol Variant 217 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Turmeric Extract Variant 218",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Turmeric Extract Variant 218 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 219",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 37,
+    "description": "Formaldehyde Variant 219 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Paraben Variant 220",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 10,
+    "description": "Paraben Variant 220 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Hydrochloric Acid Variant 221",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Hydrochloric Acid Variant 221 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Lactic Acid Variant 222",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Lactic Acid Variant 222 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 223",
+    "category": "Colorant",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Titanium Dioxide Variant 223 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Mineral Oil Variant 224",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 80,
+    "description": "Mineral Oil Variant 224 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 225",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 81,
+    "description": "Sodium Lauryl Sulfate Variant 225 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Vitamin C Variant 226",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 51,
+    "description": "Vitamin C Variant 226 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 227",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 99,
+    "description": "Sulfuric Acid Variant 227 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 228",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 22,
+    "description": "Titanium Dioxide Variant 228 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Niacinamide Variant 229",
+    "category": "Active Compound",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Niacinamide Variant 229 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phthalate Variant 230",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 55,
+    "description": "Phthalate Variant 230 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 231",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 49,
+    "description": "Butylated Hydroxytoluene Variant 231 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Aloe Vera Variant 232",
+    "category": "Preservative",
+    "risk_level": "Medium",
+    "risk_score": 46,
+    "description": "Aloe Vera Variant 232 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Propylene Glycol Variant 233",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Propylene Glycol Variant 233 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Zinc Oxide Variant 234",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 80,
+    "description": "Zinc Oxide Variant 234 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Phthalate Variant 235",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Phthalate Variant 235 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Turmeric Extract Variant 236",
+    "category": "Emulsifier",
+    "risk_level": "High",
+    "risk_score": 73,
+    "description": "Turmeric Extract Variant 236 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 237",
+    "category": "Colorant",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Sulfuric Acid Variant 237 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 238",
+    "category": "Active Compound",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Vitamin E Variant 238 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Alcohol Variant 239",
+    "category": "Industrial Chemical",
+    "risk_level": "High",
+    "risk_score": 76,
+    "description": "Alcohol Variant 239 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Phthalate Variant 240",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 9,
+    "description": "Phthalate Variant 240 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Paraben Variant 241",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 23,
+    "description": "Paraben Variant 241 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Citric Acid Variant 242",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 11,
+    "description": "Citric Acid Variant 242 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Vitamin E Variant 243",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 90,
+    "description": "Vitamin E Variant 243 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 244",
+    "category": "Preservative",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Butylated Hydroxytoluene Variant 244 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin C Variant 245",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Vitamin C Variant 245 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 246",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 55,
+    "description": "Zinc Oxide Variant 246 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phthalate Variant 247",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 67,
+    "description": "Phthalate Variant 247 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Lead Variant 248",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 45,
+    "description": "Lead Variant 248 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 249",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 39,
+    "description": "Zinc Oxide Variant 249 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Propylene Glycol Variant 250",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 99,
+    "description": "Propylene Glycol Variant 250 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 251",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 38,
+    "description": "Phenoxyethanol Variant 251 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Lactic Acid Variant 252",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Lactic Acid Variant 252 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Petrol Variant 253",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 27,
+    "description": "Petrol Variant 253 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Salicylic Acid Variant 254",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Salicylic Acid Variant 254 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 255",
+    "category": "Active Compound",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Phenoxyethanol Variant 255 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 256",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 81,
+    "description": "Sodium Lauryl Sulfate Variant 256 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Triclosan Variant 257",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Triclosan Variant 257 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lead Variant 258",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 21,
+    "description": "Lead Variant 258 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Propylene Glycol Variant 259",
+    "category": "Preservative",
+    "risk_level": "Medium",
+    "risk_score": 51,
+    "description": "Propylene Glycol Variant 259 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Retinol Variant 260",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 99,
+    "description": "Retinol Variant 260 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 261",
+    "category": "Active Compound",
+    "risk_level": "Low",
+    "risk_score": 38,
+    "description": "Sulfuric Acid Variant 261 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Retinol Variant 262",
+    "category": "Industrial Chemical",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Retinol Variant 262 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 263",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 27,
+    "description": "Mineral Oil Variant 263 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 264",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 83,
+    "description": "Butylated Hydroxytoluene Variant 264 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 265",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 25,
+    "description": "Sodium Lauryl Sulfate Variant 265 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Zinc Oxide Variant 266",
+    "category": "Active Compound",
+    "risk_level": "Low",
+    "risk_score": 6,
+    "description": "Zinc Oxide Variant 266 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Niacinamide Variant 267",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 65,
+    "description": "Niacinamide Variant 267 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 268",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 90,
+    "description": "Titanium Dioxide Variant 268 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Fragrance Variant 269",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 31,
+    "description": "Fragrance Variant 269 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Turmeric Extract Variant 270",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 39,
+    "description": "Turmeric Extract Variant 270 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 271",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Mineral Oil Variant 271 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Petrol Variant 272",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 15,
+    "description": "Petrol Variant 272 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 273",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Mineral Oil Variant 273 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phthalate Variant 274",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 7,
+    "description": "Phthalate Variant 274 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Retinol Variant 275",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Retinol Variant 275 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lactic Acid Variant 276",
+    "category": "Active Compound",
+    "risk_level": "Low",
+    "risk_score": 13,
+    "description": "Lactic Acid Variant 276 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Zinc Oxide Variant 277",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Zinc Oxide Variant 277 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Petrol Variant 278",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 51,
+    "description": "Petrol Variant 278 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Paraben Variant 279",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 41,
+    "description": "Paraben Variant 279 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Lead Variant 280",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 99,
+    "description": "Lead Variant 280 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Mercury Variant 281",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 36,
+    "description": "Mercury Variant 281 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mercury Variant 282",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 13,
+    "description": "Mercury Variant 282 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Sulfuric Acid Variant 283",
+    "category": "Active Compound",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Sulfuric Acid Variant 283 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Mineral Oil Variant 284",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 57,
+    "description": "Mineral Oil Variant 284 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Niacinamide Variant 285",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 8,
+    "description": "Niacinamide Variant 285 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Lactic Acid Variant 286",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Lactic Acid Variant 286 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Formaldehyde Variant 287",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 46,
+    "description": "Formaldehyde Variant 287 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Benzene Variant 288",
+    "category": "Active Compound",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Benzene Variant 288 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 289",
+    "category": "Solvent",
+    "risk_level": "High",
+    "risk_score": 72,
+    "description": "Sulfuric Acid Variant 289 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mercury Variant 290",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 45,
+    "description": "Mercury Variant 290 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Triclosan Variant 291",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 67,
+    "description": "Triclosan Variant 291 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 292",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 63,
+    "description": "Zinc Oxide Variant 292 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Triclosan Variant 293",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 12,
+    "description": "Triclosan Variant 293 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Formaldehyde Variant 294",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 30,
+    "description": "Formaldehyde Variant 294 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Triclosan Variant 295",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 13,
+    "description": "Triclosan Variant 295 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Turmeric Extract Variant 296",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 87,
+    "description": "Turmeric Extract Variant 296 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Paraben Variant 297",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 44,
+    "description": "Paraben Variant 297 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 298",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Salicylic Acid Variant 298 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 299",
+    "category": "Preservative",
+    "risk_level": "Medium",
+    "risk_score": 52,
+    "description": "Hydrochloric Acid Variant 299 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 300",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 84,
+    "description": "Formaldehyde Variant 300 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 301",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 71,
+    "description": "Titanium Dioxide Variant 301 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 302",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Sulfuric Acid Variant 302 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Petrol Variant 303",
+    "category": "Solvent",
+    "risk_level": "High",
+    "risk_score": 76,
+    "description": "Petrol Variant 303 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Arsenic Variant 304",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Arsenic Variant 304 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin C Variant 305",
+    "category": "Preservative",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Vitamin C Variant 305 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Mineral Oil Variant 306",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 48,
+    "description": "Mineral Oil Variant 306 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Alcohol Variant 307",
+    "category": "Industrial Chemical",
+    "risk_level": "Low",
+    "risk_score": 31,
+    "description": "Alcohol Variant 307 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Triclosan Variant 308",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 24,
+    "description": "Triclosan Variant 308 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 309",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 81,
+    "description": "Sodium Lauryl Sulfate Variant 309 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 310",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 38,
+    "description": "Zinc Oxide Variant 310 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Fragrance Variant 311",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 97,
+    "description": "Fragrance Variant 311 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 312",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Sodium Lauryl Sulfate Variant 312 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Salicylic Acid Variant 313",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Salicylic Acid Variant 313 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Propylene Glycol Variant 314",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 69,
+    "description": "Propylene Glycol Variant 314 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phthalate Variant 315",
+    "category": "Solvent",
+    "risk_level": "High",
+    "risk_score": 84,
+    "description": "Phthalate Variant 315 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 316",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 14,
+    "description": "Mineral Oil Variant 316 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Paraben Variant 317",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 31,
+    "description": "Paraben Variant 317 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mercury Variant 318",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 84,
+    "description": "Mercury Variant 318 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 319",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 82,
+    "description": "Zinc Oxide Variant 319 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Phthalate Variant 320",
+    "category": "Solvent",
+    "risk_level": "High",
+    "risk_score": 86,
+    "description": "Phthalate Variant 320 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 321",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Sodium Lauryl Sulfate Variant 321 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Alcohol Variant 322",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 80,
+    "description": "Alcohol Variant 322 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Citric Acid Variant 323",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 79,
+    "description": "Citric Acid Variant 323 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Niacinamide Variant 324",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 15,
+    "description": "Niacinamide Variant 324 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Phenoxyethanol Variant 325",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 38,
+    "description": "Phenoxyethanol Variant 325 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Lead Variant 326",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 75,
+    "description": "Lead Variant 326 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Paraben Variant 327",
+    "category": "Industrial Chemical",
+    "risk_level": "Low",
+    "risk_score": 33,
+    "description": "Paraben Variant 327 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Niacinamide Variant 328",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 52,
+    "description": "Niacinamide Variant 328 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 329",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Sulfuric Acid Variant 329 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lactic Acid Variant 330",
+    "category": "Active Compound",
+    "risk_level": "Low",
+    "risk_score": 18,
+    "description": "Lactic Acid Variant 330 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Salicylic Acid Variant 331",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Salicylic Acid Variant 331 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lactic Acid Variant 332",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Lactic Acid Variant 332 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Citric Acid Variant 333",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 20,
+    "description": "Citric Acid Variant 333 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Titanium Dioxide Variant 334",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 82,
+    "description": "Titanium Dioxide Variant 334 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Lactic Acid Variant 335",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 73,
+    "description": "Lactic Acid Variant 335 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Triclosan Variant 336",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 20,
+    "description": "Triclosan Variant 336 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Formaldehyde Variant 337",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 85,
+    "description": "Formaldehyde Variant 337 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Triclosan Variant 338",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Triclosan Variant 338 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Fragrance Variant 339",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 45,
+    "description": "Fragrance Variant 339 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Glycerin Variant 340",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Glycerin Variant 340 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Aloe Vera Variant 341",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Aloe Vera Variant 341 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 342",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 65,
+    "description": "Titanium Dioxide Variant 342 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Triclosan Variant 343",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 37,
+    "description": "Triclosan Variant 343 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Salicylic Acid Variant 344",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 85,
+    "description": "Salicylic Acid Variant 344 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Petrol Variant 345",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 13,
+    "description": "Petrol Variant 345 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Retinol Variant 346",
+    "category": "Preservative",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Retinol Variant 346 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Triclosan Variant 347",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 7,
+    "description": "Triclosan Variant 347 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Hydrochloric Acid Variant 348",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Hydrochloric Acid Variant 348 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Paraben Variant 349",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 85,
+    "description": "Paraben Variant 349 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Glycerin Variant 350",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Glycerin Variant 350 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 351",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 84,
+    "description": "Hydrochloric Acid Variant 351 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Salicylic Acid Variant 352",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 37,
+    "description": "Salicylic Acid Variant 352 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Propylene Glycol Variant 353",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 61,
+    "description": "Propylene Glycol Variant 353 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 354",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 89,
+    "description": "Sodium Lauryl Sulfate Variant 354 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 355",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Sulfuric Acid Variant 355 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lactic Acid Variant 356",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 79,
+    "description": "Lactic Acid Variant 356 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 357",
+    "category": "Emulsifier",
+    "risk_level": "High",
+    "risk_score": 88,
+    "description": "Titanium Dioxide Variant 357 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 358",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Butylated Hydroxytoluene Variant 358 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Benzene Variant 359",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 80,
+    "description": "Benzene Variant 359 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Fragrance Variant 360",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 25,
+    "description": "Fragrance Variant 360 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Titanium Dioxide Variant 361",
+    "category": "Colorant",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Titanium Dioxide Variant 361 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin C Variant 362",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 23,
+    "description": "Vitamin C Variant 362 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Vitamin C Variant 363",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 97,
+    "description": "Vitamin C Variant 363 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Formaldehyde Variant 364",
+    "category": "Emulsifier",
+    "risk_level": "High",
+    "risk_score": 79,
+    "description": "Formaldehyde Variant 364 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 365",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Zinc Oxide Variant 365 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Petrol Variant 366",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 35,
+    "description": "Petrol Variant 366 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Formaldehyde Variant 367",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 97,
+    "description": "Formaldehyde Variant 367 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 368",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 32,
+    "description": "Vitamin E Variant 368 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Niacinamide Variant 369",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 96,
+    "description": "Niacinamide Variant 369 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Salicylic Acid Variant 370",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Salicylic Acid Variant 370 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Petrol Variant 371",
+    "category": "Solvent",
+    "risk_level": "High",
+    "risk_score": 89,
+    "description": "Petrol Variant 371 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Arsenic Variant 372",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 33,
+    "description": "Arsenic Variant 372 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 373",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 76,
+    "description": "Mineral Oil Variant 373 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Glycerin Variant 374",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 65,
+    "description": "Glycerin Variant 374 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Glycerin Variant 375",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Glycerin Variant 375 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phthalate Variant 376",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 99,
+    "description": "Phthalate Variant 376 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Glycerin Variant 377",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 89,
+    "description": "Glycerin Variant 377 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mercury Variant 378",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 44,
+    "description": "Mercury Variant 378 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 379",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 81,
+    "description": "Formaldehyde Variant 379 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Retinol Variant 380",
+    "category": "Colorant",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Retinol Variant 380 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 381",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 35,
+    "description": "Sodium Lauryl Sulfate Variant 381 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mercury Variant 382",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 85,
+    "description": "Mercury Variant 382 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 383",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 26,
+    "description": "Zinc Oxide Variant 383 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 384",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 70,
+    "description": "Mineral Oil Variant 384 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 385",
+    "category": "Surfactant",
+    "risk_level": "Medium",
+    "risk_score": 45,
+    "description": "Formaldehyde Variant 385 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Arsenic Variant 386",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 17,
+    "description": "Arsenic Variant 386 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 387",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 29,
+    "description": "Sodium Lauryl Sulfate Variant 387 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Glycerin Variant 388",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 89,
+    "description": "Glycerin Variant 388 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Phthalate Variant 389",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 39,
+    "description": "Phthalate Variant 389 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Vitamin C Variant 390",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 15,
+    "description": "Vitamin C Variant 390 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Petrol Variant 391",
+    "category": "Colorant",
+    "risk_level": "Medium",
+    "risk_score": 42,
+    "description": "Petrol Variant 391 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 392",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Hydrochloric Acid Variant 392 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Glycerin Variant 393",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 86,
+    "description": "Glycerin Variant 393 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Arsenic Variant 394",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 34,
+    "description": "Arsenic Variant 394 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Citric Acid Variant 395",
+    "category": "Active Compound",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Citric Acid Variant 395 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phthalate Variant 396",
+    "category": "Surfactant",
+    "risk_level": "Low",
+    "risk_score": 34,
+    "description": "Phthalate Variant 396 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mineral Oil Variant 397",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Mineral Oil Variant 397 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sodium Lauryl Sulfate Variant 398",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Sodium Lauryl Sulfate Variant 398 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Lactic Acid Variant 399",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 90,
+    "description": "Lactic Acid Variant 399 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Fragrance Variant 400",
+    "category": "Industrial Chemical",
+    "risk_level": "High",
+    "risk_score": 73,
+    "description": "Fragrance Variant 400 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Fragrance Variant 401",
+    "category": "Colorant",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Fragrance Variant 401 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Petrol Variant 402",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 83,
+    "description": "Petrol Variant 402 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Vitamin C Variant 403",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 68,
+    "description": "Vitamin C Variant 403 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Glycerin Variant 404",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Glycerin Variant 404 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Fragrance Variant 405",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Fragrance Variant 405 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin E Variant 406",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 76,
+    "description": "Vitamin E Variant 406 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Vitamin E Variant 407",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Vitamin E Variant 407 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Arsenic Variant 408",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 24,
+    "description": "Arsenic Variant 408 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Titanium Dioxide Variant 409",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 71,
+    "description": "Titanium Dioxide Variant 409 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Vitamin E Variant 410",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 52,
+    "description": "Vitamin E Variant 410 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 411",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 75,
+    "description": "Formaldehyde Variant 411 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Petrol Variant 412",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 82,
+    "description": "Petrol Variant 412 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 413",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 78,
+    "description": "Hydrochloric Acid Variant 413 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Alcohol Variant 414",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 90,
+    "description": "Alcohol Variant 414 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 415",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 54,
+    "description": "Phenoxyethanol Variant 415 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Paraben Variant 416",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 88,
+    "description": "Paraben Variant 416 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Arsenic Variant 417",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 44,
+    "description": "Arsenic Variant 417 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Benzene Variant 418",
+    "category": "Preservative",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Benzene Variant 418 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Aloe Vera Variant 419",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Aloe Vera Variant 419 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Alcohol Variant 420",
+    "category": "Active Compound",
+    "risk_level": "Low",
+    "risk_score": 18,
+    "description": "Alcohol Variant 420 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Turmeric Extract Variant 421",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 98,
+    "description": "Turmeric Extract Variant 421 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 422",
+    "category": "Surfactant",
+    "risk_level": "Medium",
+    "risk_score": 64,
+    "description": "Sulfuric Acid Variant 422 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Petrol Variant 423",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 62,
+    "description": "Petrol Variant 423 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 424",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 22,
+    "description": "Butylated Hydroxytoluene Variant 424 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Glycerin Variant 425",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 27,
+    "description": "Glycerin Variant 425 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Mercury Variant 426",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 66,
+    "description": "Mercury Variant 426 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 427",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 47,
+    "description": "Phenoxyethanol Variant 427 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Vitamin C Variant 428",
+    "category": "Emulsifier",
+    "risk_level": "Low",
+    "risk_score": 10,
+    "description": "Vitamin C Variant 428 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Vitamin E Variant 429",
+    "category": "Stabilizer",
+    "risk_level": "High",
+    "risk_score": 81,
+    "description": "Vitamin E Variant 429 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Lactic Acid Variant 430",
+    "category": "Solvent",
+    "risk_level": "High",
+    "risk_score": 76,
+    "description": "Lactic Acid Variant 430 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 431",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 69,
+    "description": "Sulfuric Acid Variant 431 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Lactic Acid Variant 432",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 40,
+    "description": "Lactic Acid Variant 432 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Lead Variant 433",
+    "category": "Industrial Chemical",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Lead Variant 433 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Citric Acid Variant 434",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 66,
+    "description": "Citric Acid Variant 434 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Turmeric Extract Variant 435",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Turmeric Extract Variant 435 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Mineral Oil Variant 436",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 87,
+    "description": "Mineral Oil Variant 436 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Benzene Variant 437",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Benzene Variant 437 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Arsenic Variant 438",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 60,
+    "description": "Arsenic Variant 438 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 439",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 72,
+    "description": "Phenoxyethanol Variant 439 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Citric Acid Variant 440",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 38,
+    "description": "Citric Acid Variant 440 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Propylene Glycol Variant 441",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Propylene Glycol Variant 441 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Alcohol Variant 442",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 7,
+    "description": "Alcohol Variant 442 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Paraben Variant 443",
+    "category": "Emulsifier",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Paraben Variant 443 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Aloe Vera Variant 444",
+    "category": "Fragrance",
+    "risk_level": "Low",
+    "risk_score": 32,
+    "description": "Aloe Vera Variant 444 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Salicylic Acid Variant 445",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Salicylic Acid Variant 445 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Aloe Vera Variant 446",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 36,
+    "description": "Aloe Vera Variant 446 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Triclosan Variant 447",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 85,
+    "description": "Triclosan Variant 447 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 448",
+    "category": "Solvent",
+    "risk_level": "Medium",
+    "risk_score": 59,
+    "description": "Mineral Oil Variant 448 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Phthalate Variant 449",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 91,
+    "description": "Phthalate Variant 449 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Propylene Glycol Variant 450",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 54,
+    "description": "Propylene Glycol Variant 450 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 451",
+    "category": "Stabilizer",
+    "risk_level": "Low",
+    "risk_score": 7,
+    "description": "Formaldehyde Variant 451 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Hydrochloric Acid Variant 452",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Hydrochloric Acid Variant 452 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 453",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 82,
+    "description": "Titanium Dioxide Variant 453 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Mercury Variant 454",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 62,
+    "description": "Mercury Variant 454 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Petrol Variant 455",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 78,
+    "description": "Petrol Variant 455 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Retinol Variant 456",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 27,
+    "description": "Retinol Variant 456 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Fragrance Variant 457",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 88,
+    "description": "Fragrance Variant 457 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 458",
+    "category": "Fragrance",
+    "risk_level": "High",
+    "risk_score": 78,
+    "description": "Hydrochloric Acid Variant 458 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Lead Variant 459",
+    "category": "Industrial Chemical",
+    "risk_level": "Low",
+    "risk_score": 21,
+    "description": "Lead Variant 459 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 460",
+    "category": "Colorant",
+    "risk_level": "Extreme",
+    "risk_score": 97,
+    "description": "Butylated Hydroxytoluene Variant 460 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 461",
+    "category": "Antioxidant",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Butylated Hydroxytoluene Variant 461 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Arsenic Variant 462",
+    "category": "Solvent",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Arsenic Variant 462 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Glycerin Variant 463",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 77,
+    "description": "Glycerin Variant 463 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Sulfuric Acid Variant 464",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 43,
+    "description": "Sulfuric Acid Variant 464 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Fragrance Variant 465",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 6,
+    "description": "Fragrance Variant 465 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Turmeric Extract Variant 466",
+    "category": "Active Compound",
+    "risk_level": "Medium",
+    "risk_score": 46,
+    "description": "Turmeric Extract Variant 466 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Aloe Vera Variant 467",
+    "category": "Stabilizer",
+    "risk_level": "Medium",
+    "risk_score": 66,
+    "description": "Aloe Vera Variant 467 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Arsenic Variant 468",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 20,
+    "description": "Arsenic Variant 468 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Phthalate Variant 469",
+    "category": "Antioxidant",
+    "risk_level": "Low",
+    "risk_score": 29,
+    "description": "Phthalate Variant 469 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Glycerin Variant 470",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 93,
+    "description": "Glycerin Variant 470 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Titanium Dioxide Variant 471",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 71,
+    "description": "Titanium Dioxide Variant 471 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Formaldehyde Variant 472",
+    "category": "Solvent",
+    "risk_level": "Low",
+    "risk_score": 18,
+    "description": "Formaldehyde Variant 472 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Vitamin E Variant 473",
+    "category": "Stabilizer",
+    "risk_level": "Extreme",
+    "risk_score": 95,
+    "description": "Vitamin E Variant 473 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Triclosan Variant 474",
+    "category": "Preservative",
+    "risk_level": "Medium",
+    "risk_score": 51,
+    "description": "Triclosan Variant 474 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 475",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 87,
+    "description": "Hydrochloric Acid Variant 475 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Niacinamide Variant 476",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 9,
+    "description": "Niacinamide Variant 476 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Retinol Variant 477",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 94,
+    "description": "Retinol Variant 477 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Propylene Glycol Variant 478",
+    "category": "Preservative",
+    "risk_level": "Medium",
+    "risk_score": 45,
+    "description": "Propylene Glycol Variant 478 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Triclosan Variant 479",
+    "category": "Industrial Chemical",
+    "risk_level": "Extreme",
+    "risk_score": 92,
+    "description": "Triclosan Variant 479 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 480",
+    "category": "Emulsifier",
+    "risk_level": "High",
+    "risk_score": 71,
+    "description": "Phenoxyethanol Variant 480 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Glycerin Variant 481",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 40,
+    "description": "Glycerin Variant 481 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Paraben Variant 482",
+    "category": "Preservative",
+    "risk_level": "Low",
+    "risk_score": 9,
+    "description": "Paraben Variant 482 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Alcohol Variant 483",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 88,
+    "description": "Alcohol Variant 483 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Turmeric Extract Variant 484",
+    "category": "Antioxidant",
+    "risk_level": "High",
+    "risk_score": 82,
+    "description": "Turmeric Extract Variant 484 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Zinc Oxide Variant 485",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 81,
+    "description": "Zinc Oxide Variant 485 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Lead Variant 486",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 74,
+    "description": "Lead Variant 486 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Phthalate Variant 487",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 55,
+    "description": "Phthalate Variant 487 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Mineral Oil Variant 488",
+    "category": "Antioxidant",
+    "risk_level": "Medium",
+    "risk_score": 57,
+    "description": "Mineral Oil Variant 488 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Paraben Variant 489",
+    "category": "Industrial Chemical",
+    "risk_level": "Low",
+    "risk_score": 39,
+    "description": "Paraben Variant 489 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Hydrochloric Acid Variant 490",
+    "category": "Fragrance",
+    "risk_level": "Medium",
+    "risk_score": 49,
+    "description": "Hydrochloric Acid Variant 490 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Aloe Vera Variant 491",
+    "category": "Preservative",
+    "risk_level": "Medium",
+    "risk_score": 49,
+    "description": "Aloe Vera Variant 491 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Triclosan Variant 492",
+    "category": "Fragrance",
+    "risk_level": "Extreme",
+    "risk_score": 100,
+    "description": "Triclosan Variant 492 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Vitamin E Variant 493",
+    "category": "Preservative",
+    "risk_level": "High",
+    "risk_score": 86,
+    "description": "Vitamin E Variant 493 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Butylated Hydroxytoluene Variant 494",
+    "category": "Industrial Chemical",
+    "risk_level": "Medium",
+    "risk_score": 50,
+    "description": "Butylated Hydroxytoluene Variant 494 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": ["Mild irritation"]
+  },
+  {
+    "name": "Niacinamide Variant 495",
+    "category": "Surfactant",
+    "risk_level": "High",
+    "risk_score": 79,
+    "description": "Niacinamide Variant 495 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Hydrochloric Acid Variant 496",
+    "category": "Active Compound",
+    "risk_level": "High",
+    "risk_score": 72,
+    "description": "Hydrochloric Acid Variant 496 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Retinol Variant 497",
+    "category": "Colorant",
+    "risk_level": "High",
+    "risk_score": 79,
+    "description": "Retinol Variant 497 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Hormonal disruption", "Skin irritation"]
+  },
+  {
+    "name": "Phenoxyethanol Variant 498",
+    "category": "Surfactant",
+    "risk_level": "Extreme",
+    "risk_score": 96,
+    "description": "Phenoxyethanol Variant 498 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  },
+  {
+    "name": "Zinc Oxide Variant 499",
+    "category": "Colorant",
+    "risk_level": "Low",
+    "risk_score": 38,
+    "description": "Zinc Oxide Variant 499 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": ["Improves stability", "Enhances performance"],
+    "side_effects": []
+  },
+  {
+    "name": "Fragrance Variant 500",
+    "category": "Emulsifier",
+    "risk_level": "Extreme",
+    "risk_score": 97,
+    "description": "Fragrance Variant 500 is commonly used in cosmetic, pharmaceutical, or industrial formulations.",
+    "benefits": [],
+    "side_effects": ["Severe toxicity", "Organ damage"]
+  }
+]
