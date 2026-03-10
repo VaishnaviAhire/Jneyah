@@ -148,11 +148,15 @@ async def health_check():
     return {"status": "healthy"}
 
 # ================= RUN =================
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
     
+if __name__ == "__main__":
+    import uvicorn
+
+    print("\n🚀 Server running at http://localhost:8000\n")
+    print("🤖 Chatbot WebSocket available at ws://localhost:8000/chatbot/ws/{user_id}\n")
+
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
 
 
 
@@ -281,6 +285,7 @@ if __name__ == "__main__":
 #     print("\n🚀 Server running at http://localhost:8000\n")
 
 #     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
 
 
 
