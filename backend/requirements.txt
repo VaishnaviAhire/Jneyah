@@ -6,7 +6,7 @@ httpx==0.25.1
 # Image / OCR
 opencv-python-headless==4.8.1.78
 pytesseract==0.3.10
-Pillow==10.0.1
+Pillow>=9.5.0
 
 # NLP
 nltk==3.8.1
@@ -41,3 +41,4 @@ google-api-python-client==2.108.0
 
 # Cloudinary
 cloudinary==1.37.0
+
