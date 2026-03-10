@@ -37,6 +37,11 @@ from expert_mode.experimentation_sandbox import router as sandbox_router
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_DIR = BASE_DIR.parent / "frontend"
 
+import nltk
+
+nltk.download("punkt")
+nltk.download("stopwords")
+
 # Ensure uploads folder exists
 os.makedirs("uploads", exist_ok=True)
 
@@ -285,6 +290,7 @@ if __name__ == "__main__":
 #     print("\n🚀 Server running at http://localhost:8000\n")
 
 #     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
 
 
 
