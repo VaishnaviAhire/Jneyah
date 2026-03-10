@@ -12,6 +12,7 @@ Pillow>=9.5.0
 
 # NLP
 nltk==3.8.1
+openai==1.14.3
 
 # ML
 numpy==1.24.3
@@ -43,6 +44,7 @@ google-api-python-client==2.108.0
 
 # Cloudinary
 cloudinary==1.37.0
+
 
 
 
