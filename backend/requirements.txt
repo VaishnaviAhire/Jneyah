@@ -48,4 +48,4 @@ cloudinary==1.37.0
 
 
 
-
+networkx==3.2.1
