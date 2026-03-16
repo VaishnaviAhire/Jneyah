@@ -1094,7 +1094,7 @@
           <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
         </div>
 
-        <div class="user-avatar" id="userAvatar">SA</div>
+        <div class="user-avatar" id="userAvatar"></div>
       </header>
 
       <!-- Main Content -->
@@ -1110,20 +1110,20 @@
           <!-- Left Sidebar - User Profile & Trending -->
           <div class="sidebar-card">
             <div class="user-card" id="userCard">
-              <div class="user-avatar-large" id="userAvatarLarge">SA</div>
-              <div class="user-name-large" id="userName">Sarah Johnson</div>
+              <div class="user-avatar-large" id="userAvatarLarge"></div>
+              <div class="user-name-large" id="userName">Loading...</div>
               <div class="user-badge" id="userBadge">🌱 Skincare Newbie</div>
               <div class="user-stats">
                 <div class="stat-item">
-                  <div class="stat-number" id="postCount">3</div>
+                  <div class="stat-number" id="postCount">0</div>
                   <div class="stat-label">Posts</div>
                 </div>
                 <div class="stat-item">
-                  <div class="stat-number" id="followerCount">12</div>
+                  <div class="stat-number" id="followerCount">0</div>
                   <div class="stat-label">Followers</div>
                 </div>
                 <div class="stat-item">
-                  <div class="stat-number" id="followingCount">8</div>
+                  <div class="stat-number" id="followingCount">0</div>
                   <div class="stat-label">Following</div>
                 </div>
               </div>
@@ -1309,9 +1309,145 @@
       const savedTheme = localStorage.getItem("jneyah-theme") || "light";
       document.body.classList.add(savedTheme);
 
+      // API Configuration
+      const API_BASE = "http://localhost:8000/api";
+
+      // ========== USER DATA FROM API ==========
+      let CURRENT_USER = null;
+      let USER_POSTS = [];
+
+      // Token management
+      function getToken() {
+        return localStorage.getItem("access_token");
+      }
+
+      function logout() {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        window.location.href = "/";
+      }
+
+      // Load user profile from API
+      async function loadUserProfile() {
+        const token = getToken();
+        if (!token) {
+          window.location.href = "/";
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (response.ok) {
+            const user = await response.json();
+
+            CURRENT_USER = {
+              id: user.id,
+              name: user.full_name || "User",
+              email: user.email,
+              badge: getBadgeFromProfile(user),
+              post_count: 0, // Will be updated from posts
+              followers_count: 0, // Mock data
+              following_count: 0, // Mock data
+              saved_posts: [],
+            };
+
+            // Update UI with user data
+            updateUserProfileUI();
+
+            // Initialize storage with user context
+            initStorage();
+          } else {
+            // Token might be expired
+            await refreshToken();
+          }
+        } catch (error) {
+          console.error("Error loading profile:", error);
+        }
+      }
+
+      function getBadgeFromProfile(user) {
+        if (!user.health_profile) return "🌱 Skincare Newbie";
+
+        const skinType = user.health_profile.skin_type || "";
+        const concerns = user.health_profile.skin_concerns || [];
+
+        if (concerns.length > 3) return "🔬 Advanced Enthusiast";
+        if (skinType === "sensitive") return "🌿 Sensitive Skin Expert";
+        if (concerns.includes("acne")) return "✨ Acne Warrior";
+        if (concerns.includes("aging")) return "🌟 Ageless Beauty";
+
+        return "🌱 Skincare Newbie";
+      }
+
+      async function refreshToken() {
+        const refreshToken = localStorage.getItem("refresh_token");
+        if (!refreshToken) {
+          logout();
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/refresh`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token: refreshToken }),
+          });
+
+          if (response.ok) {
+            const tokens = await response.json();
+            localStorage.setItem("access_token", tokens.access_token);
+            localStorage.setItem("refresh_token", tokens.refresh_token);
+            await loadUserProfile();
+          } else {
+            logout();
+          }
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+          logout();
+        }
+      }
+
+      function updateUserProfileUI() {
+        if (!CURRENT_USER) return;
+
+        // Get initials for avatar
+        const initials = CURRENT_USER.name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .substring(0, 2);
+
+        // Update header avatar
+        document.getElementById("userAvatar").textContent = initials;
+
+        // Update sidebar profile
+        document.getElementById("userAvatarLarge").textContent = initials;
+        document.getElementById("userName").textContent = CURRENT_USER.name;
+        document.getElementById("userBadge").textContent = CURRENT_USER.badge;
+
+        // Get user's posts count
+        const posts = getPosts();
+        const userPosts = posts.filter(
+          (p) => p.user.name === CURRENT_USER.name,
+        );
+        CURRENT_USER.post_count = userPosts.length;
+
+        document.getElementById("postCount").textContent =
+          CURRENT_USER.post_count;
+        document.getElementById("followerCount").textContent =
+          CURRENT_USER.followers_count;
+        document.getElementById("followingCount").textContent =
+          CURRENT_USER.following_count;
+      }
+
       // ========== PERSISTENT STORAGE ==========
-      // Initialize data in localStorage if not exists
       function initStorage() {
+        if (!CURRENT_USER) return;
+
         if (!localStorage.getItem("community_posts")) {
           const initialPosts = [
             {
@@ -1320,7 +1456,7 @@
               post_type: "success_story",
               title: "My 6-month Retinol journey changed my skin!",
               content:
-                "I started with 0.25% retinol and slowly worked my way up. The purge was real but so worth it! My skin has never looked better. Trust the process, everyone! ✨",
+                "I started with 0.25% retinol and slowly worked my way up. The purge was real but so worth it! My skin has never looked better. Trust the process, everyone!",
               tags: ["retinol", "success-story", "skincare-journey"],
               time_ago: "2 hours ago",
               timestamp: Date.now() - 7200000,
@@ -1384,21 +1520,7 @@
           ];
           localStorage.setItem("community_posts", JSON.stringify(initialPosts));
         }
-
-        if (!localStorage.getItem("community_user")) {
-          const user = {
-            display_name: "Sarah Johnson",
-            badge: "🌱 Skincare Newbie",
-            post_count: 3,
-            followers_count: 12,
-            following_count: 8,
-            saved_posts: [],
-          };
-          localStorage.setItem("community_user", JSON.stringify(user));
-        }
       }
-
-      initStorage();
 
       // ========== DATA FUNCTIONS ==========
       function getPosts() {
@@ -1407,14 +1529,6 @@
 
       function savePosts(posts) {
         localStorage.setItem("community_posts", JSON.stringify(posts));
-      }
-
-      function getUser() {
-        return JSON.parse(localStorage.getItem("community_user"));
-      }
-
-      function saveUser(user) {
-        localStorage.setItem("community_user", JSON.stringify(user));
       }
 
       // Update time ago
@@ -1431,8 +1545,9 @@
       // ========== RENDER FUNCTIONS ==========
       function renderPosts() {
         const posts = getPosts();
-        const user = getUser();
         const feedDiv = document.getElementById("feedPosts");
+
+        if (!CURRENT_USER) return;
 
         if (!posts || posts.length === 0) {
           feedDiv.innerHTML =
@@ -1446,14 +1561,17 @@
         );
 
         feedDiv.innerHTML = sortedPosts
-          .map((post) => createPostHTML(post, user))
+          .map((post) => createPostHTML(post))
           .join("");
       }
 
-      function createPostHTML(post, user) {
+      function createPostHTML(post) {
+        if (!CURRENT_USER) return "";
+
         const reactions = post.reactions || {};
-        const userReaction = post.user_reactions?.[user.display_name] || null;
-        const isSaved = user.saved_posts?.includes(post.post_id) || false;
+        const userReaction = post.user_reactions?.[CURRENT_USER.name] || null;
+        const isSaved =
+          CURRENT_USER.saved_posts?.includes(post.post_id) || false;
 
         return `
                 <div class="post-card" data-post-id="${post.post_id}">
@@ -1464,7 +1582,7 @@
                                 ${post.user.name}
                                 <span class="user-badge-small">${post.user.badge}</span>
                             </div>
-                            <div class="post-time">${post.time_ago}</div>
+                            <div class="post-time">${updateTimeAgo(post.timestamp)}</div>
                         </div>
                     </div>
                     
@@ -1536,7 +1654,7 @@
                     <div class="comment-content">
                         <div class="comment-user">${comment.user}</div>
                         <div class="comment-text">${comment.content}</div>
-                        <div class="comment-time">${comment.time}</div>
+                        <div class="comment-time">${updateTimeAgo(comment.timestamp)}</div>
                     </div>
                 </div>
             `,
@@ -1561,20 +1679,19 @@
       // ========== INTERACTION FUNCTIONS ==========
       window.reactToPost = function (postId, reaction) {
         const posts = getPosts();
-        const user = getUser();
         const post = posts.find((p) => p.post_id === postId);
 
-        if (!post) return;
+        if (!post || !CURRENT_USER) return;
 
         // Initialize user_reactions if needed
         if (!post.user_reactions) post.user_reactions = {};
 
-        const previousReaction = post.user_reactions[user.display_name];
+        const previousReaction = post.user_reactions[CURRENT_USER.name];
 
         // If same reaction, remove it
         if (previousReaction === reaction) {
           post.reactions[reaction] = (post.reactions[reaction] || 1) - 1;
-          delete post.user_reactions[user.display_name];
+          delete post.user_reactions[CURRENT_USER.name];
         } else {
           // Remove previous reaction if exists
           if (previousReaction) {
@@ -1583,7 +1700,7 @@
           }
           // Add new reaction
           post.reactions[reaction] = (post.reactions[reaction] || 0) + 1;
-          post.user_reactions[user.display_name] = reaction;
+          post.user_reactions[CURRENT_USER.name] = reaction;
         }
 
         savePosts(posts);
@@ -1592,19 +1709,19 @@
       };
 
       window.savePost = function (postId) {
-        const user = getUser();
-        if (!user.saved_posts) user.saved_posts = [];
+        if (!CURRENT_USER) return;
 
-        const index = user.saved_posts.indexOf(postId);
+        if (!CURRENT_USER.saved_posts) CURRENT_USER.saved_posts = [];
+
+        const index = CURRENT_USER.saved_posts.indexOf(postId);
         if (index === -1) {
-          user.saved_posts.push(postId);
+          CURRENT_USER.saved_posts.push(postId);
           showToast("Post saved!");
         } else {
-          user.saved_posts.splice(index, 1);
+          CURRENT_USER.saved_posts.splice(index, 1);
           showToast("Post removed from saved");
         }
 
-        saveUser(user);
         renderPosts();
       };
 
@@ -1621,11 +1738,10 @@
         const input = document.getElementById(`comment-input-${postId}`);
         const content = input.value.trim();
 
-        if (!content) return;
+        if (!content || !CURRENT_USER) return;
 
         const posts = getPosts();
         const post = posts.find((p) => p.post_id === postId);
-        const user = getUser();
 
         if (!post) return;
 
@@ -1633,7 +1749,7 @@
 
         const newComment = {
           id: "comment_" + Date.now(),
-          user: user.display_name,
+          user: CURRENT_USER.name,
           content: content,
           time: "just now",
           timestamp: Date.now(),
@@ -1693,14 +1809,15 @@
           return;
         }
 
+        if (!CURRENT_USER) return;
+
         const posts = getPosts();
-        const user = getUser();
 
         const newPost = {
           post_id: "post_" + Date.now(),
           user: {
-            name: isAnonymous ? "Anonymous" : user.display_name,
-            badge: user.badge,
+            name: isAnonymous ? "Anonymous" : CURRENT_USER.name,
+            badge: CURRENT_USER.badge,
             avatar: null,
           },
           post_type: postType,
@@ -1717,12 +1834,12 @@
         };
 
         posts.push(newPost);
+        savePosts(posts);
 
         // Update user post count
-        user.post_count = (user.post_count || 0) + 1;
-
-        savePosts(posts);
-        saveUser(user);
+        CURRENT_USER.post_count = (CURRENT_USER.post_count || 0) + 1;
+        document.getElementById("postCount").textContent =
+          CURRENT_USER.post_count;
 
         closeCreatePostModal();
         renderPosts();
@@ -1736,9 +1853,7 @@
           .forEach((btn) => btn.classList.remove("active"));
         element.classList.add("active");
 
-        // Filter posts based on tab
         const posts = getPosts();
-        const user = getUser();
 
         let filteredPosts = posts;
         if (tab === "trending") {
@@ -1754,16 +1869,14 @@
             return totalB - totalA;
           });
         } else if (tab === "following") {
-          // For demo, just show random posts
           filteredPosts = [...posts].sort(() => Math.random() - 0.5);
         } else {
-          // Recent - already sorted by timestamp in render
           filteredPosts = [...posts].sort((a, b) => b.timestamp - a.timestamp);
         }
 
         const feedDiv = document.getElementById("feedPosts");
         feedDiv.innerHTML = filteredPosts
-          .map((post) => createPostHTML(post, user))
+          .map((post) => createPostHTML(post))
           .join("");
       };
 
@@ -1795,12 +1908,17 @@
         }, 500);
       }
 
-      // Set user avatar
-      document.getElementById("userAvatar").textContent = "SA";
-      document.getElementById("userAvatarLarge").textContent = "SA";
+      // Load everything on page load
+      window.addEventListener("DOMContentLoaded", async () => {
+        const token = getToken();
+        if (!token) {
+          window.location.href = "/";
+          return;
+        }
 
-      // Load on page load
-      initFeed();
+        await loadUserProfile();
+        initFeed();
+      });
     </script>
   </body>
 </html>
