@@ -54,9 +54,13 @@
         --accent-glow: #e3b7a0;
         --header-bg: rgba(255, 255, 240, 0.8);
         --particle-color: rgba(180, 95, 75, 0.15);
-        --success: #4f7a6b;
-        --warning: #b65f5f;
-        --info: #a8745f;
+        --success: #2c7a5a;
+        --success-light: #e8f3ef;
+        --warning: #c97f4b;
+        --warning-light: #fef2e9;
+        --danger: #b45f4b;
+        --danger-light: #feeeea;
+        --info: #5f7d9c;
         --upload-border: #b45f4b;
         --upload-bg: rgba(180, 95, 75, 0.05);
       }
@@ -77,9 +81,13 @@
         --accent-glow: #7f6a5c;
         --header-bg: rgba(30, 28, 26, 0.9);
         --particle-color: rgba(168, 116, 95, 0.15);
-        --success: #8fbf9f;
-        --warning: #d68f8f;
-        --info: #b5876f;
+        --success: #5f9e80;
+        --success-light: #2a3a32;
+        --warning: #d68f5a;
+        --warning-light: #3e332b;
+        --danger: #d68f8f;
+        --danger-light: #3e2e2e;
+        --info: #8fa3b8;
         --upload-border: #a8745f;
         --upload-bg: rgba(168, 116, 95, 0.1);
       }
@@ -648,17 +656,17 @@
       }
 
       .overall-risk.safe {
-        background: linear-gradient(135deg, var(--success), #6b8f7f);
+        background: var(--success);
         color: white;
       }
 
       .overall-risk.moderate {
-        background: linear-gradient(135deg, var(--warning), #c48b8b);
+        background: var(--warning);
         color: white;
       }
 
       .overall-risk.high {
-        background: linear-gradient(135deg, #b45f4b, #9e4d3a);
+        background: var(--danger);
         color: white;
       }
 
@@ -711,9 +719,23 @@
         border-radius: 40px;
         font-size: 0.8rem;
         font-weight: 600;
-        background: var(--card-bg);
-        color: var(--text-secondary);
-        border: 1px solid var(--card-border);
+      }
+
+      .profile-badge.skin-type {
+        background: var(--info);
+        color: white;
+      }
+
+      .profile-badge.concern {
+        background: var(--warning-light);
+        color: var(--warning);
+        border: 1px solid var(--warning);
+      }
+
+      .profile-badge.allergy {
+        background: var(--danger-light);
+        color: var(--danger);
+        border: 1px solid var(--danger);
       }
 
       .compatibility-meter {
@@ -740,14 +762,20 @@
 
       .meter-fill {
         height: 100%;
-        background: linear-gradient(
-          90deg,
-          var(--success),
-          var(--warning),
-          var(--btn-primary)
-        );
         border-radius: 30px;
         transition: width 1s ease-in-out;
+      }
+
+      .meter-fill.high-match {
+        background: var(--success);
+      }
+
+      .meter-fill.medium-match {
+        background: var(--warning);
+      }
+
+      .meter-fill.low-match {
+        background: var(--danger);
       }
 
       .stats-grid {
@@ -770,11 +798,6 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       }
 
-      .stat-icon {
-        font-size: 2rem;
-        margin-bottom: 0.8rem;
-      }
-
       .stat-value {
         font-size: 2rem;
         font-weight: 700;
@@ -785,18 +808,19 @@
       .stat-label {
         color: var(--text-secondary);
         font-size: 0.85rem;
+        font-weight: 500;
       }
 
       .concerns-section {
-        background: rgba(182, 95, 95, 0.1);
-        border-left: 4px solid var(--warning);
+        background: var(--danger-light);
+        border-left: 4px solid var(--danger);
         border-radius: 24px;
         padding: 1.5rem;
         margin-bottom: 2rem;
       }
 
       .concerns-section h3 {
-        color: var(--warning);
+        color: var(--danger);
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
@@ -865,17 +889,17 @@
       }
 
       .risk-high {
-        background: rgba(182, 95, 95, 0.2);
-        color: var(--warning);
+        background: var(--danger-light);
+        color: var(--danger);
       }
 
       .risk-medium {
-        background: rgba(168, 116, 95, 0.2);
-        color: var(--info);
+        background: var(--warning-light);
+        color: var(--warning);
       }
 
       .risk-low {
-        background: rgba(79, 122, 107, 0.2);
+        background: var(--success-light);
         color: var(--success);
       }
 
@@ -893,12 +917,12 @@
       }
 
       .personal-warning {
-        background: rgba(182, 95, 95, 0.1);
-        color: var(--warning);
+        background: var(--danger-light);
+        color: var(--danger);
       }
 
       .personal-benefit {
-        background: rgba(79, 122, 107, 0.1);
+        background: var(--success-light);
         color: var(--success);
       }
 
@@ -1134,7 +1158,7 @@
           <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
         </div>
 
-        <div class="user-avatar" id="userAvatar">SA</div>
+        <div class="user-avatar" id="userAvatar"></div>
       </header>
 
       <!-- Main Content -->
@@ -1150,7 +1174,9 @@
         <!-- Upload Card -->
         <div class="upload-card">
           <div class="upload-area" id="uploadArea">
-            <div class="upload-icon">📷</div>
+            <div class="upload-icon">
+              <i class="fas fa-cloud-upload-alt"></i>
+            </div>
             <div class="upload-text">Click to upload or drag and drop</div>
             <div class="upload-hint">Supports: JPG, PNG, GIF (Max 10MB)</div>
             <input
@@ -1244,7 +1270,10 @@
       const savedTheme = localStorage.getItem("jneyah-theme") || "light";
       document.body.classList.add(savedTheme);
 
-      // COMPREHENSIVE INGREDIENT DATABASE (your existing database)
+      // API Configuration
+      const API_BASE = "http://localhost:8000/api";
+
+      // COMPREHENSIVE INGREDIENT DATABASE
       const INGREDIENT_DATABASE = {
         "sodium lauryl sulfate": {
           name: "Sodium Lauryl Sulfate",
@@ -1396,20 +1425,8 @@
         },
       };
 
-      // Mock user profile
-      const USER_PROFILE = {
-        id: "user_123",
-        name: "Sarah Johnson",
-        skin_type: "sensitive",
-        skin_concerns: ["redness", "dryness", "acne"],
-        allergies: ["fragrance", "parabens"],
-        preferences: {
-          avoid: ["sulfates", "alcohol", "essential oils"],
-          prefer: ["natural", "organic", "hypoallergenic"],
-        },
-        age: 28,
-        skin_goals: ["anti-aging", "hydration"],
-      };
+      // User profile variable (will be loaded from API)
+      let USER_PROFILE = null;
 
       // DOM Elements
       const uploadArea = document.getElementById("uploadArea");
@@ -1426,6 +1443,94 @@
 
       let extractedIngredients = [];
       let currentImageFile = null;
+
+      // Token management
+      function getToken() {
+        return localStorage.getItem("access_token");
+      }
+
+      function logout() {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        window.location.href = "/";
+      }
+
+      // Load user profile from API
+      async function loadUserProfile() {
+        const token = getToken();
+        if (!token) {
+          window.location.href = "/";
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (response.ok) {
+            const user = await response.json();
+
+            // Transform the API response to match your expected format
+            USER_PROFILE = {
+              id: user.id,
+              name: user.full_name || "User",
+              skin_type: user.health_profile?.skin_type || "unknown",
+              skin_concerns: user.health_profile?.skin_concerns || [],
+              allergies: user.health_profile?.allergies || [],
+              preferences: {
+                avoid: user.health_profile?.avoid_ingredients || [],
+                prefer: user.health_profile?.preferred_ingredients || [],
+              },
+              age: user.health_profile?.age || null,
+              skin_goals: user.health_profile?.skin_goals || [],
+            };
+
+            // Update the avatar with user's initials
+            if (user.full_name) {
+              const initials = user.full_name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .toUpperCase();
+              document.getElementById("userAvatar").textContent = initials;
+            }
+          } else {
+            // Token might be expired
+            await refreshToken();
+          }
+        } catch (error) {
+          console.error("Error loading profile:", error);
+        }
+      }
+
+      async function refreshToken() {
+        const refreshToken = localStorage.getItem("refresh_token");
+        if (!refreshToken) {
+          logout();
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/refresh`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token: refreshToken }),
+          });
+
+          if (response.ok) {
+            const tokens = await response.json();
+            localStorage.setItem("access_token", tokens.access_token);
+            localStorage.setItem("refresh_token", tokens.refresh_token);
+            await loadUserProfile(); // Try loading profile again
+          } else {
+            logout();
+          }
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+          logout();
+        }
+      }
 
       // Event Listeners
       uploadArea.addEventListener("click", () => fileInput.click());
@@ -1552,6 +1657,7 @@
                     <p style="color: var(--text-secondary); width: 100%; text-align: center; padding: 20px;">
                         No ingredients detected. Please try:
                         <br/>• Clearer image with better lighting
+                        <br/>• Ensure the ingredient list is clearly visible
                     </p>
                 `;
         } else {
@@ -1600,10 +1706,28 @@
       }
 
       function calculateIngredientRisk(ingredientName) {
+        // If profile not loaded yet, use default calculation
+        if (!USER_PROFILE) {
+          const details = getIngredientDetails(ingredientName);
+          return {
+            level: details.risk || "low",
+            score:
+              details.risk === "high"
+                ? 80
+                : details.risk === "medium"
+                  ? 45
+                  : 10,
+            warning: details.warnings ? details.warnings[0] : null,
+            benefits: details.benefits || [],
+          };
+        }
+
         const details = getIngredientDetails(ingredientName);
         const name = ingredientName.toLowerCase();
 
+        // Check allergies
         if (
+          USER_PROFILE.allergies &&
           USER_PROFILE.allergies.some((allergy) =>
             name.includes(allergy.toLowerCase()),
           )
@@ -1611,12 +1735,15 @@
           return {
             level: "high",
             score: 90,
-            warning: `⚠️ You are allergic to ${USER_PROFILE.allergies.find((a) => name.includes(a.toLowerCase()))}!`,
+            warning: `You are allergic to ${USER_PROFILE.allergies.find((a) => name.includes(a.toLowerCase()))}. This ingredient may cause a reaction.`,
             benefits: details.benefits || [],
           };
         }
 
+        // Check preferences to avoid
         if (
+          USER_PROFILE.preferences &&
+          USER_PROFILE.preferences.avoid &&
           USER_PROFILE.preferences.avoid.some((avoid) =>
             name.includes(avoid.toLowerCase()),
           )
@@ -1637,7 +1764,7 @@
             score: 80,
             warning: details.warnings
               ? details.warnings[0]
-              : "High risk ingredient",
+              : "High risk ingredient - use with caution",
             benefits: details.benefits || [],
           };
         } else if (riskLevel === "medium") {
@@ -1646,7 +1773,7 @@
             score: 45,
             warning: details.warnings
               ? details.warnings[0]
-              : "Use with caution",
+              : "Moderate risk - monitor skin reaction",
             benefits: details.benefits || [],
           };
         } else {
@@ -1691,13 +1818,13 @@
         let recommendation = "";
         if (overallLevel === "high") {
           recommendation =
-            "🚫 Not recommended for your skin type - contains ingredients that may cause reactions";
+            "Not recommended for your skin type - contains ingredients that may cause reactions. Consider finding an alternative product.";
         } else if (overallLevel === "medium") {
           recommendation =
-            "⚠️ Use with caution - patch test recommended before full application";
+            "Use with caution - perform a patch test before full application and monitor for any adverse reactions.";
         } else {
           recommendation =
-            "✅ Good match for your profile - should be safe to use";
+            "Good match for your profile - this product should be safe to use based on your preferences and skin type.";
         }
 
         return {
@@ -1716,6 +1843,15 @@
         if (extractedIngredients.length === 0) {
           alert("Please upload an image with ingredients first");
           return;
+        }
+
+        // If profile not loaded yet, try loading it
+        if (!USER_PROFILE) {
+          await loadUserProfile();
+          if (!USER_PROFILE) {
+            alert("Unable to load your profile. Please try again.");
+            return;
+          }
         }
 
         resultDiv.style.display = "none";
@@ -1757,44 +1893,49 @@
         const profile = data.user_profile;
 
         const compatibilityScore = 100 - analysis.overall_score;
+        let meterClass = "high-match";
+        if (compatibilityScore < 40) meterClass = "low-match";
+        else if (compatibilityScore < 70) meterClass = "medium-match";
 
         const html = `
                 <div class="result-header">
-                    <h2 class="product-name">Your Analysis</h2>
+                    <h2 class="product-name">Product Analysis</h2>
                     <span class="overall-risk ${analysis.overall_level === "high" ? "high" : analysis.overall_level === "medium" ? "moderate" : "safe"}">
                         ${analysis.overall_level.toUpperCase()} RISK
                     </span>
                 </div>
 
                 <div class="profile-summary">
-                    <div class="profile-avatar">👤</div>
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
                     <div class="profile-details">
                         <h3>${profile.name}'s Profile</h3>
                         <div class="profile-badges">
-                            <span class="profile-badge">🧴 ${profile.skin_type} skin</span>
-                            ${profile.skin_concerns.map((concern) => `<span class="profile-badge">⚠️ ${concern}</span>`).join("")}
-                            ${profile.allergies.map((allergy) => `<span class="profile-badge">🚫 ${allergy}</span>`).join("")}
+                            <span class="profile-badge skin-type">${profile.skin_type} skin</span>
+                            ${profile.skin_concerns.map((concern) => `<span class="profile-badge concern">${concern}</span>`).join("")}
+                            ${profile.allergies.map((allergy) => `<span class="profile-badge allergy">allergic to ${allergy}</span>`).join("")}
                         </div>
                     </div>
                 </div>
 
                 <div class="compatibility-meter">
                     <div class="meter-label">
-                        <span>💚 Compatibility</span>
-                        <span style="color: ${compatibilityScore > 70 ? "var(--success)" : compatibilityScore > 40 ? "var(--warning)" : "var(--btn-primary)"}">
+                        <span>Compatibility with your profile</span>
+                        <span style="color: ${compatibilityScore > 70 ? "var(--success)" : compatibilityScore > 40 ? "var(--warning)" : "var(--danger)"}; font-weight: 600;">
                             ${compatibilityScore}% Match
                         </span>
                     </div>
                     <div class="meter-bar">
-                        <div class="meter-fill" style="width: ${compatibilityScore}%"></div>
+                        <div class="meter-fill ${meterClass}" style="width: ${compatibilityScore}%"></div>
                     </div>
                 </div>
 
                 <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-icon">🔴</div><div class="stat-value">${analysis.high_risk_count}</div><div class="stat-label">High Risk</div></div>
-                    <div class="stat-card"><div class="stat-icon">🟡</div><div class="stat-value">${analysis.medium_risk_count}</div><div class="stat-label">Medium Risk</div></div>
-                    <div class="stat-card"><div class="stat-icon">🟢</div><div class="stat-value">${analysis.low_risk_count}</div><div class="stat-label">Low Risk</div></div>
-                    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value">${analysis.overall_score}</div><div class="stat-label">Risk Score</div></div>
+                    <div class="stat-card"><div class="stat-value">${analysis.high_risk_count}</div><div class="stat-label">High Risk</div></div>
+                    <div class="stat-card"><div class="stat-value">${analysis.medium_risk_count}</div><div class="stat-label">Medium Risk</div></div>
+                    <div class="stat-card"><div class="stat-value">${analysis.low_risk_count}</div><div class="stat-label">Low Risk</div></div>
+                    <div class="stat-card"><div class="stat-value">${analysis.overall_score}</div><div class="stat-label">Risk Score</div></div>
                 </div>
 
                 ${
@@ -1802,14 +1943,14 @@
                     ? `
                     <div class="concerns-section">
                         <h3><i class="fas fa-exclamation-triangle"></i> Personal Concerns</h3>
-                        ${analysis.concerns.map((concern) => `<div class="concern-item"><span>🔴</span> ${concern}</div>`).join("")}
+                        ${analysis.concerns.map((concern) => `<div class="concern-item"><i class="fas fa-exclamation-circle" style="color: var(--danger);"></i> ${concern}</div>`).join("")}
                     </div>
                 `
                     : ""
                 }
 
                 <div class="ingredient-list">
-                    <h3><i class="fas fa-flask"></i> Detailed Analysis</h3>
+                    <h3><i class="fas fa-flask"></i> Detailed Ingredient Analysis</h3>
                     ${ingredients
                       .map((ing) => {
                         const details = getIngredientDetails(ing.name);
@@ -1820,8 +1961,8 @@
                                         ${ing.name}
                                         <span class="ingredient-risk-badge risk-${ing.level}">${ing.level.toUpperCase()}</span>
                                     </div>
-                                    ${ing.warning ? `<div><span class="personal-warning"><span>⚠️</span> ${ing.warning}</span></div>` : ""}
-                                    ${ing.benefits?.length > 0 ? `<div><span class="personal-benefit"><span>✨</span> ${ing.benefits.join(", ")}</span></div>` : ""}
+                                    ${ing.warning ? `<div><span class="personal-warning"><i class="fas fa-exclamation-triangle"></i> ${ing.warning}</span></div>` : ""}
+                                    ${ing.benefits?.length > 0 ? `<div><span class="personal-benefit"><i class="fas fa-check-circle"></i> Benefits: ${ing.benefits.join(", ")}</span></div>` : ""}
                                     ${details.category && details.category !== "unknown" ? `<div style="margin-top: 5px; color: var(--text-secondary); font-size: 12px;">Category: ${details.category}</div>` : ""}
                                 </div>
                             </div>
@@ -1833,12 +1974,12 @@
                 <div class="recommendations-box">
                     <h3><i class="fas fa-lightbulb"></i> Recommendations</h3>
                     <div class="recommendation-item">
-                        <div class="rec-icon">${analysis.overall_level === "high" ? "🚫" : analysis.overall_level === "medium" ? "⚠️" : "✅"}</div>
+                        <div class="rec-icon"><i class="fas ${analysis.overall_level === "high" ? "fa-ban" : analysis.overall_level === "medium" ? "fa-exclamation" : "fa-check"}"></i></div>
                         <div>${analysis.recommendation}</div>
                     </div>
                     <div class="recommendation-item">
-                        <div class="rec-icon">🧪</div>
-                        <div>Always do a patch test before full application</div>
+                        <div class="rec-icon"><i class="fas fa-flask"></i></div>
+                        <div>Always perform a patch test before using a new product, even if analysis shows low risk.</div>
                     </div>
                 </div>
 
@@ -1865,6 +2006,16 @@
       function saveToProfile() {
         alert("Analysis saved to your profile!");
       }
+
+      // Initialize on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        const token = getToken();
+        if (!token) {
+          window.location.href = "/";
+        } else {
+          loadUserProfile();
+        }
+      });
 
       // Make functions global
       window.analyzeProduct = analyzeProduct;
