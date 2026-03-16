@@ -22,7 +22,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Merriweather", "Inter", serif; /* Merriweather primary */
+        font-family: "Merriweather", "Inter", serif;
       }
 
       body {
@@ -36,7 +36,7 @@
         scroll-behavior: smooth;
       }
 
-      /* ----- LIGHT THEME (aesthetic & moving) ----- */
+      /* ----- LIGHT THEME ----- */
       body.light {
         --bg-gradient: linear-gradient(145deg, #f9f2e7 0%, #ffe9de 100%);
         --header-bg: rgba(255, 255, 240, 0.75);
@@ -66,7 +66,7 @@
         --btn-border-light: rgba(180, 95, 75, 0.4);
       }
 
-      /* ----- DARK THEME (sleek) ----- */
+      /* ----- DARK THEME ----- */
       body.dark {
         --bg-gradient: linear-gradient(135deg, #1e1b1a 0%, #2c2623 100%);
         --header-bg: rgba(30, 28, 26, 0.8);
@@ -92,7 +92,7 @@
         --btn-border-light: #7f6a5c;
       }
 
-      /* moving background canvas — bigger & visible */
+      /* moving background canvas */
       #bgCanvas {
         position: fixed;
         top: 0;
@@ -116,7 +116,7 @@
         align-items: center;
       }
 
-      /* ----- CONSTANT HEADER (glass, theme toggle) ----- */
+      /* ----- CONSTANT HEADER ----- */
       .global-header {
         width: 100%;
         background: var(--header-bg);
@@ -142,13 +142,13 @@
       }
 
       .logo-icon {
-        font-size: 2.4rem; /* increased */
+        font-size: 2rem;
         color: var(--btn-primary-bg);
         filter: drop-shadow(0 2px 4px var(--accent-glow));
       }
 
       .project-name {
-        font-size: 2rem; /* increased */
+        font-size: 1.6rem;
         font-weight: 500;
         letter-spacing: -0.02em;
         color: var(--text-primary);
@@ -157,7 +157,7 @@
         font-weight: 300;
         font-style: italic;
         color: var(--text-secondary);
-        font-size: 1.4rem; /* increased */
+        font-size: 1.1rem;
         margin-left: 6px;
       }
 
@@ -165,8 +165,8 @@
         background: var(--card-bg);
         border: 1.5px solid var(--card-border);
         border-radius: 60px;
-        padding: 10px 22px; /* larger */
-        font-size: 1.1rem;
+        padding: 8px 18px;
+        font-size: 1rem;
         font-weight: 500;
         color: var(--text-primary);
         cursor: pointer;
@@ -179,16 +179,16 @@
       }
       .theme-toggle button i {
         color: var(--btn-primary-bg);
-        font-size: 1.3rem;
+        font-size: 1.1rem;
       }
 
-      /* ----- BUTTONS (glassy, gradient, modern) ----- */
+      /* ----- BUTTONS ----- */
       .btn {
         display: inline-block;
-        padding: 16px 38px; /* larger */
+        padding: 14px 32px;
         border: none;
         border-radius: 60px;
-        font-size: 1.2rem; /* increased */
+        font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
         text-decoration: none;
@@ -231,7 +231,6 @@
         transform: translateY(0) scale(0.98);
       }
 
-      /* expert mode button – different style (glassy outline) */
       .btn-expert {
         background: transparent;
         color: var(--btn-expert-text);
@@ -255,14 +254,14 @@
       }
 
       .btn-small {
-        padding: 14px 32px; /* adjusted */
-        font-size: 1.1rem;
+        padding: 12px 28px;
+        font-size: 0.95rem;
       }
 
-      /* ----- HERO SECTION (fun, friendly, big) ----- */
+      /* ----- HERO SECTION ----- */
       .hero-section {
         width: 100%;
-        min-height: 85vh;
+        min-height: 80vh;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -281,7 +280,7 @@
         backdrop-filter: blur(16px);
         border: 1px solid var(--card-border);
         border-radius: 64px;
-        padding: 4.5rem 4.5rem; /* more padding */
+        padding: 3.5rem 3.5rem;
         box-shadow: var(--shadow);
         transform: translateY(0);
         animation: floatIn 1s ease-out;
@@ -302,21 +301,12 @@
         flex: 2 1 400px;
       }
 
-      .hero-text .hero-mini {
-        font-size: 1.6rem; /* increased */
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        color: var(--hero-accent);
-        margin-bottom: 0.5rem;
-        font-weight: 300;
-      }
-
       .hero-text .hero-title {
-        font-size: 5rem; /* much bigger */
+        font-size: 3.5rem;
         font-weight: 700;
-        line-height: 1.1;
+        line-height: 1.2;
         color: var(--text-primary);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
         font-family: "Merriweather", serif;
       }
       .hero-title i {
@@ -326,20 +316,20 @@
 
       .hero-text .hero-sub {
         color: var(--text-secondary);
-        font-size: 1.6rem; /* increased */
-        line-height: 1.5;
+        font-size: 1.2rem;
+        line-height: 1.6;
         max-width: 650px;
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem;
       }
 
       .hero-cta {
         display: flex;
-        gap: 1.8rem;
+        gap: 1.5rem;
         flex-wrap: wrap;
       }
       .hero-cta .btn {
-        padding: 18px 44px; /* heroic size */
-        font-size: 1.4rem;
+        padding: 14px 36px;
+        font-size: 1.1rem;
       }
 
       .hero-visual {
@@ -347,7 +337,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 12rem; /* bigger */
+        font-size: 8rem;
         color: var(--hero-accent);
         background: radial-gradient(
           circle,
@@ -370,20 +360,20 @@
         }
       }
 
-      /* ----- EXPLORE MODES SECTION (with friendly descriptions) ----- */
+      /* ----- EXPLORE MODES SECTION ----- */
       .explore-section {
         width: 100%;
         max-width: 1400px;
-        margin: 0 auto 5rem auto;
+        margin: 0 auto 4rem auto;
         padding: 2rem 2rem;
       }
 
       .section-title {
         text-align: center;
-        margin-bottom: 4rem;
+        margin-bottom: 3rem;
       }
       .section-title h2 {
-        font-size: 4rem; /* bigger */
+        font-size: 2.8rem;
         color: var(--text-primary);
         font-weight: 600;
         letter-spacing: -0.02em;
@@ -391,25 +381,24 @@
       }
       .section-title p {
         color: var(--text-secondary);
-        font-size: 1.8rem; /* bigger */
+        font-size: 1.2rem;
         margin-top: 0.8rem;
       }
 
       .mode-showcase {
         display: flex;
         flex-wrap: wrap;
-        gap: 3rem;
+        gap: 2.5rem;
         justify-content: center;
       }
 
-      /* cards with feature lists and friendly descriptions */
       .mode-card-detailed {
-        flex: 1 1 450px; /* wider */
+        flex: 1 1 400px;
         background: var(--card-bg);
         backdrop-filter: blur(12px);
         border: 1px solid var(--card-border);
-        border-radius: 56px;
-        padding: 3.5rem 3rem; /* more padding */
+        border-radius: 48px;
+        padding: 2.8rem 2.5rem;
         transition: all 0.4s cubic-bezier(0.2, 0.85, 0.4, 1.1);
         box-shadow: 0 20px 30px -15px rgba(0, 0, 0, 0.2);
         position: relative;
@@ -436,31 +425,30 @@
       }
 
       .mode-card-detailed:hover {
-        transform: translateY(-16px) scale(1.01);
+        transform: translateY(-12px) scale(1.01);
         border-color: var(--btn-primary-bg);
         box-shadow: 0 35px 50px -20px var(--accent-glow);
       }
 
       .card-icon {
-        font-size: 4.5rem; /* bigger */
+        font-size: 3.5rem;
         color: var(--btn-primary-bg);
-        margin-bottom: 1.8rem;
+        margin-bottom: 1.5rem;
       }
 
       .mode-card-detailed h3 {
-        font-size: 3.2rem; /* bigger */
+        font-size: 2.4rem;
         font-weight: 600;
         color: var(--text-primary);
-        margin-bottom: 1.2rem;
+        margin-bottom: 1rem;
         font-family: "Merriweather", serif;
       }
 
-      /* fun, friendly description for each mode */
       .mode-friendly-desc {
-        font-size: 1.4rem; /* big */
+        font-size: 1.1rem;
         color: var(--text-secondary);
-        margin-bottom: 2rem;
-        line-height: 1.4;
+        margin-bottom: 1.8rem;
+        line-height: 1.5;
         font-style: italic;
         border-left: 4px solid var(--btn-primary-bg);
         padding-left: 1.2rem;
@@ -468,12 +456,12 @@
 
       .feature-list {
         list-style: none;
-        margin-bottom: 2.8rem;
+        margin-bottom: 2.2rem;
       }
       .feature-list li {
         color: var(--text-secondary);
-        font-size: 1.3rem; /* increased */
-        padding: 0.8rem 0;
+        font-size: 1rem;
+        padding: 0.6rem 0;
         border-bottom: 1px dashed var(--card-border);
         display: flex;
         align-items: center;
@@ -481,8 +469,8 @@
       }
       .feature-list li i {
         color: var(--btn-primary-bg);
-        width: 28px;
-        font-size: 1.5rem;
+        width: 24px;
+        font-size: 1.2rem;
       }
 
       .mode-footer {
@@ -494,11 +482,11 @@
       .mode-footer .btn {
         width: 100%;
         text-align: center;
-        font-size: 1.3rem; /* bigger */
+        font-size: 1.1rem;
       }
       .footnote {
         color: var(--text-secondary);
-        font-size: 1.1rem; /* increased */
+        font-size: 0.9rem;
       }
 
       /* CONSTANT FOOTER */
@@ -507,33 +495,33 @@
         background: var(--footer-bg);
         backdrop-filter: blur(8px);
         border-top: 1px solid var(--card-border);
-        padding: 1.5rem 2.5rem; /* bigger */
+        padding: 1.2rem 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        gap: 1.2rem;
+        gap: 1rem;
         color: var(--text-secondary);
-        font-size: 1.1rem; /* increased */
+        font-size: 0.95rem;
         margin-top: auto;
       }
       .footer-links {
         display: flex;
-        gap: 2.5rem;
+        gap: 2rem;
       }
       .footer-links a {
         color: var(--text-secondary);
         text-decoration: none;
         border-bottom: 1px dotted transparent;
         transition: 0.2s;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
       }
       .footer-links a:hover {
         color: var(--btn-primary-bg);
         border-bottom: 1px dotted var(--btn-primary-bg);
       }
 
-      /* Auth Modal (bigger fonts) */
+      /* Auth Modal */
       .modal {
         display: none;
         position: fixed;
@@ -550,7 +538,7 @@
       .modal-content {
         background: var(--modal-bg);
         border-radius: 48px;
-        padding: 3rem;
+        padding: 2.5rem;
         max-width: 500px;
         width: 90%;
         border: 1px solid var(--card-border);
@@ -560,30 +548,30 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1.8rem;
       }
       .modal-title {
-        font-size: 2.5rem; /* bigger */
+        font-size: 2rem;
         color: var(--text-primary);
         font-family: "Merriweather", serif;
       }
       .close-btn {
         background: none;
         border: none;
-        font-size: 2.5rem;
+        font-size: 2rem;
         cursor: pointer;
         color: var(--text-secondary);
       }
       .form-group {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
       }
       .form-group input {
         width: 100%;
-        padding: 16px 22px;
+        padding: 14px 20px;
         background: var(--input-bg);
         border: 2px solid var(--border-light);
         border-radius: 50px;
-        font-size: 1.2rem;
+        font-size: 1rem;
         color: var(--text-primary);
       }
       .form-group input:focus {
@@ -592,15 +580,15 @@
       }
       .error {
         color: #d8795f;
-        font-size: 1rem;
+        font-size: 0.9rem;
         margin: 4px 0 0 12px;
         display: none;
       }
       .form-switch {
         text-align: center;
-        margin-top: 25px;
+        margin-top: 20px;
         color: var(--text-secondary);
-        font-size: 1.2rem;
+        font-size: 1rem;
       }
       .form-switch a {
         color: var(--btn-primary-bg);
@@ -610,17 +598,20 @@
 
       @media (max-width: 800px) {
         .hero-container {
-          padding: 2.5rem;
+          padding: 2rem;
           text-align: center;
         }
         .hero-text .hero-title {
-          font-size: 3.5rem;
+          font-size: 2.8rem;
         }
         .hero-text .hero-sub {
-          font-size: 1.4rem;
+          font-size: 1.1rem;
         }
         .hero-cta {
           justify-content: center;
+        }
+        .hero-visual {
+          font-size: 6rem;
         }
       }
     </style>
@@ -644,13 +635,13 @@
         </div>
       </header>
 
-      <!-- HERO SECTION (bold, first view, fun) -->
+      <!-- HERO SECTION -->
       <section class="hero-section">
         <div class="hero-container">
           <div class="hero-text">
-            <div class="hero-mini">अहिंसा परमो धर्मः</div>
             <h1 class="hero-title">
-              <i class="fas fa-feather"></i> discern before <br />you believe
+              <i class="fas fa-feather-alt"></i> discern before <br />you
+              believe
             </h1>
             <p class="hero-sub">
               Where truth is identified before belief — AI-powered ingredient
@@ -673,12 +664,12 @@
             </div>
           </div>
           <div class="hero-visual">
-            <i class="fas fa-seedling"></i>
+            <i class="fas fa-feather-alt"></i>
           </div>
         </div>
       </section>
 
-      <!-- EXPLORE MODES SECTION with friendly, fun descriptions -->
+      <!-- EXPLORE MODES SECTION -->
       <section id="explore" class="explore-section">
         <div class="section-title">
           <h2>explore modes</h2>
@@ -686,7 +677,7 @@
         </div>
 
         <div class="mode-showcase">
-          <!-- Citizen Mode: for the curious who want simple answers -->
+          <!-- Citizen Mode -->
           <div class="mode-card-detailed" onclick="showAuthModal('signup')">
             <div class="card-icon"><i class="fas fa-user-friends"></i></div>
             <h3>Citizen Mode</h3>
@@ -720,7 +711,7 @@
             </div>
           </div>
 
-          <!-- Expert Mode: for the curious who love reasons -->
+          <!-- Expert Mode -->
           <div
             class="mode-card-detailed"
             onclick="window.location.href = '/expert/ExpertHome.html'"
@@ -764,7 +755,7 @@
       </footer>
     </div>
 
-    <!-- Auth Modal (functionality unchanged) -->
+    <!-- Auth Modal -->
     <div class="modal" id="authModal">
       <div class="modal-content">
         <div class="modal-header">
@@ -866,23 +857,23 @@
       body.classList.remove("light", "dark");
       body.classList.add(savedTheme);
 
-      // ---------- MOVING BACKGROUND (bigger & visible) ----------
+      // ---------- MOVING BACKGROUND ----------
       const canvas = document.getElementById("bgCanvas");
       const ctx = canvas.getContext("2d");
       let width, height;
       let particles = [];
 
       function initParticles() {
-        const particleCount = 80; // more
+        const particleCount = 60;
         particles = [];
         for (let i = 0; i < particleCount; i++) {
           particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            radius: 10 + Math.random() * 30, // even bigger
+            radius: 8 + Math.random() * 20,
             speedX: (Math.random() - 0.5) * 0.3,
             speedY: (Math.random() - 0.5) * 0.2,
-            color: `rgba(180, 95, 75, ${0.15 + Math.random() * 0.25})`,
+            color: `rgba(180, 95, 75, ${0.15 + Math.random() * 0.2})`,
           });
         }
       }
@@ -913,8 +904,8 @@
       resizeCanvas();
       drawParticles();
 
-      // ---------- AUTH MODAL (same functionality) ----------
-      const API_BASE = "https://jneyah.onrender.com/api";
+      // ---------- AUTH MODAL ----------
+      const API_BASE = "http://localhost:8000/api";
       function showAuthModal(formType) {
         const modal = document.getElementById("authModal");
         const modalTitle = document.getElementById("modalTitle");
